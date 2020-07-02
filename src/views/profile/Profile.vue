@@ -45,7 +45,8 @@
       return {
         drawer: flase,
         direction: 'rtl',
-        radio1:'北京'
+        radio1:'北京',
+        radio: 3
       }
     },
     methods: {
