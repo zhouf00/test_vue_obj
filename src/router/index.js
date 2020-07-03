@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 const Home = () => import('views/home/Home')
 const Profile = () => import('views/profile/Profile')
 const Test = () => import('views/test/Test')
+const Auth2 = () => import('views/login/')
 
 Vue.use(VueRouter)
 
