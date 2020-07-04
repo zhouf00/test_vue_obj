@@ -5,14 +5,14 @@ const Home = () => import('views/home/Home')
 const Profile = () => import('views/profile/Profile')
 const Test = () => import('views/test/Test')
 
-const Auth2 = () => import('components/common/login/Login')
+// const Auth2 = () => import('components/common/login/Login')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '',
-    redirect: '/login'
+    redirect: '/home'
   },
   {
     path: '/home',
@@ -26,10 +26,10 @@ const routes = [
     path: '/test',
     component: Test
   },
-  {
-    path: '/login',
-    component: Auth2
-  }
+  // {
+  //   path: '/login',
+  //   component: Auth2
+  // }
 ]
 
 const router = new VueRouter({
