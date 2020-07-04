@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 const Home = () => import('views/home/Home')
 const Profile = () => import('views/profile/Profile')
+const Task = () => import('views/task/Task')
 const Test = () => import('views/test/Test')
 
 // const Auth2 = () => import('components/common/login/Login')
@@ -26,6 +27,10 @@ const routes = [
     path: '/test',
     component: Test
   },
+  {
+    path: '/task',
+    component: Task
+  }
   // {
   //   path: '/login',
   //   component: Auth2

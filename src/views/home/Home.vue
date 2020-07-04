@@ -1,12 +1,13 @@
 <!-- 首页 -->
 <template>
   <div>
-    
     <HomeFunc :funcs="showfuncs"/>
+    
   </div>
 </template>
 
 <script>
+
   import HomeFunc from './homefunc/HomeFunc'
 
   export default {
