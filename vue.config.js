@@ -8,9 +8,14 @@ module.exports = {
         'network': '@/network',
         'views': '@/views',
       }
-    }
+    },
+  },
+  // 用花生壳
+  devServer:{
+    disableHostCheck:true
   },
   chainWebpack: config => {
     config.plugins.delete('prefetch')
   }
+  
 }
