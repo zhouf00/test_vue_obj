@@ -54,8 +54,9 @@
   }
   .active {
     color: var(--color-high-text);
+    font-size: 15.5px;
   }
-  /* .active span {
-    border-bottom: 3px solid var(--color-tint);
-  } */
+  .active span {
+    border-bottom: 2px solid var(--color-tint);
+  }
 </style>
