@@ -2,7 +2,7 @@
 <template>
   <div>
     <HomeFunc :funcs="showfuncs"/>
-    
+
   </div>
 </template>
 

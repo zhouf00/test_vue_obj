@@ -1,7 +1,9 @@
 <!-- 首页功能 -->
 <template>
   <div class="homefunc">
-    <div v-for="item in funcs" class="func-item">
+    <div v-for="(item,index) in funcs" 
+         class="func-item"
+         @click="itemClick(index)">
       <span>{{item}}</span>
     </div>
   </div>
@@ -16,6 +18,17 @@
         default() {
           return []
         }
+      }   
+    },
+    methods: {
+      itemClick(index) {
+        let url = ''
+        console.log(index);
+        switch (index) {
+          case 0:
+            url = '/PM'
+        }
+        this.$router.push(url)
       }
     }
   }

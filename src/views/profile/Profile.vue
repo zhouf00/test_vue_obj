@@ -11,20 +11,17 @@
     name: 'ProFile',
     data() {
       return {
-        drawer: flase,
-        direction: 'rtl',
-        radio1:'北京',
-        radio: 3
+        
       }
     },
     methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
+      // handleClose(done) {
+      //   this.$confirm('确认关闭？')
+      //     .then(_ => {
+      //       done();
+      //     })
+      //     .catch(_ => {});
+      // }
     }
   }
 </script>
