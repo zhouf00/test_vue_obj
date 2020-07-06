@@ -29,7 +29,7 @@
       <div slot="right" @click="queryClick">搜索</div>
     </nav-bar>
     <!-- 筛选导航条 -->
-    <tab-control :titles="['未开工', '最新']"/>
+    <tab-control :titles="['状态', '区域', '类型', '更多']"/>
     <div v-for="item in allData" v-show="!temp.value">
       <span>{{item}}</span>
     </div>
@@ -84,7 +84,10 @@
         }
       },
       queryClick(){
-        this.allData.push('蒙东风电场')
+        // this.allData.push('蒙东风电场')
+        if(this.temp){
+          this.temp = {}
+        }
       },
       querySearch(queryString, cb) {
         var restaurants = this.restaurants;

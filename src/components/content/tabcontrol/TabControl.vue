@@ -5,9 +5,11 @@
          class="tab-control-item"
          :class="{active:index === currentIndex}"
          @click="itemClick(index)">
-      <span>{{item}}</span>
+      <span>{{item}}
+        <i v-if="index === currentIndex" class="el-icon-arrow-up"/>
+        <i v-else="index === currentIndex" class="el-icon-arrow-down"/>
+        </span>
     </div>
-
   </div>
 </template>
 
@@ -24,12 +26,16 @@
     },
     data() {
       return {
-        currentIndex: 0
+        currentIndex: ''
       }
     },
     methods: {
       itemClick(index) {
-        this.currentIndex = index;
+        if(this.currentIndex === index){
+          this.currentIndex = ''
+        }else{
+          this.currentIndex = index;
+        }
         // 向父组件传数据
         this.$emit('tabClick', index)
       }
@@ -54,9 +60,9 @@
   }
   .active {
     color: var(--color-high-text);
-    font-size: 15.5px;
+    /* font-size: 15.5px; */
   }
-  .active span {
+  /* .active span {
     border-bottom: 2px solid var(--color-tint);
-  }
+  } */
 </style>
