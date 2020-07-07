@@ -13,7 +13,7 @@
       </div>
     </nav-bar>
     <!-- 搜索导航条 -->
-    <nav-bar v-show="!isShow">
+    <!-- <nav-bar v-show="!isShow">
       <div slot="left"  @click="searchClick">
         <i class="el-icon-arrow-left yellow"></i>
       </div>
@@ -27,9 +27,23 @@
         </el-autocomplete>
         </div>
       <div slot="right" @click="queryClick">搜索</div>
-    </nav-bar>
+    </nav-bar> -->
+    <nav-bar-search v-show="!isShow" 
+                    :restaurants="allData">
+      <div slot="left"  @click="searchClick">
+        <i class="el-icon-arrow-left yellow"></i>
+      </div>
+      <div slot="right" @click="queryClick">搜索</div>
+    </nav-bar-search>
     <!-- 筛选导航条 -->
-    <tab-control :titles="['状态', '区域', '类型', '更多']"/>
+    <tab-control :titles="['区域', '类型', '状态', '更多']"
+                 @tabClick="tabClick"/>
+    <region-filter v-show="tabshow===0" 
+                   :provinces="provinces"
+                   @sureClick="sureClick"/>
+    <div class="my-status" v-show="tabshow===1">
+      <span v-for="couter in 10">{{couter}}<br></span>
+    </div>
     <div v-for="item in allData" v-show="!temp.value">
       <span>{{item}}</span>
     </div>
@@ -41,29 +55,32 @@
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
+  import NavBarSearch from 'components/content/navbarsearch/NavBarSearch'
   import TabControl from 'components/content/tabcontrol/TabControl'
+  import RegionFilter from 'components/content/tabcontrol/childTab/RegionFilter'
 
   export default {
     name: 'PM',
     components:{
       NavBar,
-      TabControl
+      NavBarSearch,
+      TabControl,
+      RegionFilter
     },
     data() {
       return {
         allData:[],
         isShow: true,
-        state: '',
-        restaurants: [],
-        timeout: null,
-        temp: {}
+        temp: {},
+        tabshow: '',
+        provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
       }
     },
     created () {
       this.allData = this.loadPMdata()
     },
     mounted() {
-      this.restaurants = this.loadPMdata()
+      // this.restaurants = this.loadPMdata()
     },
     methods:{
       loadPMdata(){
@@ -83,29 +100,22 @@
           this.isShow = true
         }
       },
+      tabClick(index){
+        if (this.tabshow === 0 | this.tabshow){
+          this.tabshow = ''
+        }else{
+          this.tabshow = index
+        }
+      },
       queryClick(){
         // this.allData.push('蒙东风电场')
         if(this.temp){
           this.temp = {}
         }
       },
-      querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) :restaurants;
-
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000*Math.random())
-      },
-      createStateFilter(queryString) {
-        return (state) => {
-          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-        };
-      },
-      handleSelect(item) {
-        console.log(item);
-        this.temp = item
+      sureClick(address){
+        console.log(address);
+        
       }
     }
   }

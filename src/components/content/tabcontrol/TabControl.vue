@@ -8,7 +8,7 @@
       <span>{{item}}
         <i v-if="index === currentIndex" class="el-icon-arrow-up"/>
         <i v-else="index === currentIndex" class="el-icon-arrow-down"/>
-        </span>
+      </span>
     </div>
   </div>
 </template>
