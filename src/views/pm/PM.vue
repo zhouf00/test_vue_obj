@@ -36,9 +36,8 @@
     <region-filter v-show="tabshow===3" 
                    :provinces="['台儿庄会战']"
                    @sureClick="sureClick"/>
-    <div v-for="item in allData" v-show="!temp.value">
-      <span>{{item}}</span>
-    </div>
+    <!-- <div v-for="item in allData" v-show="!temp.value"> -->
+    <p-m-list-view class="content" :allData="allData"/>
     <div v-show="temp.value">
       <span>{{temp}}</span>
     </div>
@@ -51,13 +50,16 @@
   import TabControl from 'components/content/tabcontrol/TabControl'
   import RegionFilter from 'components/content/tabcontrol/childTab/RegionFilter'
 
+  import PMListView from './childView/PMListView'
+
   export default {
     name: 'PM',
     components:{
       NavBar,
       NavBarSearch,
       TabControl,
-      RegionFilter
+      RegionFilter,
+      PMListView
     },
     data() {
       return {
@@ -77,8 +79,33 @@
     methods:{
       loadPMdata(){
         return [
-          {'value': '寒风岭风电场','address': '山西'},
-          {'value': '东山风电场','address': '河北'},
+          {'value': '寒风岭风电场',
+          'address': '山西', 
+          'tag':['振动','油液'], 
+          'windpower':['金风科技','联合致力'],
+          'telephone':'1388888888',
+          'status':'试运行'},
+          {'value': '灌云风电场',
+          'address': '连云港', 
+          'tag':['振动','油液'], 
+          'windpower':['联合致力'],
+          'telephone':'1388888888',
+          'status':'消缺'},
+          {'value': '华益风电场',
+          'address': '锡铁山', 
+          'tag':['振动','油液'], 
+          'windpower':['联合致力'],
+          'telephone':'1388888888',
+          'status':'施工'},
+          {'value': '茶山风电场',
+          'address': '宁波', 
+          'tag':['振动','油液'], 
+          'windpower':['联合致力'],
+          'telephone':'1388888888',
+          'status':'数据验收'},
+          {'value': '东山风电场',
+          'address': '河北',
+          'tag':['叶片','油液'],},
         ]
       },
       backHome() {
@@ -116,6 +143,10 @@
   }
 </script>
 <style scoped>
+  .wrapper {
+    height: 100vh;
+    position: relative;
+  }
   .pm-nav {
     background-color: #409EFF;
     color: #fff
@@ -126,6 +157,13 @@
     margin-top: 5px;
     vertical-align: middle;
     margin-bottom: 5px;
-
+  }
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top:80px;
+    bottom:50px;
+    left: 0;
+    right: 0;
   }
 </style>
