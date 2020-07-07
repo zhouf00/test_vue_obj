@@ -8,9 +8,9 @@
         <el-col :span="7">
           <div class="img">{{item.value}}</div></el-col>
         <el-col :span="15">
-          <h2 style="margin-bottom: 5px;">
+          <h3 style="margin-bottom: 5px;">
             <el-tag :type="TagType(item.status)">{{item.status}}</el-tag>
-            {{item.value}}</h2>
+            {{item.value}}</h3>
           <div style="margin-bottom: 5px;">
             <span v-for="(tag,index) in item.tag">{{tag}}<el-divider v-if="index !== item.tag.length-1" direction="vertical"/>
             </span>
@@ -75,12 +75,12 @@
             'telephone':'1388888888',
             'status':'试运行'},)
         }, 1000)
-        console.log(this.loading)
       }
     },
     computed:{
       loading(){
-        return this.count >= 10
+        // 判断是否还有多少数据
+        return this.count >= this.allData.length
       },
       disabled() {
         return this.loading
@@ -98,6 +98,6 @@
     background-color: #409EFF;
     text-align: center;
     color: #fff;
-    padding: 47px 15px;
+    padding: 47px 10px;
   }
 </style>

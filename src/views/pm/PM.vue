@@ -37,10 +37,8 @@
                    :provinces="['台儿庄会战']"
                    @sureClick="sureClick"/>
     <!-- <div v-for="item in allData" v-show="!temp.value"> -->
-    <p-m-list-view class="content" :allData="allData"/>
-    <div v-show="temp.value">
-      <span>{{temp}}</span>
-    </div>
+    <p-m-list-view v-show="!isShowAll" class="content" :allData="allData"/>
+    <p-m-list-view v-show="isShowAll" class="content" :allData="temp"/>
   </div>
 </template>
 
@@ -65,7 +63,7 @@
       return {
         allData:[],
         isShow: true,
-        temp: {},
+        temp: [],
         tabshow: '',
         provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
       }
@@ -75,6 +73,7 @@
     },
     mounted() {
       // this.restaurants = this.loadPMdata()
+      this.isShowAll
     },
     methods:{
       loadPMdata(){
@@ -112,7 +111,6 @@
         this.$router.push('/home')
       },
       searchClick(){
-        console.log('search');
         if (this.isShow) {
           this.isShow = false
         } else {
@@ -127,7 +125,12 @@
         }
       },
       suerSelect(value) {
-        this.temp = value
+        if(this.temp){
+          this.temp= []
+        }
+        this.temp.push(value)
+        console.log(this.temp);
+        
       },
       queryClick(){
         // this.allData.push('蒙东风电场')
@@ -138,6 +141,11 @@
       sureClick(address){
         // 返回筛选选择结果
         console.log(address);
+      }
+    },
+    computed:{
+      isShowAll(){
+        return this.temp.length ? true : false
       }
     }
   }
