@@ -51,8 +51,8 @@
         };
       },
       handleSelect(item) {
-        console.log(item);
-        this.temp = item
+        // console.log(item);
+        this.$emit('suerSelect', item)
       }
     }
   }

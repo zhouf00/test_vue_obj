@@ -17,7 +17,8 @@
     data() {
       return {
         // provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
-        temp: ''
+        temp: '',
+        chechedPro: ['浙江']
       }
     },
     props: {
@@ -34,6 +35,11 @@
       },
       selectClick(item) {
         this.temp = item   
+      },
+      handeCheckChange(value) {
+        console.log(value.length)
+        let checkedCount = value.length;
+        // this.isIndeterminate = checkedCount > 0 && checkedCount < this.provinces.length
       }
     },
   }
@@ -43,7 +49,6 @@
     display: flex;
     flex-wrap: wrap; 
     margin-bottom: 10px;
-
   }
 
   

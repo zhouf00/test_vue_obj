@@ -13,23 +13,9 @@
       </div>
     </nav-bar>
     <!-- 搜索导航条 -->
-    <!-- <nav-bar v-show="!isShow">
-      <div slot="left"  @click="searchClick">
-        <i class="el-icon-arrow-left yellow"></i>
-      </div>
-      <div slot="center">
-        <el-autocomplete poper-class="my-autocomplete"
-                         v-model="state"
-                         :fetch-suggestions="querySearch"
-                         placeholder="请输入内容"
-                         @select="handleSelect">
-          <i class="el-icon-search" slot="prefix"></i>
-        </el-autocomplete>
-        </div>
-      <div slot="right" @click="queryClick">搜索</div>
-    </nav-bar> -->
     <nav-bar-search v-show="!isShow" 
-                    :restaurants="allData">
+                    :restaurants="allData"
+                    @suerSelect="suerSelect">
       <div slot="left"  @click="searchClick">
         <i class="el-icon-arrow-left yellow"></i>
       </div>
@@ -41,9 +27,15 @@
     <region-filter v-show="tabshow===0" 
                    :provinces="provinces"
                    @sureClick="sureClick"/>
-    <div class="my-status" v-show="tabshow===1">
-      <span v-for="couter in 10">{{couter}}<br></span>
-    </div>
+    <region-filter v-show="tabshow===1" 
+                   :provinces="['长沙会战']"
+                   @sureClick="sureClick"/>
+    <region-filter v-show="tabshow===2" 
+                   :provinces="['太原会战']"
+                   @sureClick="sureClick"/>                   
+    <region-filter v-show="tabshow===3" 
+                   :provinces="['台儿庄会战']"
+                   @sureClick="sureClick"/>
     <div v-for="item in allData" v-show="!temp.value">
       <span>{{item}}</span>
     </div>
@@ -101,11 +93,14 @@
         }
       },
       tabClick(index){
-        if (this.tabshow === 0 | this.tabshow){
+        if (this.tabshow === index){
           this.tabshow = ''
         }else{
           this.tabshow = index
         }
+      },
+      suerSelect(value) {
+        this.temp = value
       },
       queryClick(){
         // this.allData.push('蒙东风电场')
@@ -114,8 +109,8 @@
         }
       },
       sureClick(address){
+        // 返回筛选选择结果
         console.log(address);
-        
       }
     }
   }
