@@ -26,17 +26,20 @@
                  @tabClick="tabClick"/>
     <region-filter v-show="tabshow===0" 
                    :provinces="provinces"
-                   @sureClick="sureClick"/>
+                   @sureClick="sureClick"
+                   class="regionfilter"/>
     <region-filter v-show="tabshow===1" 
                    :provinces="['长沙会战']"
-                   @sureClick="sureClick"/>
+                   @sureClick="sureClick"
+                   class="regionfilter"/>
     <region-filter v-show="tabshow===2" 
                    :provinces="['太原会战']"
-                   @sureClick="sureClick"/>                   
+                   @sureClick="sureClick"
+                   class="regionfilter"/>                   
     <region-filter v-show="tabshow===3" 
                    :provinces="['台儿庄会战']"
-                   @sureClick="sureClick"/>
-    <!-- <div v-for="item in allData" v-show="!temp.value"> -->
+                   @sureClick="sureClick"
+                   class="regionfilter"/>
     <p-m-list-view v-show="!isShowAll" class="content" :allData="allData"/>
     <p-m-list-view v-show="isShowAll" class="content" :allData="temp"/>
   </div>
@@ -78,7 +81,8 @@
     methods:{
       loadPMdata(){
         return [
-          {'value': '寒风岭风电场',
+          {'id': 1,
+          'value': '寒风岭风电场',
           'address': '山西', 
           'tag':['振动','油液'], 
           'windpower':['金风科技','联合致力'],
@@ -173,5 +177,10 @@
     bottom:50px;
     left: 0;
     right: 0;
+  }
+  .regionfilter {
+    position: relative;
+    background-color: gray;
+    z-index:1;
   }
 </style>

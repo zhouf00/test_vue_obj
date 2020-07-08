@@ -5,6 +5,7 @@ const Home = () => import('views/home/Home')
 const Profile = () => import('views/profile/Profile')
 const Task = () => import('views/task/Task')
 const PM = () => import('views/pm/PM')
+const Detail = () => import('views/detail/Detail')
 const Test = () => import('views/test/Test')
 
 // const Auth2 = () => import('components/common/login/Login')
@@ -35,6 +36,10 @@ const routes = [
   {
     path: '/pm',
     component: PM
+  },
+  {
+    path: '/detail:telephone',
+    component: Detail
   },
   // {
   //   path: '/pm/:id',
