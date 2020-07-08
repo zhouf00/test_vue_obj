@@ -8,6 +8,12 @@
     <div >
       <el-button type="success" @click="sureClick">确认</el-button>
     </div>
+    <!-- <el-dialog title="提示"
+               :visible.sync="dialogVisible"
+               width="30%"
+               >
+      <span>信息</span>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -16,9 +22,8 @@
     name: 'RegionFilter',
     data() {
       return {
-        // provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
-        temp: '',
-        chechedPro: ['浙江']
+        chechedPro: ['浙江'],
+        dialogVisible: false
       }
     },
     props: {
