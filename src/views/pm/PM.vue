@@ -22,24 +22,21 @@
       <div slot="right" @click="queryClick">搜索</div>
     </nav-bar-search>
     <!-- 筛选导航条 -->
-    <tab-control :titles="['区域', '类型', '状态', '更多']"
-                 @tabClick="tabClick"/>
-    <region-filter v-show="tabshow===0" 
-                   :provinces="provinces"
-                   @sureClick="sureClick"
-                   class="regionfilter"/>
-    <region-filter v-show="tabshow===1" 
-                   :provinces="['长沙会战']"
-                   @sureClick="sureClick"
-                   class="regionfilter"/>
-    <region-filter v-show="tabshow===2" 
-                   :provinces="['太原会战']"
-                   @sureClick="sureClick"
-                   class="regionfilter"/>                   
-    <region-filter v-show="tabshow===3" 
-                   :provinces="['台儿庄会战']"
-                   @sureClick="sureClick"
-                   class="regionfilter"/>
+    <tab-control  :titles="['区域', '类型', '状态', '更多']"
+      @tabClick="tabClick" :tabShow="istabShow"/>
+    <el-drawer :visible.sync="dialog" :direction="'ttb'"
+      :modal="false" :show-close="false"
+      :size="'a'" :before-close="handleClose"
+      style="top:84px;">
+      <region-filter v-show="tabshow===0" :provinces="provinces"
+        @sureClick="sureClick" class="regionfilter"/>
+      <region-filter v-show="tabshow===1" :provinces="['长沙会战']"
+        @sureClick="sureClick" class="regionfilter"/>
+      <region-filter v-show="tabshow===2"  :provinces="['太原会战']"
+        @sureClick="sureClick" class="regionfilter"/>
+      <region-filter v-show="tabshow===3" @sureClick="sureClick"
+        :provinces="['台儿庄会战']" class="regionfilter"/>
+    </el-drawer>                   
     <p-m-list-view v-show="!isShowAll" class="content" :allData="allData"/>
     <p-m-list-view v-show="isShowAll" class="content" :allData="temp"/>
   </div>
@@ -68,11 +65,13 @@
         isShow: true,
         temp: [],
         tabshow: '',
+        dialog: false,
         provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
       }
     },
     created () {
       this.allData = this.loadPMdata()
+      console.log(this.tabshow)
     },
     mounted() {
       // this.restaurants = this.loadPMdata()
@@ -122,19 +121,21 @@
         }
       },
       tabClick(index){
+        
         if (this.tabshow === index){
           this.tabshow = ''
+          this.dialog = false
         }else{
           this.tabshow = index
+          this.dialog = true
         }
+        console.log(this.tabshow);
       },
       suerSelect(value) {
         if(this.temp){
           this.temp= []
         }
         this.temp.push(value)
-        console.log(this.temp);
-        
       },
       queryClick(){
         // this.allData.push('蒙东风电场')
@@ -145,11 +146,18 @@
       sureClick(address){
         // 返回筛选选择结果
         console.log(address);
+      },
+      handleClose(done){
+        this.tabClick(this.tabshow)
+        console.log(this.tabshow)
       }
     },
     computed:{
       isShowAll(){
         return this.temp.length ? true : false
+      },
+      istabShow(){
+        return this.tabshow
       }
     }
   }
@@ -173,14 +181,9 @@
   .content {
     overflow: hidden;
     position: absolute;
-    top:80px;
+    top:84px;
     bottom:50px;
     left: 0;
     right: 0;
-  }
-  .regionfilter {
-    position: relative;
-    background-color: gray;
-    z-index:1;
   }
 </style>

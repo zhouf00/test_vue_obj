@@ -3,11 +3,11 @@
   <div class="tab-control">
     <div v-for="(item, index) in titles"
          class="tab-control-item"
-         :class="{active:index === currentIndex}"
+         :class="{active:index === (tabShow ? currentIndex: tabShow)}"
          @click="itemClick(index)">
       <span>{{item}}
-        <i v-if="index === currentIndex" class="el-icon-arrow-up"/>
-        <i v-else="index === currentIndex" class="el-icon-arrow-down"/>
+        <i v-if="index === (tabShow ? currentIndex: tabShow)" class="el-icon-arrow-up"/>
+        <i v-else="index === (tabShow ? currentIndex: tabShow)" class="el-icon-arrow-down"/>
       </span>
     </div>
   </div>
@@ -21,6 +21,12 @@
         type: Array,
         default() {
           return []
+        }
+      },
+      tabShow: {
+
+        default(){
+          return ''
         }
       }
     },

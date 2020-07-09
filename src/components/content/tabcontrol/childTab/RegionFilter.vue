@@ -1,19 +1,13 @@
 <!--  -->
 <template>
-  <div>
-    <!-- <el-divider/> -->
-    <div class="province" v-for="item in provinces">
+  <div class="province">
+    <div  v-for="item in provinces">
       <el-button @click="selectClick(item)">{{item}}</el-button>
     </div>
     <div >
       <el-button type="success" @click="sureClick">确认</el-button>
     </div>
-    <!-- <el-dialog title="提示"
-               :visible.sync="dialogVisible"
-               width="30%"
-               >
-      <span>信息</span>
-    </el-dialog> -->
+
   </div>
 </template>
 
@@ -23,7 +17,6 @@
     data() {
       return {
         chechedPro: ['浙江'],
-        dialogVisible: false
       }
     },
     props: {
@@ -31,6 +24,12 @@
         type: Array,
         default() {
           return  []
+        }
+      },
+      drawer:{
+        type:Boolean,
+        default(){
+          return false
         }
       }
     },
@@ -40,21 +39,13 @@
       },
       selectClick(item) {
         this.temp = item   
-      },
-      handeCheckChange(value) {
-        console.log(value.length)
-        let checkedCount = value.length;
-        // this.isIndeterminate = checkedCount > 0 && checkedCount < this.provinces.length
       }
     },
   }
 </script>
 <style scoped>
-  .province {
-    display: flex;
-    flex-wrap: wrap; 
-    margin-bottom: 10px;
-  }
-
+ /* .province {
+   box-shadow: 1px 1px 1px rgba(100, 100, 100, .1);
+ } */
   
 </style>

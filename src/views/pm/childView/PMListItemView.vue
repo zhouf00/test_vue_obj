@@ -55,7 +55,7 @@
         }
       },
       itemClick(){   
-        this.$router.push('/detail?id='+this.pmItem.telephone)
+        this.$router.push('/detail/'+this.pmItem.telephone)
       }
     }    
   }
