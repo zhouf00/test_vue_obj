@@ -38,7 +38,7 @@ const routes = [
     component: PM
   },
   {
-    path: '/detail:telephone',
+    path: '/detail/:telephone',
     component: Detail
   },
   // {
