@@ -2,6 +2,7 @@
 <template>
   <div>
    <h2>我的</h2>
+  {{get_token}}
   </div>
 
 </template>
@@ -22,6 +23,11 @@
       //     })
       //     .catch(_ => {});
       // }
+    },
+    components:{
+      get_token() {
+        this.$router.
+      }
     }
   }
 </script>

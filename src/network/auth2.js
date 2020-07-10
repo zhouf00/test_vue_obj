@@ -3,7 +3,7 @@ import axios from 'axios'
 export function initWxConfig(vm) {
   // 1. 创建axios实例
   const instance = axios.create({
-    baseURL: 'https://open.weixin.qq.com/',
+    baseURL: 'https://open.weixin.qq.com',
     timeout: 5000
   })
   // 2.1 请求拦截
