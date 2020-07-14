@@ -7,7 +7,10 @@
           <div class="img">{{pmItem.value}}</div></el-col>
         <el-col :span="15">
           <h3 style="margin-bottom: 5px;">
-            <el-tag :type="TagType(pmItem.status)">{{pmItem.status}}</el-tag>
+            <!-- <el-tag :type="TagType(pmItem.status)" >{{pmItem.status}}</el-tag> -->
+            <pm-tag :pmStatus="pmItem.status"/>
+            <!-- 全色 -->
+            <!-- <el-tag :type="TagType(pmItem.status)" effect="dark">{{pmItem.status}}</el-tag> -->
             {{pmItem.value}}</h3>
           <div style="margin-bottom: 5px;">
             <span v-for="(tag,index) in pmItem.tag">{{tag}}<el-divider v-if="index !== pmItem.tag.length-1" direction="vertical"/>
@@ -31,8 +34,13 @@
 </template>
 
 <script>
+  import PmTag from 'components/content/tag/PmTag'
+
   export default {
     name: 'PMListItemView',
+    components: {
+      PmTag
+    },
     props:{
       pmItem:{
         type: Object,
@@ -42,18 +50,6 @@
       }
     },
     methods:{
-      TagType(val){
-        switch(val){
-          case '安装':
-            return 'warning'
-          case '数据验收':
-            return 'success'
-          case '施工':
-            return 'info'
-          case '消缺':
-            return 'danger'
-        }
-      },
       itemClick(){   
         this.$router.push('/detail/'+this.pmItem.telephone)
       }
