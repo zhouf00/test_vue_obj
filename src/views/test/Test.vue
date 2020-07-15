@@ -14,7 +14,7 @@
 
   export default {
     name: 'Test',
-    components:{
+    components:{ 
       VueWxlogin
     },
     data() {

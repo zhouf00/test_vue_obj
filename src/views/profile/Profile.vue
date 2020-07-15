@@ -26,7 +26,7 @@
     },
     components:{
       get_token() {
-        this.$router.
+        
       }
     }
   }
