@@ -30,6 +30,8 @@
             </span>
           </el-col>
         </el-row>
+      </div>
+      <div style="margin-top:10px;">
         <el-row>
           <el-col :span="18"><h3>基本信息</h3></el-col>
           <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
@@ -62,13 +64,13 @@
         <div>
           <el-timeline :reverse="true">
             <el-timeline-item
-              :icon="'el-icon-more'"
+
               :color="'#0bbd87'"
               :timestamp="'2020-7-13'">
               加班
             </el-timeline-item>
             <el-timeline-item
-              :icon="'el-icon-more'"
+
               :color="'#0bbd87'"
               :timestamp="'2020-7-20'">
               1号风机 更换采集站
@@ -83,34 +85,34 @@
           <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
         </el-row>
         <el-divider></el-divider>
-        <div>
+        <el-card>
           <el-row>
-            <el-col :span="6"><p class="">品牌型号：</p></el-col>
-            <el-col :span="18"><span>戴尔T140</span></el-col>       
+            <el-col :span="8"><p class="">品牌型号：</p></el-col>
+            <el-col :span="16"><span>戴尔T140</span></el-col>       
           </el-row>
           <el-row>
-            <el-col :span="6"><p class="">CPU：</p></el-col>
-            <el-col :span="18"><span>银牌4110</span></el-col>       
+            <el-col :span="8"><p class="">CPU：</p></el-col>
+            <el-col :span="16"><span>银牌4110</span></el-col>       
           </el-row>
           <el-row>
-            <el-col :span="6"><p class="">内存：</p></el-col>
-            <el-col :span="18"><span>8G</span></el-col>       
+            <el-col :span="8"><p class="">内存：</p></el-col>
+            <el-col :span="16"><span>8G</span></el-col>       
           </el-row>
           <el-row>
-            <el-col :span="6"><p class="">硬盘：</p></el-col>
-            <el-col :span="18"><span>8T(4T*3)</span></el-col>       
+            <el-col :span="8"><p class="">硬盘：</p></el-col>
+            <el-col :span="16"><span>8T(4T*3)</span></el-col>       
           </el-row>
           <el-row>
-            <el-col :span="6"><p class="">网卡1：</p></el-col>
+            <el-col :span="8"><p class="">网卡1：</p></el-col>
             <el-col :span="8"><span>192.168.0.89</span></el-col> 
-            <el-col :span="10"><p class="">连接风机</p></el-col>       
+            <el-col :span="8"><p class="">连接风机</p></el-col>       
           </el-row>
           <el-row>
-            <el-col :span="6"><p class="">网卡2：</p></el-col>
+            <el-col :span="8"><p class="">网卡2：</p></el-col>
             <el-col :span="8"><span>192.168.2.155</span></el-col> 
-            <el-col :span="10"><p class="">连接隔离</p></el-col>       
+            <el-col :span="8"><p class="">连接隔离</p></el-col>       
           </el-row>
-        </div>
+        </el-card>
       </div>
       <!-- 风机情况 -->
       <div style="margin-top:10px;">
