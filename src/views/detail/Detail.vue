@@ -7,6 +7,7 @@
       </div>
       <div slot="center">{{obj.value}}</div>
     </nav-bar>
+    <detail-tab :titles="['基本信息','跟踪情况','服务器信息','风机信息',]"/>
     <div class="content" v-infinite-scroll="load" 
       style="overflow:auto"
       infinite-scroll-disabled="disabled">
@@ -30,8 +31,17 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="18"><h3>基本信息</h3></el-col>
+          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
+        </el-row>
+        <el-divider/>
+        <el-row>
           <el-col :span="6"><p>内部号：</p></el-col>
           <el-col :span="12"><span class="demonstration">项目XXX</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6"><p class="">主机厂：</p></el-col>
+          <el-col :span="12"><span>联合动力、GE</span></el-col>       
         </el-row>
         <el-row>
           <el-col :span="6"><p class="">风季时间：</p></el-col>
@@ -61,7 +71,7 @@
               :icon="'el-icon-more'"
               :color="'#0bbd87'"
               :timestamp="'2020-7-20'">
-              后端操作
+              1号风机 更换采集站
             </el-timeline-item>
           </el-timeline>
         </div>
@@ -75,11 +85,30 @@
         <el-divider></el-divider>
         <div>
           <el-row>
-            <el-col :span="6"><p class="">CPU：</p></el-col>
-            <el-col :span="12"><span>山西省大同市寒风岭村</span></el-col>       
+            <el-col :span="6"><p class="">品牌型号：</p></el-col>
+            <el-col :span="18"><span>戴尔T140</span></el-col>       
           </el-row>
-          <el-row v-for="counter in 5">
-            风机{{counter}}
+          <el-row>
+            <el-col :span="6"><p class="">CPU：</p></el-col>
+            <el-col :span="18"><span>银牌4110</span></el-col>       
+          </el-row>
+          <el-row>
+            <el-col :span="6"><p class="">内存：</p></el-col>
+            <el-col :span="18"><span>8G</span></el-col>       
+          </el-row>
+          <el-row>
+            <el-col :span="6"><p class="">硬盘：</p></el-col>
+            <el-col :span="18"><span>8T(4T*3)</span></el-col>       
+          </el-row>
+          <el-row>
+            <el-col :span="6"><p class="">网卡1：</p></el-col>
+            <el-col :span="8"><span>192.168.0.89</span></el-col> 
+            <el-col :span="10"><p class="">连接风机</p></el-col>       
+          </el-row>
+          <el-row>
+            <el-col :span="6"><p class="">网卡2：</p></el-col>
+            <el-col :span="8"><span>192.168.2.155</span></el-col> 
+            <el-col :span="10"><p class="">连接隔离</p></el-col>       
           </el-row>
         </div>
       </div>
@@ -90,14 +119,27 @@
           <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
         </el-row>
         <el-divider></el-divider>
-        <div>
-          <el-row v-for="counter in 5">
-            风机{{counter}}
+        <div >
+          <el-row v-for="counter in 100" style="margin-bottom:5px;">
+            <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
+            <el-col :span="16">
+              <el-row style="margin-bottom:5px;">
+                <h4>{{counter}}号风机
+                <span v-show="counter%2 !== 0" style="color:green"><i class="el-icon-circle-check"/>正常</span>
+                <span v-show="counter%2 === 0" style="color:red"><i class="el-icon-circle-close"/>异常</span>
+                </h4>
+              </el-row>
+              <el-row style="margin-bottom:5px;">
+                <span>联合动力 直驱2.0</span>
+              </el-row>
+              <el-row>
+                <span>叶片监测 油液监测</span>
+              </el-row>
+            </el-col>
           </el-row>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -105,19 +147,22 @@
   import NavBar from 'components/common/navbar/NavBar'
 
   import PmTag from 'components/content/tag/PmTag'
+  import DetailTab from 'components/content/tabcontrol/DetailTab'
 
   export default {
     name: 'Detail',
     components: {
       NavBar,
-      PmTag
+      PmTag,
+      DetailTab
     },
     mounted(){
       this.getPMData()
     },
     data() {
       return {
-        obj: ''
+        obj: '',
+        activeName: 'first'
       }
     },
     methods:{
@@ -151,7 +196,7 @@
   .content {
     overflow: hidden;
     position: absolute;
-    top:45px;
+    top:85px;
     bottom:50px;
     left: 8px;
     right: 8px;
