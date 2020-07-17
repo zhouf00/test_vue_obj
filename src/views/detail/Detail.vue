@@ -7,7 +7,7 @@
       </div>
       <div slot="center">{{obj.value}}</div>
     </nav-bar>
-    <detail-tab :titles="['基本信息','跟踪情况','服务器信息','风机信息',]"/>
+    <!-- <detail-tab :titles="['跟踪情况','服务器信息','库存情况','风机信息',]"/> -->
     <div class="content" v-infinite-scroll="load" 
       style="overflow:auto"
       infinite-scroll-disabled="disabled">
@@ -31,96 +31,24 @@
           </el-col>
         </el-row>
       </div>
-      <div style="margin-top:10px;">
-        <el-row>
-          <el-col :span="18"><h3>基本信息</h3></el-col>
-          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
-        </el-row>
-        <el-divider/>
-        <el-row>
-          <el-col :span="6"><p>内部号：</p></el-col>
-          <el-col :span="12"><span class="demonstration">项目XXX</span></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6"><p class="">主机厂：</p></el-col>
-          <el-col :span="12"><span>联合动力、GE</span></el-col>       
-        </el-row>
-        <el-row>
-          <el-col :span="6"><p class="">风季时间：</p></el-col>
-          <el-col :span="12"><span>6月，7月</span></el-col>       
-        </el-row>
-        <el-row>
-          <el-col :span="6"><p class="">地址：</p></el-col>
-          <el-col :span="12"><span>山西省大同市寒风岭村</span></el-col>       
-        </el-row>
-      </div>
+      
+      <detail-info/>
+
       <!-- 跟踪情况 -->
-      <div style="margin-top:10px;">
-        <el-row>
-          <el-col :span="18"><h3>跟踪情况</h3></el-col>
-          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
-        </el-row>
-        <el-divider></el-divider>
-        <div>
-          <el-timeline :reverse="true">
-            <el-timeline-item
+      <detail-log/>
 
-              :color="'#0bbd87'"
-              :timestamp="'2020-7-13'">
-              加班
-            </el-timeline-item>
-            <el-timeline-item
+      <!-- 库存情况 -->
+      <detail-stock/>
 
-              :color="'#0bbd87'"
-              :timestamp="'2020-7-20'">
-              1号风机 更换采集站
-            </el-timeline-item>
-          </el-timeline>
-        </div>
-      </div>
       <!-- 服务器情况 -->
-      <div style="margin-top:10px;">
-        <el-row>
-          <el-col :span="18"><h3>服务器信息</h3></el-col>
-          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
-        </el-row>
-        <el-divider></el-divider>
-        <el-card>
-          <el-row>
-            <el-col :span="8"><p class="">品牌型号：</p></el-col>
-            <el-col :span="16"><span>戴尔T140</span></el-col>       
-          </el-row>
-          <el-row>
-            <el-col :span="8"><p class="">CPU：</p></el-col>
-            <el-col :span="16"><span>银牌4110</span></el-col>       
-          </el-row>
-          <el-row>
-            <el-col :span="8"><p class="">内存：</p></el-col>
-            <el-col :span="16"><span>8G</span></el-col>       
-          </el-row>
-          <el-row>
-            <el-col :span="8"><p class="">硬盘：</p></el-col>
-            <el-col :span="16"><span>8T(4T*3)</span></el-col>       
-          </el-row>
-          <el-row>
-            <el-col :span="8"><p class="">网卡1：</p></el-col>
-            <el-col :span="8"><span>192.168.0.89</span></el-col> 
-            <el-col :span="8"><p class="">连接风机</p></el-col>       
-          </el-row>
-          <el-row>
-            <el-col :span="8"><p class="">网卡2：</p></el-col>
-            <el-col :span="8"><span>192.168.2.155</span></el-col> 
-            <el-col :span="8"><p class="">连接隔离</p></el-col>       
-          </el-row>
-        </el-card>
-      </div>
+      <detail-server/>
       <!-- 风机情况 -->
       <div style="margin-top:10px;">
-        <el-row>
+        <el-divider/>
+        <el-row style="margin-bottom:10px;">
           <el-col :span="18"><h3>风机情况</h3></el-col>
           <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
         </el-row>
-        <el-divider></el-divider>
         <div >
           <el-row v-for="counter in 100" style="margin-bottom:5px;">
             <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
@@ -151,12 +79,22 @@
   import PmTag from 'components/content/tag/PmTag'
   import DetailTab from 'components/content/tabcontrol/DetailTab'
 
+  import DetailInfo from './components/DetailInfo'
+  import DetailLog from './components/DetailLog'
+  import DetailStock from './components/DetailStock'
+  import DetailServer from './components/DetailServer'
+
   export default {
     name: 'Detail',
     components: {
       NavBar,
       PmTag,
-      DetailTab
+      DetailTab,
+
+      DetailInfo,
+      DetailLog,
+      DetailStock,
+      DetailServer
     },
     mounted(){
       this.getPMData()
@@ -183,7 +121,6 @@
       },
       test() {
         console.log('aaa');
-        
       }
     }
     
@@ -198,7 +135,7 @@
   .content {
     overflow: hidden;
     position: absolute;
-    top:85px;
+    top:45px;
     bottom:50px;
     left: 8px;
     right: 8px;
