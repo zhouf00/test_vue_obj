@@ -80,7 +80,8 @@
     data() {
       return {
         obj: '',
-        activeName: 'first'
+        activeName: 'first',
+        path: '/pm'
       }
     },
     methods:{
@@ -99,6 +100,14 @@
       },
       load() {
       }
+    },
+    activated() {
+      this.$router.push(this.path)
+    },
+    beforeRouteLeave(to, from, next){
+      console.log(this.$route.path);
+      this.path = this.$route.path;
+      next()
     }
     
   }
