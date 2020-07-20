@@ -2,10 +2,7 @@
 <template>
   <div style="margin-top:10px;">
     <el-divider/>
-    <el-row style="margin-bottom:10px;">
-      <el-col :span="18"><h3>服务器信息</h3></el-col>
-      <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
-    </el-row>
+    <detail-headline :title="'服务器信息'"/>
     <el-card>
       <el-row>
         <el-col :span="8"><p class="">品牌型号：</p></el-col>
@@ -38,9 +35,13 @@
 </template>
 
 <script>
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
+
   export default {
-    name: 'DetailServer'
-    
+    name: 'DetailServer',
+    components:{
+      DetailHeadline
+    }
   }
 </script>
 

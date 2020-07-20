@@ -1,11 +1,12 @@
-<!-- 详情页面风机 -->
+<!-- 详情页面设备 -->
 <template>
   <div style="margin-top:10px;">
     <el-divider/>
-    <el-row style="margin-bottom:10px;">
+    <!-- <el-row style="margin-bottom:10px;">
       <el-col :span="18"><h3>风机情况</h3></el-col>
       <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
-    </el-row>
+    </el-row> -->
+    <detail-headline :title="'风机信息'"/>
     <div >
       <el-row v-for="counter in 100" style="margin-bottom:5px;">
         <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
@@ -29,10 +30,15 @@
 </template>
 
 <script>
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
   export default {
-    name: 'DetailWindpower',
+    name: 'DetailFacility',
+    components:{
+      DetailHeadline
+    }
   }
 </script>
+
 <style scoped>
   
 </style>

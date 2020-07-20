@@ -44,7 +44,7 @@
       <detail-server/>
 
       <!-- 风机情况 -->
-      <detail-windpower/>
+      <detail-facility/>
     </div>
   </div>
 </template>
@@ -59,7 +59,7 @@
   import DetailLog from './components/DetailLog'
   import DetailStock from './components/DetailStock'
   import DetailServer from './components/DetailServer'
-  import DetailWindpower from './components/DetailWindpower'
+  import DetailFacility from './components/DetailFacility'
 
   export default {
     name: 'Detail',
@@ -72,7 +72,7 @@
       DetailLog,
       DetailStock,
       DetailServer,
-      DetailWindpower
+      DetailFacility
     },
     mounted(){
       this.getPMData()

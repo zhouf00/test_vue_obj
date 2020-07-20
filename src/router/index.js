@@ -7,6 +7,7 @@ const Task = () => import('views/task/Task')
 const PM = () => import('views/pm/PM')
 const Detail = () => import('views/detail/Detail')
 const Test = () => import('views/test/Test')
+const Facility = () => import('views/detail/views/Facility')
 
 // const Auth2 = () => import('components/common/login/Login')
 
@@ -19,6 +20,7 @@ const routes = [
   },
   {
     path: '/home',
+    name: 'home',
     component: Home
   },
   {
@@ -35,20 +37,18 @@ const routes = [
   },
   {
     path: '/pm',
-    component: PM
+    component: PM 
   },
   {
-    path: '/detail/:telephone',
-    component: Detail
+    path: '/detail/:value',
+    name: 'detail',
+    component: Detail,
   },
-  // {
-  //   path: '/pm/:id',
-  //   component: PM
-  // },
-  // {
-  //   path: '/login',
-  //   component: Auth2
-  // }
+  {
+    path: '/detail/:value/facility',
+    component: Facility
+  }
+
 ]
 
 const router = new VueRouter({

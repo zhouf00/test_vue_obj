@@ -51,7 +51,7 @@
     },
     methods:{
       itemClick(){   
-        this.$router.push('/detail/'+this.pmItem.telephone)
+        this.$router.push('/detail/'+ this.pmItem.value)
       }
     }    
   }
