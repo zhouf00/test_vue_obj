@@ -1,11 +1,13 @@
 <!--  -->
 <template>
   <div style="margin-top:10px;">
-    <el-divider/>
+    <!-- <el-divider/>
     <el-row style="margin-bottom:10px;">
       <el-col :span="18"><h3>跟踪情况</h3></el-col>
-      <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
-    </el-row>
+      <el-col :span="6" style="font-size:13px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
+    </el-row> -->
+    <el-divider/>
+    <detail-headline :title="'跟踪情况'"/>
     <div>
       <el-timeline :reverse="true">
         <el-timeline-item
@@ -24,9 +26,12 @@
 </template>
 
 <script>
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
   export default {
-    name: 'DetailLog'
-    
+    name: 'DetailLog',
+    components:{
+      DetailHeadline
+    }
   }
 </script>
 

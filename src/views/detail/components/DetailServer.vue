@@ -4,7 +4,7 @@
     <el-divider/>
     <el-row style="margin-bottom:10px;">
       <el-col :span="18"><h3>服务器信息</h3></el-col>
-      <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
+      <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
     </el-row>
     <el-card>
       <el-row>

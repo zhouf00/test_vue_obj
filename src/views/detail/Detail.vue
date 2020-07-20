@@ -11,15 +11,15 @@
     <div class="content" v-infinite-scroll="load" 
       style="overflow:auto"
       infinite-scroll-disabled="disabled">
-        <div class="block">
-          <!-- 使用el-image一定要传入链接 -->
+      <div class="block">
+        <!-- 使用el-image一定要传入链接 -->
         <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'">
           <div slot="placeholder" class="image-slot">
             加载中<span class="dot">...</span>
           </div>
         </el-image>
       </div>
-      <!-- 介绍 -->
+      <!-- 状态 -->
       <div>
         <el-row >
           <el-col :span="6">
@@ -31,7 +31,7 @@
           </el-col>
         </el-row>
       </div>
-      
+      <!-- 基本情况 -->
       <detail-info/>
 
       <!-- 跟踪情况 -->
@@ -42,33 +42,9 @@
 
       <!-- 服务器情况 -->
       <detail-server/>
+
       <!-- 风机情况 -->
-      <div style="margin-top:10px;">
-        <el-divider/>
-        <el-row style="margin-bottom:10px;">
-          <el-col :span="18"><h3>风机情况</h3></el-col>
-          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right" @click="test"></i></el-col>
-        </el-row>
-        <div >
-          <el-row v-for="counter in 100" style="margin-bottom:5px;">
-            <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
-            <el-col :span="16">
-              <el-row style="margin-bottom:5px;">
-                <h4>{{counter}}号风机
-                <span v-show="counter%2 !== 0" style="color:green"><i class="el-icon-circle-check"/>正常</span>
-                <span v-show="counter%2 === 0" style="color:red"><i class="el-icon-circle-close"/>异常</span>
-                </h4>
-              </el-row>
-              <el-row style="margin-bottom:5px;">
-                <span>联合动力 直驱2.0</span>
-              </el-row>
-              <el-row>
-                <span>叶片监测 油液监测</span>
-              </el-row>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
+      <detail-windpower/>
     </div>
   </div>
 </template>
@@ -83,6 +59,7 @@
   import DetailLog from './components/DetailLog'
   import DetailStock from './components/DetailStock'
   import DetailServer from './components/DetailServer'
+  import DetailWindpower from './components/DetailWindpower'
 
   export default {
     name: 'Detail',
@@ -94,7 +71,8 @@
       DetailInfo,
       DetailLog,
       DetailStock,
-      DetailServer
+      DetailServer,
+      DetailWindpower
     },
     mounted(){
       this.getPMData()
@@ -119,8 +97,7 @@
           'status':'试运行'}
         this.obj = data
       },
-      test() {
-        console.log('aaa');
+      load() {
       }
     }
     
