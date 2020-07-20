@@ -2,10 +2,11 @@
 <template>
   <div style="margin-top:10px;">
     <el-divider/>
-    <el-row style="margin-bottom:10px;">
+    <!-- <el-row style="margin-bottom:10px;">
       <el-col :span="18"><h3>库存情况</h3></el-col>
       <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
-    </el-row>
+    </el-row> -->
+    <detail-headline :title="'库存情况'"/>
     <div>
       <el-timeline :reverse="true">
         <el-timeline-item
@@ -24,8 +25,13 @@
 </template>
 
 <script>
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
+
   export default {
-    name: 'DetailStock'
+    name: 'DetailStock',
+    components:{
+      DetailHeadline
+    }
     
   }
 </script>
