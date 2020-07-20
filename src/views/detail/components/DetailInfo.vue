@@ -2,10 +2,11 @@
 <template>
   <div style="margin-top:10px;">
     <el-divider/>
-    <el-row style="margin-bottom:10px;">
+    <!-- <el-row style="margin-bottom:10px;">
       <el-col :span="18"><h3>基本信息</h3></el-col>
       <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
-    </el-row>
+    </el-row> -->
+    <detail-headline :title="'基本信息'"/>
     <el-row>
       <el-col :span="6"><p>内部号：</p></el-col>
       <el-col :span="12"><span class="demonstration">项目XXX</span></el-col>
@@ -26,8 +27,13 @@
 </template>
 
 <script>
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
+
   export default {
-    name: 'DetailInfo'
+    name: 'DetailInfo',
+    components: {
+      DetailHeadline,
+    }
     
   }
 </script>

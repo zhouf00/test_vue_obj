@@ -27,6 +27,7 @@
 
 <script>
   import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
+  
   export default {
     name: 'DetailLog',
     components:{
