@@ -66,13 +66,22 @@
         temp: [],
         tabshow: '',
         dialog: false,
-        provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆']
+        provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆'],
+
       }
     },
     created () {
       this.allData = this.loadPMdata()
       console.log(this.tabshow)
     },
+    activated() {
+      // this.$router.push('/detail/寒风岭风电场')
+    },
+    // beforeRouteLeave(to, from, next){
+    //   console.log(this.$route.path);
+    //   this.path = this.$route.path;
+    //   next()
+    // },
     mounted() {
       // this.restaurants = this.loadPMdata()
       this.isShowAll

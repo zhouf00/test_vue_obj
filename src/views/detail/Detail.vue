@@ -101,14 +101,6 @@
       load() {
       }
     },
-    activated() {
-      this.$router.push(this.path)
-    },
-    beforeRouteLeave(to, from, next){
-      console.log(this.$route.path);
-      this.path = this.$route.path;
-      next()
-    }
     
   }
 </script>

@@ -8,6 +8,7 @@ const PM = () => import('views/pm/PM')
 const Detail = () => import('views/detail/Detail')
 const Test = () => import('views/test/Test')
 const Facility = () => import('views/detail/views/Facility')
+const Info = () => import('views/detail/views/Info')
 
 // const Auth2 = () => import('components/common/login/Login')
 
@@ -39,6 +40,9 @@ const routes = [
   },
   {
     path: '/task',
+    meta:{
+      title: '任务'
+    },
     component: Task
   },
   {
@@ -55,7 +59,13 @@ const routes = [
   },
   {
     path: '/detail/:value/facility',
+    name: 'facility',
     component: Facility
+  },
+  {
+    path: '/detail/:value/info',
+    name: 'info',
+    component: Info
   }
 
 ]
