@@ -21,10 +21,16 @@ const routes = [
   {
     path: '/home',
     name: 'home',
+    meta:{
+      title: '首页'
+    },
     component: Home
   },
   {
     path: '/profile',
+    meta:{
+      title: '我的'
+    },
     component: Profile
   },
   {
@@ -37,6 +43,9 @@ const routes = [
   },
   {
     path: '/pm',
+    meta:{
+      title: '项目管理'
+    },
     component: PM 
   },
   {
@@ -53,7 +62,13 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'history',
+  linkActiveClass: 'active',
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = to.matched[0].meta.title
+  next()
 })
 
 export default router
