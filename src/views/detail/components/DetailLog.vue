@@ -7,7 +7,7 @@
       <el-col :span="6" style="font-size:13px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
     </el-row> -->
     <el-divider/>
-    <detail-headline :title="'跟踪情况'"/>
+    <detail-headline :title="'跟踪情况（待开发）'"/>
     <div>
       <el-timeline :reverse="true">
         <el-timeline-item

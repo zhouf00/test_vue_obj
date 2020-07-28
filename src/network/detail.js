@@ -8,3 +8,12 @@ export function getDetail(search) {
     }
   })
 }
+
+export function getServer(project) {
+  return request({
+    url: '/engineering/server/',
+    params:{
+      project
+    }
+  })
+}

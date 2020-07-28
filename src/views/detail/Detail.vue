@@ -32,7 +32,30 @@
         </el-row>
       </div>
       <!-- 基本情况 -->
-      <detail-info/>
+      <div style="margin-top:10px;">
+        <el-divider/>
+        <!-- <el-row style="margin-bottom:10px;">
+          <el-col :span="18"><h3>基本信息</h3></el-col>
+          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
+        </el-row> -->
+        <detail-headline :title="'基本信息'"/>
+        <el-row>
+          <el-col :span="6"><p>内部号：</p></el-col>
+          <el-col :span="12"><span class="demonstration">{{obj.sn}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6"><p class="">主机厂：</p></el-col>
+          <el-col :span="12"><span>联合动力、GE</span></el-col>       
+        </el-row>
+        <el-row>
+          <el-col :span="6"><p class="">地址：</p></el-col>
+          <el-col :span="12"><span>{{obj.address}}</span></el-col>       
+        </el-row>
+        <el-row>
+          <el-col :span="6"><p class="">其它说明：</p></el-col>
+          <el-col :span="12"><span>{{obj.memo}}</span></el-col>       
+        </el-row>
+      </div>
 
       <!-- 跟踪情况 -->
       <detail-log/>
@@ -41,7 +64,7 @@
       <detail-stock/>
 
       <!-- 服务器情况 -->
-      <detail-server :serverData="obj.server_list"/>
+      <detail-server :serverData="obj.server"/>
 
       <!-- 风机情况 -->
       <detail-facility/>
@@ -54,6 +77,7 @@
 
   import PmTag from 'components/content/tag/PmTag'
   import DetailTab from 'components/content/tabcontrol/DetailTab'
+  import DetailHeadline from 'components/content/tabcontrol/DetailHeadline'
 
   import DetailInfo from './components/DetailInfo'
   import DetailLog from './components/DetailLog'
@@ -69,6 +93,7 @@
       NavBar,
       PmTag,
       DetailTab,
+      DetailHeadline,
 
       DetailInfo,
       DetailLog,

@@ -6,7 +6,7 @@
       <el-col :span="18"><h3>库存情况</h3></el-col>
       <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
     </el-row> -->
-    <detail-headline :title="'库存情况'"/>
+    <detail-headline :title="'库存情况（待开发）'"/>
     <div>
       <el-timeline :reverse="true">
         <el-timeline-item
