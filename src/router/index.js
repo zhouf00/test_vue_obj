@@ -53,12 +53,15 @@ const routes = [
     component: PM 
   },
   {
-    path: '/detail/:value',
+    path: '/detail/:name',
     name: 'detail',
+    meta:{
+      title: '详情页面'
+    },
     component: Detail,
   },
   {
-    path: '/detail/:value/facility',
+    path: '/detail/:id/facility',
     name: 'facility',
     component: Facility
   },

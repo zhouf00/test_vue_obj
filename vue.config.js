@@ -12,7 +12,7 @@ module.exports = {
   },
   // 用花生壳
   devServer:{
-    disableHostCheck:true
+    disableHostCheck:true,
   },
   chainWebpack: config => {
     config.plugins.delete('prefetch')

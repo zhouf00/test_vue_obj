@@ -5,7 +5,7 @@
       <div slot="left" @click="backPM">
          <i class="el-icon-arrow-left"></i>
       </div>
-      <div slot="center">{{obj.value}}</div>
+      <div slot="center">{{obj.name}}</div>
     </nav-bar>
     <!-- <detail-tab :titles="['跟踪情况','服务器信息','库存情况','风机信息',]"/> -->
     <div class="content" v-infinite-scroll="load" 
@@ -23,7 +23,7 @@
       <div>
         <el-row >
           <el-col :span="6">
-            <pm-tag :pmStatus="'试运行'"/>
+            <pm-tag :pmStatus="obj.status"/>
           </el-col>
           <el-col :span="12" style="padding:5px 5px">
             <span v-for="(tag,index) in ['振动','油液']" >{{tag}}<el-divider v-if="index !== ['振动','油液'].length-1" direction="vertical"/>
@@ -41,7 +41,7 @@
       <detail-stock/>
 
       <!-- 服务器情况 -->
-      <detail-server/>
+      <detail-server :serverData="obj.server_list"/>
 
       <!-- 风机情况 -->
       <detail-facility/>
@@ -61,6 +61,8 @@
   import DetailServer from './components/DetailServer'
   import DetailFacility from './components/DetailFacility'
 
+  import {getDetail} from 'network/detail'
+
   export default {
     name: 'Detail',
     components: {
@@ -74,29 +76,35 @@
       DetailServer,
       DetailFacility
     },
-    mounted(){
-      this.getPMData()
-    },
     data() {
       return {
-        obj: '',
+        obj: null,
         activeName: 'first',
-        path: '/pm'
+        path: '/pm',
+        iid: null
       }
+    },
+    created() {
+      this.getPMData()
+    },
+    destroyed() {
+      console.log('destroyed');
+    },
+    mounted(){
+      
     },
     methods:{
       backPM() {
         this.$router.push('/pm')
+        this.$destroy()
       },
       getPMData() {
-        let data = {'id': 1,
-          'value': '寒风岭风电场',
-          'address': '山西', 
-          'tag':['振动','油液'], 
-          'windpower':['金风科技','联合致力'],
-          'telephone':'1388888888',
-          'status':'试运行'}
-        this.obj = data
+        this.iid = this.$route.params.name
+        console.log(this.iid);
+        getDetail(this.iid).then(res => {
+          this.obj = res[0]
+          console.log(this.obj);
+        })
       },
       load() {
       }

@@ -1,6 +1,6 @@
 <!-- 标签 -->
 <template>
-  <el-tag :type="TagType(pmStatus)" >{{pmStatus}}</el-tag>
+  <el-tag :type="TagType(status[pmStatus])" >{{status[pmStatus]}}</el-tag>
 </template>
 
 <script>
@@ -8,9 +8,19 @@
     name: 'PmTag',
     props: {
       pmStatus:{
-        type:String,
+        type:Number,
         default(){
           return ''
+        }
+      }
+    },
+    data() {
+      return {
+        status: {
+          '1': '安装',
+          '2': '数据验收',
+          '3': '施工',
+          '4': '消缺',
         }
       }
     },

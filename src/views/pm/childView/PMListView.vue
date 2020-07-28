@@ -34,16 +34,16 @@
     },
     methods:{
       load(){
-        setTimeout(() =>{
-          this.count += 2
-          this.allData.push(
-            {'value': '寒风岭风电场工',
-            'address': '山西', 
-            'tag':['振动','油液'], 
-            'windpower':['金风科技','联合致力'],
-            'telephone':'1388888888',
-            'status':'试运行'},)
-        }, 1000)
+        // setTimeout(() =>{
+        //   this.count += 2
+        //   this.allData.push(
+        //     {'value': '寒风岭风电场工',
+        //     'address': '山西', 
+        //     'tag':['振动','油液'], 
+        //     'windpower':['金风科技','联合致力'],
+        //     'telephone':'1388888888',
+        //     'status':'试运行'},)
+        // }, 1000)
       },
     },
     computed:{

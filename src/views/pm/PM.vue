@@ -50,6 +50,8 @@
 
   import PMListView from './childView/PMListView'
 
+  import {getProjects} from 'network/pm'
+
   export default {
     name: 'PM',
     components:{
@@ -71,7 +73,7 @@
       }
     },
     created () {
-      this.allData = this.loadPMdata()
+      this.loadPMdata()
       console.log(this.tabshow)
     },
     activated() {
@@ -88,36 +90,10 @@
     },
     methods:{
       loadPMdata(){
-        return [
-          {'id': 1,
-          'value': '寒风岭风电场',
-          'address': '山西', 
-          'tag':['振动','油液'], 
-          'windpower':['金风科技','联合致力'],
-          'telephone':'1388888888',
-          'status':'试运行'},
-          {'value': '灌云风电场',
-          'address': '连云港', 
-          'tag':['振动','油液'], 
-          'windpower':['联合致力'],
-          'telephone':'1388888888',
-          'status':'消缺'},
-          {'value': '华益风电场',
-          'address': '锡铁山', 
-          'tag':['振动','油液'], 
-          'windpower':['联合致力'],
-          'telephone':'1388888888',
-          'status':'施工'},
-          {'value': '茶山风电场',
-          'address': '宁波', 
-          'tag':['振动','油液'], 
-          'windpower':['联合致力'],
-          'telephone':'1388888888',
-          'status':'数据验收'},
-          {'value': '东山风电场',
-          'address': '河北',
-          'tag':['叶片','油液'],},
-        ]
+        getProjects().then(res => {
+          this.allData = res
+          console.log(res)
+        })
       },
       backHome() {
         this.$router.push('/home')

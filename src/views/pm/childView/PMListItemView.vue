@@ -4,14 +4,14 @@
   <div @click="itemClick">
     <el-row :gutter="20">
         <el-col :span="7">
-          <div class="img">{{pmItem.value}}</div></el-col>
+          <div class="img">{{pmItem.name}}</div></el-col>
         <el-col :span="15">
           <h3 style="margin-bottom: 5px;">
             <!-- <el-tag :type="TagType(pmItem.status)" >{{pmItem.status}}</el-tag> -->
             <pm-tag :pmStatus="pmItem.status"/>
             <!-- 全色 -->
             <!-- <el-tag :type="TagType(pmItem.status)" effect="dark">{{pmItem.status}}</el-tag> -->
-            {{pmItem.value}}</h3>
+            {{pmItem.name}}</h3>
           <div style="margin-bottom: 5px;">
             <span v-for="(tag,index) in pmItem.tag">{{tag}}<el-divider v-if="index !== pmItem.tag.length-1" direction="vertical"/>
             </span>
@@ -51,7 +51,7 @@
     },
     methods:{
       itemClick(){   
-        this.$router.push('/detail/'+ this.pmItem.value)
+        this.$router.push('/detail/'+ this.pmItem.name)
       }
     }    
   }
