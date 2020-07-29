@@ -5,9 +5,9 @@
       <div slot="left" @click="back">
          <i class="el-icon-arrow-left"></i>
       </div>
-      <div slot="center">哈哈</div>
+      <div slot="center">{{$route.params.name}}</div>
     </nav-bar>
-    {{this.$route.params.id}}
+    {{this.$route.params.name}}的风机们
   </div>
 </template>
 

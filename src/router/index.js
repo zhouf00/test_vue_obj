@@ -61,12 +61,12 @@ const routes = [
     component: Detail,
   },
   {
-    path: '/detail/:id/facility',
+    path: '/detail/:name/facility',
     name: 'facility',
     component: Facility
   },
   {
-    path: '/detail/:value/info',
+    path: '/detail/:name/info',
     name: 'info',
     component: Info
   }

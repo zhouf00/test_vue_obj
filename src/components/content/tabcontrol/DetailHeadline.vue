@@ -37,12 +37,8 @@
             console.log('看看')
         }
         this.$router.push({
-          name: this.url,
-          params:{
-            id:'1'
-          }
+          name: this.url
         })
-        // this.$router.push('/home')
       }
     }
   }

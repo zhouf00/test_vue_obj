@@ -8,13 +8,13 @@
     </el-row> -->
     <detail-headline :title="'风机信息'"/>
     <div >
-      <el-row v-for="counter in 100" style="margin-bottom:5px;">
+      <el-row v-for="item in facilitys" style="margin-bottom:5px;">
         <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
         <el-col :span="16">
           <el-row style="margin-bottom:5px;">
-            <h4>{{counter}}号风机
-            <span v-show="counter%2 !== 0" style="color:green"><i class="el-icon-circle-check"/>正常</span>
-            <span v-show="counter%2 === 0" style="color:red"><i class="el-icon-circle-close"/>异常</span>
+            <h4>{{item.title}}
+            <span v-show="item.status === 1" style="color:green"><i class="el-icon-circle-check"/>正常</span>
+            <span v-show="item.status !== 1" style="color:red"><i class="el-icon-circle-close"/>异常</span>
             </h4>
           </el-row>
           <el-row style="margin-bottom:5px;">
@@ -35,6 +35,14 @@
     name: 'DetailFacility',
     components:{
       DetailHeadline
+    },
+    props: {
+      facilitys:{
+        type: Array,
+        default(){
+          return []
+        }
+      }
     }
   }
 </script>

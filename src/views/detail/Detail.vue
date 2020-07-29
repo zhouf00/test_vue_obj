@@ -1,6 +1,6 @@
 <!-- 详情页面 -->
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="loading">
     <nav-bar>
       <div slot="left" @click="backPM">
          <i class="el-icon-arrow-left"></i>
@@ -11,16 +11,16 @@
     <div class="content" v-infinite-scroll="load" 
       style="overflow:auto"
       infinite-scroll-disabled="disabled">
-      <div class="block">
+      <div class="block"  >
         <!-- 使用el-image一定要传入链接 -->
-        <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'">
+        <el-image :src="obj.image">
           <div slot="placeholder" class="image-slot">
             加载中<span class="dot">...</span>
           </div>
         </el-image>
       </div>
       <!-- 状态 -->
-      <div>
+      <div style="margin-top:5px;">
         <el-row >
           <el-col :span="6">
             <pm-tag :pmStatus="obj.status"/>
@@ -32,27 +32,23 @@
         </el-row>
       </div>
       <!-- 基本情况 -->
-      <div style="margin-top:10px;">
+      <div >
         <el-divider/>
-        <!-- <el-row style="margin-bottom:10px;">
-          <el-col :span="18"><h3>基本信息</h3></el-col>
-          <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
-        </el-row> -->
         <detail-headline :title="'基本信息'"/>
         <el-row>
-          <el-col :span="6"><p>内部号：</p></el-col>
+          <el-col :span="7"><p>内部号：</p></el-col>
           <el-col :span="12"><span class="demonstration">{{obj.sn}}</span></el-col>
         </el-row>
         <el-row>
-          <el-col :span="6"><p class="">主机厂：</p></el-col>
+          <el-col :span="7"><p class="">主机厂：</p></el-col>
           <el-col :span="12"><span>联合动力、GE</span></el-col>       
         </el-row>
         <el-row>
-          <el-col :span="6"><p class="">地址：</p></el-col>
+          <el-col :span="7"><p class="">地址：</p></el-col>
           <el-col :span="12"><span>{{obj.address}}</span></el-col>       
         </el-row>
         <el-row>
-          <el-col :span="6"><p class="">其它说明：</p></el-col>
+          <el-col :span="7"><p class="">其它说明：</p></el-col>
           <el-col :span="12"><span>{{obj.memo}}</span></el-col>       
         </el-row>
       </div>
@@ -67,7 +63,7 @@
       <detail-server :serverData="obj.server"/>
 
       <!-- 风机情况 -->
-      <detail-facility/>
+      <detail-facility :facilitys="obj.facility"/>
     </div>
   </div>
 </template>
@@ -106,29 +102,31 @@
         obj: null,
         activeName: 'first',
         path: '/pm',
-        iid: null
+        iid: null,
+        // 数据加载完成后渲染
+        loading: false
       }
     },
     created() {
-      this.getPMData()
+
     },
     destroyed() {
-      console.log('destroyed');
+      // console.log('destroyed');
     },
     mounted(){
-      
+      this.getPMData()
     },
     methods:{
       backPM() {
-        this.$router.push('/pm')
+        this.$router.go(-1)
         this.$destroy()
       },
       getPMData() {
         this.iid = this.$route.params.name
-        console.log(this.iid);
         getDetail(this.iid).then(res => {
           this.obj = res[0]
-          console.log(this.obj);
+          this.loading = true
+          // console.log(this.obj, this.loading);
         })
       },
       load() {

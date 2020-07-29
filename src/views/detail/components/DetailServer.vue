@@ -96,7 +96,6 @@
           capacity += list[i].disk_capacity*count
           str += `${list[i].disk_type} ${list[i].disk_capacity}T*${list[i].disk_count} ${list[i].disk_raid}${symbol}`
         }
-        console.log(capacity, str);
         return `${str} (实际容量${capacity}T)`
       }
     }

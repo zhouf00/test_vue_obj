@@ -17,3 +17,13 @@ export function getServer(project) {
     }
   })
 }
+
+export function sendServer(query) {
+  return request({
+    url: '/engineering/server/',
+    params:{
+      project
+    },
+    method: 'post',
+  })
+}
