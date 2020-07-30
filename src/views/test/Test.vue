@@ -28,12 +28,18 @@
     },
     methods:{
       openscan(){
-        console.log('开始');
-        
-        login().then( res=> {
-          
-        }).catch(error => {
-          console.log('失败')
+        wx.scanQRCode({
+          desc: 'scanQRCode desc',
+          needResult: 1,
+          scanType: ["qyCode","barCode"],
+          success:function(){
+
+          },
+          error: function(){
+            if(res.errMsg.indexOf('function_not_exist') > 0){
+              alert('版本过低请升级')
+            }
+          }
         })
       }
     }

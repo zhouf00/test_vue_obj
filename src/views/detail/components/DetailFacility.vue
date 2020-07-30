@@ -7,8 +7,8 @@
       <el-col :span="6" style="font-size:12px;">查看更多<i class="el-icon-arrow-right"></i></el-col>
     </el-row> -->
     <detail-headline :title="'风机信息'"/>
-    <div >
-      <el-row v-for="item in facilitys" style="margin-bottom:5px;">
+    <div v-for="item in facilitys"  @click="itemClick(item.id)">
+      <el-row style="margin-bottom:5px;" >
         <el-col :span="8"><img src="~assets/img/detail/default.jpg" alt="" style="width:80%;height:100%"></el-col>
         <el-col :span="16">
           <el-row style="margin-bottom:5px;">
@@ -18,10 +18,10 @@
             </h4>
           </el-row>
           <el-row style="margin-bottom:5px;">
-            <span>联合动力 直驱2.0</span>
+            <span>{{item.machine.manufacturer.title}} {{item.machine.title}}</span>
           </el-row>
           <el-row>
-            <span>叶片监测 油液监测</span>
+            <span v-for="collector in item.collector">{{collector.types}}</span>
           </el-row>
         </el-col>
       </el-row>
@@ -42,6 +42,16 @@
         default(){
           return []
         }
+      }
+    },
+    methods:{
+      itemClick(id) {
+        this.$router.push({
+          name: 'facility',
+          query: {
+            search:id
+          },
+        })
       }
     }
   }

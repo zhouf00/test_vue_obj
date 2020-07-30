@@ -41,7 +41,7 @@
         </el-row>
         <el-row>
           <el-col :span="7"><p class="">主机厂：</p></el-col>
-          <el-col :span="12"><span>联合动力、GE</span></el-col>       
+          <el-col :span="12"><span v-for="manu in obj.manu_list">{{manu.title}} </span></el-col>       
         </el-row>
         <el-row>
           <el-col :span="7"><p class="">地址：</p></el-col>
@@ -110,16 +110,12 @@
     created() {
 
     },
-    destroyed() {
-      // console.log('destroyed');
-    },
     mounted(){
       this.getPMData()
     },
     methods:{
       backPM() {
         this.$router.go(-1)
-        this.$destroy()
       },
       getPMData() {
         this.iid = this.$route.params.name
@@ -132,7 +128,13 @@
       load() {
       }
     },
-    
+    beforeRouteLeave:function(to, from, next){
+      // 离开项目时，清除缓存
+      if(!to.name){
+        this.$destroy();
+      }
+      next()
+    }
   }
 </script>
 

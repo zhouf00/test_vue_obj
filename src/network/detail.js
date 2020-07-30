@@ -18,6 +18,12 @@ export function getServer(project) {
   })
 }
 
+export function getFacility(id) {
+  return request({
+    url: `/engineering/facility/${id}/`,
+  })
+}
+
 export function sendServer(query) {
   return request({
     url: '/engineering/server/',

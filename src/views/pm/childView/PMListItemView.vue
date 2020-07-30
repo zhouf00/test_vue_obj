@@ -18,7 +18,7 @@
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-wind-power"></i>
-            <span v-for="windpower in pmItem.windpower">{{windpower}} </span>
+            <span v-for="manu in pmItem.manu_list">{{manu.title}} </span>
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-location-information"/>

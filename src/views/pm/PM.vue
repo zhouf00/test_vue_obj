@@ -73,10 +73,9 @@
     },
     created () {
       this.loadPMdata()
-      console.log(this.tabshow)
+      // console.log(this.tabshow)
     },
     activated() {
-      // this.$router.push('/detail/寒风岭风电场')
     },
     // beforeRouteLeave(to, from, next){
     //   console.log(this.$route.path);

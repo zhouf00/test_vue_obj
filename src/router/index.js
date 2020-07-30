@@ -63,6 +63,9 @@ const routes = [
   {
     path: '/detail/:name/facility',
     name: 'facility',
+    meta:{
+      title: '风机页面'
+    },
     component: Facility
   },
   {

@@ -36,9 +36,9 @@
           default:
             console.log('看看')
         }
-        this.$router.push({
-          name: this.url
-        })
+        // this.$router.push({
+        //   name: this.url
+        // })
       }
     }
   }
