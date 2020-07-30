@@ -38,6 +38,9 @@
     methods: {
       querySearch(queryString, cb) {
         var restaurants = this.restaurants;
+        for(let i in restaurants) {
+          restaurants[i]['value'] = restaurants[i].name
+        }
         var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) :restaurants;
 
         clearTimeout(this.timeout);
@@ -47,7 +50,7 @@
       },
       createStateFilter(queryString) {
         return (state) => {
-          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+          return (state.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
         };
       },
       handleSelect(item) {

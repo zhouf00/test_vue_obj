@@ -19,7 +19,8 @@
       <div slot="left"  @click="searchClick">
         <i class="el-icon-arrow-left yellow"></i>
       </div>
-      <div slot="right" @click="queryClick">搜索</div>
+      <!-- 把取消移到组件内 -->
+      <div slot="right" @click="queryClose">取消</div>
     </nav-bar-search>
     <!-- 筛选导航条 -->
     <tab-control  :titles="['区域', '类型', '状态', '更多']"
@@ -37,8 +38,8 @@
       <region-filter v-show="tabshow===3" @sureClick="sureClick"
         :provinces="['台儿庄会战']" class="regionfilter"/>
     </el-drawer>                   
-    <p-m-list-view v-show="!isShowAll" class="content" :allData="allData"/>
-    <p-m-list-view v-show="isShowAll" class="content" :allData="temp"/>
+    <p-m-list-view v-if="!isShowAll" class="content" :allData="allData"/>
+    <p-m-list-view v-if="isShowAll" class="content" :allData="temp"/>
   </div>
 </template>
 
@@ -122,8 +123,7 @@
         }
         this.temp.push(value)
       },
-      queryClick(){
-        // this.allData.push('蒙东风电场')
+      queryClose(){
         if(this.temp){
           this.temp = {}
         }
