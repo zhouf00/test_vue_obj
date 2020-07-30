@@ -15,12 +15,11 @@
     <!-- 搜索导航条 -->
     <nav-bar-search v-show="!isShow" 
                     :restaurants="allData"
-                    @suerSelect="suerSelect">
+                    @suerSelect="suerSelect"
+                    @searchClose="searchClose">
       <div slot="left"  @click="searchClick">
         <i class="el-icon-arrow-left yellow"></i>
       </div>
-      <!-- 把取消移到组件内 -->
-      <div slot="right" @click="queryClose">取消</div>
     </nav-bar-search>
     <!-- 筛选导航条 -->
     <tab-control  :titles="['区域', '类型', '状态', '更多']"
@@ -38,8 +37,7 @@
       <region-filter v-show="tabshow===3" @sureClick="sureClick"
         :provinces="['台儿庄会战']" class="regionfilter"/>
     </el-drawer>                   
-    <p-m-list-view v-if="!isShowAll" class="content" :allData="allData"/>
-    <p-m-list-view v-if="isShowAll" class="content" :allData="temp"/>
+    <p-m-list-view class="content" :allData="searchData"/>
   </div>
 </template>
 
@@ -65,8 +63,8 @@
     data() {
       return {
         allData:[],
+        searchData:[],
         isShow: true,
-        temp: [],
         tabshow: '',
         dialog: false,
         provinces: ['浙江','安徽','江苏','上海','北京','天津','重庆'],
@@ -87,13 +85,13 @@
     // },
     mounted() {
       // this.restaurants = this.loadPMdata()
-      this.isShowAll
+
     },
     methods:{
       loadPMdata(){
         getProjects().then(res => {
           this.allData = res
-          console.log(res)
+          this.searchData = this.allData
         })
       },
       backHome() {
@@ -118,15 +116,11 @@
         console.log(this.tabshow);
       },
       suerSelect(value) {
-        if(this.temp){
-          this.temp= []
-        }
-        this.temp.push(value)
+        this.searchData = []
+        this.searchData.push(value)
       },
-      queryClose(){
-        if(this.temp){
-          this.temp = {}
-        }
+      searchClose() {
+        this.searchData = this.allData
       },
       sureClick(address){
         // 返回筛选选择结果
@@ -138,9 +132,6 @@
       }
     },
     computed:{
-      isShowAll(){
-        return this.temp.length ? true : false
-      },
       istabShow(){
         return this.tabshow
       }

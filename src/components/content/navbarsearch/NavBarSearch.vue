@@ -1,4 +1,5 @@
 <!-- 搜索导航 -->
+<!-- 可添加选择框选择搜索的内容 -->
 <template>
   <div class="nav-bar">
     <div class="left"><slot name="left"></slot></div>
@@ -10,7 +11,7 @@
         <i class="el-icon-search" slot="prefix"></i>
       </el-autocomplete>
     </div>
-    <div class="right"><slot name="right"></slot></div>
+    <div class="right" @click="searchClose">取消</div>
   </div>
 </template>
 
@@ -46,7 +47,7 @@
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           cb(results);
-        }, 3000*Math.random())
+        }, 1000*Math.random())
       },
       createStateFilter(queryString) {
         return (state) => {
@@ -56,6 +57,9 @@
       handleSelect(item) {
         // console.log(item);
         this.$emit('suerSelect', item)
+      },
+      searchClose(item) {
+        this.$emit('searchClose', item)
       }
     }
   }
