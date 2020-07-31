@@ -55,10 +55,10 @@
         };
       },
       handleSelect(item) {
-        // console.log(item);
         this.$emit('suerSelect', item)
       },
       searchClose(item) {
+        this.state = ''
         this.$emit('searchClose', item)
       }
     }
