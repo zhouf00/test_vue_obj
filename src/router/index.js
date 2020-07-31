@@ -9,6 +9,7 @@ const Detail = () => import('views/detail/Detail')
 const Test = () => import('views/test/Test')
 const Facility = () => import('views/detail/views/Facility')
 const Info = () => import('views/detail/views/Info')
+const Login = () => import('views/login')
 
 // const Auth2 = () => import('components/common/login/Login')
 
@@ -72,6 +73,11 @@ const routes = [
     path: '/detail/:name/info',
     name: 'info',
     component: Info
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login  
   }
 
 ]
