@@ -13,8 +13,8 @@
         <el-col :span="16">
           <el-row style="margin-bottom:5px;">
             <h4>{{item.title}}
-            <span v-show="item.status === 1" style="color:green"><i class="el-icon-circle-check"/>正常</span>
-            <span v-show="item.status !== 1" style="color:red"><i class="el-icon-circle-close"/>异常</span>
+            <span v-show="item.status === 1" style="color:green"><i class="el-icon-success"/></span>
+            <span v-show="item.status !== 1" style="color:red"><i class="el-icon-error"/></span>
             </h4>
           </el-row>
           <el-row style="margin-bottom:5px;">

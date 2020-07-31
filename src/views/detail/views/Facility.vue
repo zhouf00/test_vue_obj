@@ -10,8 +10,8 @@
     <div class="content">
       <div style="margin-top:10px; ">
         <h2 style="margin-bottom:10px;">{{facilityData.title}}
-          <span v-show="facilityData.status === 1" style="color:green"><i class="el-icon-circle-check"/></span>
-          <span v-show="facilityData.status !== 1" style="color:red"><i class="el-icon-circle-close"/></span>
+          <span v-show="facilityData.status === 1" style="color:green"><i class="el-icon-success"/></span>
+          <span v-show="facilityData.status !== 1" style="color:red"><i class="el-icon-error"/></span>
         </h2>
         <el-row>
           <el-col :span="7"><p>主机厂商：</p></el-col>
@@ -47,12 +47,12 @@
         </el-row>
         <div v-for="sensor in sortSensor(collector.sensor)" style="margin-top:10px;">
           <el-row>
-            <el-col :span="7"><p>名称：</p></el-col>
-            <el-col :span="12"><span class="demonstration">{{sensor.sensor_type.title}}</span></el-col>
-          </el-row>
-          <el-row>
             <el-col :span="7"><p>通道号：</p></el-col>
             <el-col :span="12"><span class="demonstration">{{sensor.number}}</span></el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="7"><p>名称：</p></el-col>
+            <el-col :span="12"><span class="demonstration">{{sensor.sensor_type.title}}</span></el-col>
           </el-row>
           <el-row>
             <el-col :span="7"><p>编号：</p></el-col>

@@ -10,21 +10,21 @@
       </el-row>
       <el-row>
         <el-col :span="7"><p class="">CPU：</p></el-col>
-        <el-col :span="17"><span>{{item.cpu_list.info}}</span></el-col>       
+        <el-col :span="17"><span>{{item.cpu.cpu_model}} {{item.cpu.cpu_core_count}}核 * {{item.cpu.cpu_count}}</span></el-col>       
       </el-row>
       <el-row>
         <el-col :span="7"><p class="">内存：</p></el-col>
         <el-col :span="17">
-          <span>{{ramShow(item.ram_list)}}</span>
+          <span>{{ramShow(item.ram)}}</span>
         </el-col>       
       </el-row>
       <el-row>
         <el-col :span="7"><p class="">硬盘：</p></el-col>
         <el-col :span="17">
-          <span>{{diskShow(item.disk_list)}}</span><br>
+          <span>{{diskShow(item.disk)}}</span><br>
         </el-col>       
       </el-row>
-      <el-row v-for="nic in item.nic_list">
+      <el-row v-for="nic in item.nic">
         <el-col :span="7"><p class="">网卡1：</p></el-col>
         <el-col :span="9"><span>{{nic.ip_address}} {{nic.net_mask}} {{nic.gate_way}}</span></el-col> 
         <el-col :span="8"><p class="">{{nic.memo}}</p></el-col>       

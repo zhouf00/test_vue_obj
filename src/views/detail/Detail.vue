@@ -48,6 +48,10 @@
           <el-col :span="12"><span>{{obj.address}}</span></el-col>       
         </el-row>
         <el-row>
+          <el-col :span="7"><p class="">施工人：</p></el-col>
+          <el-col :span="12"><span>李靖(负责) 李启龙(协助) 周凡(协助)</span></el-col>       
+        </el-row>
+        <el-row>
           <el-col :span="7"><p class="">其它说明：</p></el-col>
           <el-col :span="12"><span>{{obj.memo}}</span></el-col>       
         </el-row>
