@@ -9,7 +9,6 @@
 </template>
 
 <script>
-  import login from 'network/login'
   import VueWxlogin from 'vue-wxlogin'
 
   export default {

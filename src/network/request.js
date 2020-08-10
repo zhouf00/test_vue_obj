@@ -1,20 +1,29 @@
 import axios from 'axios'
+import {getToken} from 'utils/auth'
+import store from '../store'
 
 export function request(config) {
   // 创建axios实例
   const instance = axios.create({
     // baseURL: 'http://aa.windit.com.cn',
-    baseURL: 'http://tianle.iok.la',
-    timeout: 5000
+    baseURL: 'http://tianle.iok.la',  // API的base_url
+    timeout: 15000  // 请求超时时间  
   })
-  // 请求拦截
+  // request 请求拦截
   instance.interceptors.request.use(config => {
+    if (store.getters.token){
+      console.log(getToken())
+      config.headers['Authorization'] = getToken()
+    }
     return config
   },err => {
-
+    console.log(getToken())
+    console.log(err)
   })
-  // 响应拦截
+
+  // respone 响应拦截
   instance.interceptors.response.use(res => {
+    
     return res.data
   },err => {
 
