@@ -43,7 +43,9 @@
     //方法集合
     methods: {
       itemClick () {
-        this.$router.replace(this.path)
+        this.$router.replace(this.path).catch(err => {
+          
+        })
         // console.log(this.$route.path)
         
         

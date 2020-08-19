@@ -14,6 +14,13 @@ export function login(usr, pwd) {
 
 export function getUser() {
   return request({
-    url: '/personnel/login/',
+    url: '/personnel/user/',
+  })
+}
+
+export function logout() {
+  return request({
+    url: '/personnel/logout/',
+    method: 'post'
   })
 }

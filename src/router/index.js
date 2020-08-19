@@ -1,96 +1,97 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-const Home = () => import('views/home/Home')
-const Profile = () => import('views/profile/Profile')
-const Task = () => import('views/task/Task')
-const PM = () => import('views/pm/PM')
-const Detail = () => import('views/detail/Detail')
-const Test = () => import('views/test/Test')
-const Facility = () => import('views/detail/views/Facility')
-const Info = () => import('views/detail/views/Info')
-const Login = () => import('views/login')
-
-// const Auth2 = () => import('components/common/login/Login')
+import {getToken} from 'utils/auth'
+import Layout from 'views/layout/Layout'
 
 Vue.use(VueRouter)
 
-const routes = [
+export const constantRouterMap = [
+  {path: '/login', component: () => import('views/login/index'), hidden: true},
+  {path: '/404', component: () => import('views/404'), hidden: true},
   {
     path: '',
-    redirect: '/home'
+    component: Layout,
+    redirect: '/home',
+    children: [{
+      path: 'home',
+      name: 'home',
+      component: () => import('views/home/Home'),
+      meta:{
+        title: '首页',
+      }
+    }]
+  },
+]
+
+export const asyncRouterMap = [
+  {
+    path: '/pm',
+    component: Layout,
+    redirect: '/pm',
+    children:[
+      {
+        path: '',
+        name: 'PM',
+        component: () => import('views/pm/PM'),
+        meta: {title: '项目管理'}
+      },
+      {
+        path: 'detail/:name',
+        name: 'detail',
+        component: () => import('views/pm/detail/Detail'),
+        meta: { title: '项目详情'}
+      }
+    ]
   },
   {
-    path: '/home',
-    name: 'home',
-    meta:{
-      title: '首页'
-    },
-    component: Home
+    path: '/ams',
+    component: Layout,
+    redirect: '/ams',
+    children:[
+      {
+        path: '',
+        name: 'AMS',
+        // component: () => import('views/test/Test'),
+        meta: {title: '资产管理'}
+      }
+    ]
   },
   {
     path: '/profile',
-    meta:{
-      title: '我的'
-    },
-    component: Profile
-  },
-  {
-    path: '/test',
-    component: Test
+    component: Layout,
+    children:[
+      {
+        path: '',
+        name: 'profile',
+        component: () => import('views/profile/Profile')
+      }
+    ]
   },
   {
     path: '/task',
-    meta:{
-      title: '任务'
-    },
-    component: Task
+    component: Layout,
+    children:[
+      {
+        path: '',
+        name: 'task',
+        component: () => import('views/task/Task')
+      }
+    ]
   },
   {
-    path: '/pm',
-    meta:{
-      title: '项目管理'
-    },
-    component: PM 
-  },
-  {
-    path: '/detail/:name',
-    name: 'detail',
-    meta:{
-      title: '详情页面'
-    },
-    component: Detail,
-  },
-  {
-    path: '/detail/:name/facility',
-    name: 'facility',
-    meta:{
-      title: '风机页面'
-    },
-    component: Facility
-  },
-  {
-    path: '/detail/:name/info',
-    name: 'info',
-    component: Info
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login  
+    path: '/admin',
+    component: () => import('views/test/Test'),
+    name: 'admin',
+    meta: {title:'管理界面'}
   }
-
 ]
 
 const router = new VueRouter({
-  routes,
+  routes: constantRouterMap,
   mode: 'history',
   linkActiveClass: 'active',
-})
-
-router.beforeEach((to, from, next) => {
-  document.title = to.matched[0].meta.title
-  next()
+  // 滚动设置
+  scrollBehavior: () => ({y:0})
 })
 
 export default router

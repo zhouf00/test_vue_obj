@@ -2,13 +2,19 @@
 <template>
   <div>
     <el-card class="login-form-layout">
-      <el-form autoComplete="on"
+      <div slot="header">
+        <span :style="isActive"
+          @click="itemClick(mode_scan)">{{mode_scan}}</span>
+        <span :style="'float: right;'+ isActive" 
+          @click="itemClick(mode_input)">{{mode_input}}</span>
+      </div>
+      <el-form v-if="isActive" autoComplete="on"
                :model="loginForm"
                :rules="loginRules"
                ref="loginForm"
                label-position="left">
         <div style="text-align:center">
-          <svg-icon icon-class="login-mall"></svg-icon>
+          
         </div>
         <el-form-item prop="username">
           <el-input name="username"
@@ -31,6 +37,10 @@
           </el-button>
         </el-form-item>
       </el-form>
+      <div v-if="!isActive">
+        <iframe :src="url"
+          scrolling="no" width="300" height="400" frameBorder="0" allowTransparency="true" ></iframe>
+      </div>
     </el-card>
   </div>
 </template>
@@ -38,7 +48,6 @@
 <script>
   import {isvalidUsername} from '@/utils/validate'
   import {setSupport, getSupport, setCookie, getCookie} from 'utils/support'
-  import {login, getUser} from 'network/api/login'
 
   export default {
     name: 'index',
@@ -69,6 +78,10 @@
         },
         loading: false,
         pwdType: 'password',
+        mode_scan:'扫码登陆',
+        mode_input:'帐号密码',
+        mode_status: true,
+        url:'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wwa84b8b2c3e83d6e0&agentid=1000007&redirect_uri=http%3A%2F%2Ftest.windit.com.cn/profile&state=STATE'
       }
     },
     created() {
@@ -81,7 +94,23 @@
         this.loginForm.password = ''
       }
     },
+    computed:{
+      isActive() {
+        return this.mode_status
+      },
+      _isMobile() {
+        let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+        return flag;
+      }
+    },
     methods:{
+      itemClick(active) {
+        if (active === this.mode_scan){
+          this.mode_status = false
+        } else {
+          this.mode_status = true
+        }
+      },
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if(valid){
@@ -90,8 +119,12 @@
               this.loading = false;
               setCookie("username", this.loginForm.username, 15);
               setCookie("password", this.loginForm.password, 15);
-              this.$router.push({path:'/'})
-
+              if (this._isMobile){
+                this.$router.push({path:'/'})
+              } else {
+                this.$router.push({path:'/admin'})
+              }
+              
             }).catch(error => {
               this.loading = false
               console.log(error)
@@ -103,7 +136,6 @@
         })
       }
     }
-    
   }
 </script>
 

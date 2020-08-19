@@ -18,7 +18,7 @@
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-wind-power"></i>
-            <span v-for="manu in pmItem.manu_list">{{manu.title}} </span>
+            <span v-for="manu in pmItem.manufacturers">{{manu.title}} </span>
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-location-information"/>
@@ -50,8 +50,8 @@
       }
     },
     methods:{
-      itemClick(){   
-        this.$router.push('/detail/'+ this.pmItem.name)
+      itemClick(){
+        this.$router.push({name: 'detail', params: {name:this.pmItem.name}})
       }
     }    
   }

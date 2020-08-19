@@ -22,13 +22,23 @@
     },
     methods: {
       itemClick(index) {
-        let url = ''
+        let name = ''
         console.log(index);
         switch (index) {
           case 0:
-            url = '/PM'
+            name = 'PM'
+            break
+          case 1:
+            name = 'AMS'
+            break
+          case 2:
+            name = 'EA'
+            break
         }
-        this.$router.push(url)
+        this.$router.push({name:name})
+        this.$store.dispatch('ChangeNavbar', name).then(() =>{
+          console.log(this.$store.getters.navbarStatus)
+        })
       }
     }
   }

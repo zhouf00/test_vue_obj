@@ -1,5 +1,5 @@
-import {login} from 'network/api/login'
-import {getToken, setToken} from 'utils/auth'
+import {login, logout, getUser} from 'network/api/login'
+import {getToken, setToken, removeToken} from 'utils/auth'
 
 const user = {
   state: {
@@ -11,6 +11,15 @@ const user = {
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_NAME: (state, name) => {
+      state.name = name
+    },
+    SET_AVATAR: (state, avatar) => {
+      state.avatar = avatar
+    },
+    SET_ROLES: (state, roles) => {
+      state.roles = roles
     }
   },
   actions: {
@@ -24,6 +33,35 @@ const user = {
           setToken(tokenStr)
           commit('SET_TOKEN', tokenStr)
           resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    Logout({commit, state}) {
+      return new Promise((resolve, reject) => {
+        logout(state.token).then(() => {
+          commit('SET_TOKEN', '')
+          commit('SET_ROLES', [])
+          removeToken()
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    UserInfo({commit, state}) {
+      return new Promise((resolve, reject) => {
+        getUser().then(response => {
+          const data = response.results
+          // 验证返回的roles是否为空数组
+          if (data.roles && data.roles.length > 0) {
+            commit('SET_ROLES', data.roles)
+          } else {
+            reject('UserInfo: roles must be a non-null array!')
+          }
+          commit('SET_NAME', data.name)
+          resolve(response)
         }).catch(error => {
           reject(error)
         })

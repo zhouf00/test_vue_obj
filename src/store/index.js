@@ -5,8 +5,7 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 
-import user from './modules/user'
-
+import {user, permission, apps} from './modules'
 
 // 安装插件
  Vue.use(Vuex)
@@ -14,7 +13,9 @@ import user from './modules/user'
  // 创建对象
  const store = new Vuex.Store({
     modules: {
-      user
+      user,
+      permission,
+      apps
     },
     actions,
     getters,

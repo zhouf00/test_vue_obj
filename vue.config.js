@@ -7,16 +7,10 @@ module.exports = {
         'components': '@/components',
         'network': '@/network',
         'views': '@/views',
-        'utils': '@/utils'
+        'utils': '@/utils',
+        'store': '@/store'
       }
     },
   },
-  // 用花生壳
-  devServer:{
-    disableHostCheck:true,
-  },
-  chainWebpack: config => {
-    config.plugins.delete('prefetch')
-  }
   
 }

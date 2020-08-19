@@ -8,6 +8,7 @@ import 'assets/css/theme/index.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import '@/permission'
 
 
 Vue.config.productionTip = false
@@ -19,5 +20,7 @@ new Vue({
   el: '#app',
   render: h => h(App),
   router,
-  store
+  store,
+  // template: '<App/>',
+  // components: {App}
 })

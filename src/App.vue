@@ -1,21 +1,15 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <!-- <keep-alive> -->
       <!-- <router-view :key="user.id"/> -->
       <router-view />
-    </keep-alive> 
-    <main-tab-bar/> 
+    <!-- </keep-alive>  -->
   </div>
 </template>
 
 <script>
-  import MainTabBar from 'components/content/maintabbar/MainTabBar'
-
   export default {
     name: 'App',
-    components: {
-      MainTabBar,
-    }
   }
 </script>
 

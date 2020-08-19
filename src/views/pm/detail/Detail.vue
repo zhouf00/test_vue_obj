@@ -105,7 +105,6 @@
       return {
         obj: null,
         activeName: 'first',
-        path: '/pm',
         iid: null,
         // 数据加载完成后渲染
         loading: false
@@ -126,7 +125,6 @@
         getDetail(this.iid).then(res => {
           this.obj = res[0]
           this.loading = true
-          // console.log(this.obj, this.loading);
         })
       },
       load() {

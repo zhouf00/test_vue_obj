@@ -42,6 +42,7 @@
 </template>
 
 <script>
+  import store from 'store'
   import NavBar from 'components/common/navbar/NavBar'
   import NavBarSearch from 'components/content/navbarsearch/NavBarSearch'
   import TabControl from 'components/content/tabcontrol/TabControl'
@@ -84,7 +85,6 @@
     // },
     mounted() {
       // this.restaurants = this.loadPMdata()
-
     },
     methods:{
       loadPMdata(){
@@ -94,7 +94,7 @@
         })
       },
       backHome() {
-        this.$router.push('/home')
+        this.$router.go(-1)
       },
       searchClick(){
         if (this.isShow) {
