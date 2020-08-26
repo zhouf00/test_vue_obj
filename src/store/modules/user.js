@@ -61,10 +61,18 @@ const user = {
             reject('UserInfo: roles must be a non-null array!')
           }
           commit('SET_NAME', data.name)
+          commit('SET_AVATAR', data.avatar)
           resolve(response)
-        }).catch(error => {
-          reject(error)
+        }).catch(err => {
+          reject(err)
         })
+      })
+    },
+    FedLogOut({ commit }) {
+      return new Promise(resolve => {
+        commit('SET_TOKEN', '')
+        removeToken()
+        resolve()
       })
     }
   }

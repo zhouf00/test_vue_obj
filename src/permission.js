@@ -3,9 +3,9 @@ import store from './store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth' // 验权
-import Cookies from 'js-cookie'
 
 const whiteList = ['/login'] // 不重定向白名单
+
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if(to.meta.title){
@@ -17,22 +17,32 @@ router.beforeEach((to, from, next) => {
       next({path: '/'})  
       NProgress.done()
     }else{
-      if(store.getters.roles.length === 0) {
+      if(store.getters.roles.length === 0) {  
+        console.log(store.state.user,'获取');    
         store.dispatch('UserInfo').then(res => {
           // 获取菜单和用户名
           let menus = res.results.menus
           let roles = res.results.roles
+          let is_modile = store.getters.isMobile
+          console.log('路由', is_modile);
           // 发送请求生成路由表
-          store.dispatch('GenerateRouters', {menus, roles}).then(() => {
+          store.dispatch('GenerateRouters', {menus, roles, is_modile}).then(() => {
             router.addRoutes(store.getters.addRouters);
             next({ ...to, replace:true })
-          }).catch(err => {
-            console.log(err)
           })
         }).catch(error => {
           console.log(error);
+          store.dispatch('FedLogOut').then(() => {
+            // Message.error(err || 'Verification failed, please login again')
+            next({ path: '/' })
+          })
         })
       }else{
+        // 解决跳转有报错
+        // if(from.name != 'personModfiy') {
+        //   sessionStorage.setItem('routerPath', JSON.stringify(to));
+        //   next()
+        // }
         next()
       }
     }

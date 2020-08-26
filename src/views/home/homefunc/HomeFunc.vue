@@ -23,7 +23,6 @@
     methods: {
       itemClick(index) {
         let name = ''
-        console.log(index);
         switch (index) {
           case 0:
             name = 'PM'
@@ -37,7 +36,7 @@
         }
         this.$router.push({name:name})
         this.$store.dispatch('ChangeNavbar', name).then(() =>{
-          console.log(this.$store.getters.navbarStatus)
+          // console.log(this.$store.getters.navbarStatus)
         })
       }
     }

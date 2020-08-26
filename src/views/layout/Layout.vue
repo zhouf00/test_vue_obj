@@ -8,13 +8,14 @@
 
 <script>
   import {NavBar, AppMain} from './components'
+  import Resizemixin from './mixin/ResizeHandler'
   export default {
     name: 'Layout',
     components: {
       NavBar,
       AppMain
     },
-    mixins: [], // 混入对象
+    mixins: [Resizemixin], // 混入对象
   }
 </script>
 <style scoped>

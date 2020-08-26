@@ -1,6 +1,5 @@
 import {request} from 'network/request'
 
-
 export function login(usr, pwd) {
   return request ({
     url: '/personnel/login/',

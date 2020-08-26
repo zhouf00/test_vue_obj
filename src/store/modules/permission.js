@@ -1,4 +1,4 @@
-import {asyncRouterMap, constantRouterMap} from '@/router/index'
+import {asyncRouterMap, asyncWebRouterMap, constantRouterMap} from '@/router/index'
 
 // 判断是否有权限访问
 function hasPermission (menus, route) {
@@ -76,16 +76,19 @@ const permission = {
   actions: {
     GenerateRouters({commit}, data) {
       return new Promise(resolve => {
-        const { menus } = data
+        const { menus, is_modile } = data
         let access = ''
+        let newRouterMap = asyncWebRouterMap
         for (let index in data.roles) {
           if ('管理员' === data.roles[index].title) {
             access = true
           }
         }
-
-        const accessedRouters = asyncRouterMap.filter(v => {
-          // if(access) return true;
+        if(is_modile==='true') {
+          newRouterMap = asyncRouterMap
+        }
+        const accessedRouters = newRouterMap.filter(v => {
+          if(access) return true;  // 管理员则全部权限
           if (hasPermission(menus, v)) {
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter(child => {

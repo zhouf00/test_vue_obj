@@ -1,7 +1,10 @@
 <!-- 首页 -->
 <template>
   <div>
-    <p>{{$store.getters.name}}</p><p @click="Logout">注销</p>
+    <el-row>
+      <el-col :span="8"><p>{{$store.getters.name}}</p></el-col>
+      <el-col :span="8"><p @click="Logout" style="color:red">注销</p></el-col>
+    </el-row>
     <HomeFunc :funcs="showfuncs"/>
   </div>
 </template>
@@ -22,7 +25,7 @@
     },
     computed: {
       showfuncs() {
-        return ['项目管理', '资产管理','报销管理',]
+        return ['项目管理', '资产管理','报销管理', '诊断报告提醒']
       },
     },
     methods: {

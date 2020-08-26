@@ -120,9 +120,11 @@
               setCookie("username", this.loginForm.username, 15);
               setCookie("password", this.loginForm.password, 15);
               if (this._isMobile){
+                this.$store.dispatch('SetIsMobile', 1)
                 this.$router.push({path:'/'})
               } else {
-                this.$router.push({path:'/admin'})
+                this.$store.dispatch('SetIsMobile', 0)
+                this.$router.push({path:'/web'})
               }
               
             }).catch(error => {
