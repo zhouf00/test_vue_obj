@@ -100,6 +100,7 @@
       },
       _isMobile() {
         let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+        console.log(flag);
         return flag;
       }
     },
@@ -120,9 +121,11 @@
               setCookie("username", this.loginForm.username, 15);
               setCookie("password", this.loginForm.password, 15);
               if (this._isMobile){
+                console.log('手机');
                 this.$store.dispatch('SetIsMobile', 1)
                 this.$router.push({path:'/'})
               } else {
+                console.log('网页');
                 this.$store.dispatch('SetIsMobile', 0)
                 this.$router.push({path:'/web'})
               }

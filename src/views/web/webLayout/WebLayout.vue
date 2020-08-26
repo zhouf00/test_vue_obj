@@ -22,25 +22,12 @@
     },
     // mixins: [ResizeMixin],
     computed: {
-      sidebar() {
-        return this.$store.state.apps.sidebar
-      },
-      device() {
-        return this.$store.state.apps.device
-      },
-      classObj() {
-        return {
-          hideSidebar: !this.sidebar.opened,
-          withoutAnimation: this.sidebar.withoutAnimation,
-          mobile: this.device === 'mobile'
-        }
-      }
+
     }
 
   }
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
-// @import "src/assets/styles/mixin.scss";
 @import "src/assets/styles/index.scss";
 .app-wrapper {
   @include clearfix;

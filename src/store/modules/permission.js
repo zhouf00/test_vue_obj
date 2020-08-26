@@ -86,7 +86,9 @@ const permission = {
         }
         if(is_modile==='true') {
           newRouterMap = asyncRouterMap
+          console.log('手机', is_modile);
         }
+        console.log(newRouterMap);
         const accessedRouters = newRouterMap.filter(v => {
           if(access) return true;  // 管理员则全部权限
           if (hasPermission(menus, v)) {

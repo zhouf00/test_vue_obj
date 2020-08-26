@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const app = {
+const apps = {
   state: {
     sidebar:{
       opened:!+Cookies.get('sidbarStatus'),
@@ -54,4 +54,4 @@ const app = {
   }
 }
 
-export default app;
+export default apps;

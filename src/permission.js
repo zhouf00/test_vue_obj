@@ -18,13 +18,12 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     }else{
       if(store.getters.roles.length === 0) {  
-        console.log(store.state.user,'获取');    
+        // console.log(store.state.user,'获取');    
         store.dispatch('UserInfo').then(res => {
           // 获取菜单和用户名
           let menus = res.results.menus
           let roles = res.results.roles
           let is_modile = store.getters.isMobile
-          console.log('路由', is_modile);
           // 发送请求生成路由表
           store.dispatch('GenerateRouters', {menus, roles, is_modile}).then(() => {
             router.addRoutes(store.getters.addRouters);
