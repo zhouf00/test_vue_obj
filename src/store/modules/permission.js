@@ -78,15 +78,17 @@ const permission = {
       return new Promise(resolve => {
         const { menus, is_modile } = data
         let access = ''
-        let newRouterMap = asyncWebRouterMap
+        let newRouterMap = ''
         for (let index in data.roles) {
           if ('管理员' === data.roles[index].title) {
             access = true
           }
         }
-        if(is_modile==='true') {
+        console.log(is_modile);
+        if(is_modile) {
           newRouterMap = asyncRouterMap
-          console.log('手机', is_modile);
+        } else {
+          newRouterMap = asyncWebRouterMap
         }
         console.log(newRouterMap);
         const accessedRouters = newRouterMap.filter(v => {

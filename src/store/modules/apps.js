@@ -8,7 +8,7 @@ const apps = {
     },
     device: 'desktop',
     NavbarStatus: Cookies.get('NavbarStatus'),
-    isMobile: Cookies.get('isMobile')
+    isMobile: !+Cookies.get('isMobile')
   },
   mutations: {
     SET_NAVBARSTATUS: (state, urlname) => {
@@ -28,8 +28,11 @@ const apps = {
       state.sidebar.withoutAnimation = withoutAnimation
     },
     IS_MOBILE: (state, status) => {
-      Cookies.set('isMobile', status)
-      state.isMobile = status
+      if (state.isMobile){
+        Cookies.set('isMobile', 1)
+      } else {
+        Cookies.set('isMobile', 0)
+      }
     },
     TOGGLE_DEVICE: (state, device) => {
       state.device = device
@@ -45,8 +48,8 @@ const apps = {
     CloseSideBar({ commit }, { withoutAnimation }) {
       commit('CLOSE_SIDEBAR', withoutAnimation)
     },
-    SetIsMobile:({commit}, status) => {
-      commit('IS_MOBILE', status)
+    SetIsMobile:({commit}) => {
+      commit('IS_MOBILE')
     },
     ToggleDevice({ commit }, device) {
       commit('TOGGLE_DEVICE', device)

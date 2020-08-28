@@ -37,11 +37,6 @@ router.beforeEach((to, from, next) => {
           })
         })
       }else{
-        // 解决跳转有报错
-        // if(from.name != 'personModfiy') {
-        //   sessionStorage.setItem('routerPath', JSON.stringify(to));
-        //   next()
-        // }
         next()
       }
     }

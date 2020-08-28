@@ -3,6 +3,7 @@
   <el-menu class="navbar" mode="horizontal">
     <!-- 左侧收缩未完成 -->
     <!-- <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened" /> -->
+    <breadcrumb/>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img class="user-avatar" :src="avatar">
@@ -20,11 +21,13 @@
 <script>
   import {mapGetters} from 'vuex'
   import Hamburger from 'components/content/Hamburger'
+  import Breadcrumb from 'components/content/Breadcrumb'
 
   export default {
     name: 'Navbar',
     components:{
-      Hamburger
+      Hamburger,
+      Breadcrumb
     },
     computed: {
       ...mapGetters([

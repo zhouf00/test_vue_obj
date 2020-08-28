@@ -97,75 +97,102 @@ export const asyncWebRouterMap = [
   {
     path: '',
     component: WebLayout,
-    redirect: '/web',
+    redirect: '/home',
     children: [{
-      path: '/web',
+      path: 'home',
       name: 'webHome',
       component: () => import('views/web/home'),
-      meta:{title:'网页管理'}
+      meta:{title:'网页管理', icon: 'el-icon-s-home'}
     }]
   },
   {
     path: '/pm',
-    component: Layout,
+    component: WebLayout,
     redirect: '/pm',
     name: 'PM',
-    meta: {title: '网页项目管理', icon: 'el-icon-s-claim'},
+    meta: {title: '项目管理', icon: 'el-icon-s-claim'},
     children:[
       {
         path: '',
         name: 'project',
-        component: () => import('views/pm/PM'),
-        meta: {title: '项目列表',}
+        // component: () => import('views/pm/PM'),
+        meta: {title: '项目列表', icon: 'el-icon-folder'}
       },
       {
         path: 'detail/:name',
         name: 'detail',
-        component: () => import('views/pm/detail/Detail'),
+        // component: () => import('views/pm/detail/Detail'),
         meta: { title: '项目详情'},
         hidden:true
       },
       {
         path: 'addProject',
         name: 'addProject',
-        meta:{title: '添加项目'}
+        meta:{title: '添加项目', icon: 'el-icon-folder-add'}
       }
     ]
   },
   {
     path: '/ams',
-    component: Layout,
+    component: WebLayout,
     redirect: '/ams',
     children:[
       {
         path: '',
         name: 'AMS',
-        meta: {title: '资产管理'}
+        meta: {title: '资产管理', icon: 'el-icon-collection-tag'}
       }
     ]
   },
   {
     path: '/profile',
-    component: Layout,
+    component: WebLayout,
     children:[
       {
         path: '',
         name: 'profile',
-        component: () => import('views/profile/Profile'),
-        meta: {title: '个人中心'}
+        // component: () => import('views/profile/Profile'),
+        meta: {title: '个人中心'},
       }
-    ]
+    ],
+    hidden:true
   },
   {
     path: '/task',
-    component: Layout,
+    component: WebLayout,
     children:[
       {
         path: '',
         name: 'task',
-        component: () => import('views/task/Task'),
-        meta: {title: '任务管理'}
+        // component: () => import('views/task/Task'),
+        meta: {title: '任务管理', icon: 'el-icon-collection-tag'}
       }
+    ]
+  },
+  {
+    path: '/ums',
+    component: WebLayout,
+    name: 'ums',
+    meta: {title: '系统管理', icon: 'el-icon-setting'},
+    children:[
+      {
+        path: 'user',
+        name: 'user',
+        // component: () => import('views/task/Task'),
+        meta: {title: '用户管理', icon: 'el-icon-user'}
+      },
+      {
+        path: 'rbac',
+        name: 'rbac',
+        // component: () => import('views/task/Task'),
+        meta: {title: '角色管理', icon: 'el-icon-s-custom'}
+      },
+      {
+        path: 'menu',
+        name: 'menu',
+        // component: () => import('views/task/Task'),
+        meta: {title: '菜单列表', icon: 'el-icon-menu'}
+      },
     ]
   },
 ]
