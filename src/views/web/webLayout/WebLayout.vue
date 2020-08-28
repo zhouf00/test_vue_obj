@@ -20,14 +20,14 @@
       AppMain,
       Sidebar
     },
-    // mixins: [ResizeMixin],
+    mixins: [ResizeMixin],
     computed: {
 
     }
 
   }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
 @import "src/assets/styles/index.scss";
 .app-wrapper {
   @include clearfix;

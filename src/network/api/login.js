@@ -14,6 +14,23 @@ export function login(usr, pwd) {
 export function getUser() {
   return request({
     url: '/personnel/user/',
+    method: 'get'
+  })
+}
+
+export function fetchList(search) {
+  return request({
+    url: '/personnel/list/',
+    method: 'get',
+    params: search
+  })
+}
+
+export function updateStatus(id, status) {
+  return request({
+    url: `/personnel/list/${id}/`,
+    method: 'post',
+    data: status
   })
 }
 

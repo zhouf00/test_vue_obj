@@ -119,7 +119,15 @@
               this.loading = false;
               setCookie("username", this.loginForm.username, 15);
               setCookie("password", this.loginForm.password, 15);
-              this.$store.dispatch('SetIsMobile')
+              if (this._isMobile) {
+                this.$store.dispatch('SetIsMobile', 'mobile').then(() => {
+                  console.log('login手机',this.$store.getters.is_mobile);
+                })
+              } else {
+                this.$store.dispatch('SetIsMobile', 'desktop').then(() => {
+                  console.log('login桌面',this.$store.getters.is_mobile);
+                })
+              }
               this.$router.push({path:'/'})
               
             }).catch(error => {

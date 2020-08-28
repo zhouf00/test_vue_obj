@@ -3,8 +3,8 @@ const getters = {
   * 类计算属性
   */
   sidebar: state => state.apps.sidebar,
-  isMobile: state => state.apps.isMobile,
   navbarStatus: state => state.apps.NavbarStatus,
+  is_mobile: state => state.apps.isMobile,
   name: state => state.user.name,
   avatar: state => state.user.avatar,
   token: state => state.user.token,

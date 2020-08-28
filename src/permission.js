@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
           // 获取菜单和用户名
           let menus = res.results.menus
           let roles = res.results.roles
-          let is_modile = store.getters.isMobile
+          let is_modile = store.getters.is_mobile
           // 发送请求生成路由表
           store.dispatch('GenerateRouters', {menus, roles, is_modile}).then(() => {
             router.addRoutes(store.getters.addRouters);

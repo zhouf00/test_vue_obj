@@ -84,13 +84,11 @@ const permission = {
             access = true
           }
         }
-        console.log(is_modile);
-        if(is_modile) {
+        if(is_modile === 'mobile') {
           newRouterMap = asyncRouterMap
         } else {
           newRouterMap = asyncWebRouterMap
         }
-        console.log(newRouterMap);
         const accessedRouters = newRouterMap.filter(v => {
           if(access) return true;  // 管理员则全部权限
           if (hasPermission(menus, v)) {
