@@ -7,7 +7,7 @@ const apps = {
       withoutAnimation:false
     },
     device: 'desktop',
-    isMobile: Cookies.get('isMobile'),
+    isMobile: !+Cookies.get('isMobile'),
     NavbarStatus: Cookies.get('NavbarStatus'),
   },
   mutations: {
@@ -30,8 +30,12 @@ const apps = {
     TOGGLE_DEVICE: (state, device) => {
       state.device = device
     },
-    IS_MOBILE: (state, status) => {
-      Cookies.set('isMobile', status)
+    IS_MOBILE: state => {
+      if (state.isMobile) {
+        Cookies.set('isMobile', 1)
+      } else {
+        Cookies.set('isMobile', 0)
+      }
     }
   },
   actions: {
@@ -47,8 +51,9 @@ const apps = {
     ToggleDevice({ commit }, device) {
       commit('TOGGLE_DEVICE', device)
     },
-    SetIsMobile({commit}, status) {
-      commit('IS_MOBILE', status)
+    SetIsMobile({commit},status) {
+      commit('IS_MOBILE')
+      commit('TOGGLE_DEVICE', status)
     }
   }
 }

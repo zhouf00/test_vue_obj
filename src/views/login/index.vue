@@ -98,10 +98,13 @@
       isActive() {
         return this.mode_status
       },
-      _isMobile() {
-        let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-        return flag;
-      }
+      // _isMobile() {
+      //   let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      //   return flag;
+      // },
+      // device() {
+      //   return this.$store.state.apps.device
+      // }
     },
     methods:{
       itemClick(active) {
@@ -119,15 +122,17 @@
               this.loading = false;
               setCookie("username", this.loginForm.username, 15);
               setCookie("password", this.loginForm.password, 15);
-              if (this._isMobile) {
-                this.$store.dispatch('SetIsMobile', 'mobile').then(() => {
-                  console.log('login手机',this.$store.getters.is_mobile);
-                })
-              } else {
-                this.$store.dispatch('SetIsMobile', 'desktop').then(() => {
-                  console.log('login桌面',this.$store.getters.is_mobile);
-                })
-              }
+              // if (this._isMobile) {
+              //   this.$store.dispatch('SetIsMobile', 'mobile').then(() => {
+              //     console.log('login手机',this.$store.getters.is_mobile);
+              //   })
+              // } else {
+              //   this.$store.dispatch('SetIsMobile', 'desktop').then(() => {
+              //     console.log('login桌面',this.$store.getters.is_mobile);
+              //   })
+              // }
+              console.log(this.device);
+              console.log(this.$store.getters.is_mobile)
               this.$router.push({path:'/'})
               
             }).catch(error => {

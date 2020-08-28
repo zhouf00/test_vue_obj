@@ -76,7 +76,7 @@ const permission = {
   actions: {
     GenerateRouters({commit}, data) {
       return new Promise(resolve => {
-        const { menus, is_modile } = data
+        const { menus, is_mobile } = data
         let access = ''
         let newRouterMap = ''
         for (let index in data.roles) {
@@ -84,8 +84,9 @@ const permission = {
             access = true
           }
         }
-        if(is_modile === 'mobile') {
+        if(is_mobile) {
           newRouterMap = asyncRouterMap
+          console.log('手机');
         } else {
           newRouterMap = asyncWebRouterMap
         }
