@@ -26,6 +26,14 @@ export function fetchList(search) {
   })
 }
 
+export function createUser(data) {
+  return request({
+    url: '/personnel/list/',
+    method: 'post',
+    data: data
+  })
+}
+
 export function updateStatus(id, status) {
   return request({
     url: `/personnel/list/${id}/`,
