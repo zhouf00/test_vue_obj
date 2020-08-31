@@ -59,11 +59,11 @@
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button size="mini" type="text"
-                       >分配角色</el-button>
+                       @click="handleSelectRole(scope.$index, scope.row)">分配角色</el-button>
             <el-button size="mini" type="text"
                        @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="text"
-                       >删除</el-button>
+                       @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -115,14 +115,23 @@
       </span>
     </el-dialog>
     <!-- 弹窗显示：分配角色 -->
-    <el-dialog>
-
+    <el-dialog
+      title="分配角色" width="30%"
+      :visible.sync="allocDialogVisible">
+      <el-select v-model="allocRoleIds" multiple size="small" style="width:80%"
+        placeholder="请选择">
+        <el-option v-for="item in allRoleList" :key="item.id" :label="item.title" :value="item.id"/>
+      </el-select>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="allocDialogVisible=false" size="small">取消</el-button>
+        <el-button @click="handleAllocDialogConfirm()" type="primary" size="small">确定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import {fetchList, updateStatus, createUser} from 'network/api/login'
+  import {fetchList, updateStatus, createUser, fetchAllRoleList} from 'network/api/login'
   import {formatDate} from 'utils/date'
   const defaultListQuery = {
     pageNum: 1,
@@ -148,11 +157,16 @@
         total:null,
         user: Object.assign({}, defaultUser),
         dialogVisible:null,
-        isEdit: null
+        isEdit: null,
+        allocDialogVisible: false,
+        allocRoleIds: [],
+        allRoleList: [],
+        allocUserIds: null
       }
     },
     created() {
       this.getList()
+      this.getAllRoleList()
     },
     filters: {
       formatDateTime(time) {
@@ -208,7 +222,16 @@
          this.isEdit = true;
          this.user = Object.assign({},row);
       },
+      handleSelectRole(index, row) {
+        this.allocUserId = row.id;
+        this.allocDialogVisible = true;
+        this.getRoleListByUser(row)
+      },
+      handleDelete(index,row) {
+        // 删除用户 未写完
+      },
       handleDialogConfirm() {
+        // 添加修改用户 未写完
         this.$confirm('是否要确认？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText:'取消',
@@ -222,6 +245,16 @@
           }
         })
       },
+      handleAllocDialogConfirm() {
+        // 角色分配 未写完
+        this.$confirm('是否要确认？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText:'取消',
+          type: 'warning'
+        }).then(() => {
+          
+        })
+      },
       getList() {
         this.listLoading = true;
         fetchList(this.listQuery).then(response => {
@@ -229,6 +262,20 @@
           this.list = response
           this.total = response.length
         })
+      },
+      getAllRoleList() {
+        fetchAllRoleList().then(response => {
+          this.allRoleList = response
+        })
+      },
+      getRoleListByUser(User) {
+        let allocRoleList = User.roles
+        this.allocUserIds = [];
+        if (allocRoleList != null && allocRoleList.length > 0) {
+          for (let i in allocRoleList) {
+            this.allocUserIds.push(allocRoleList[i].id)
+          }
+        }
       }
     }
   }

@@ -42,6 +42,13 @@ export function updateStatus(id, status) {
   })
 }
 
+export function fetchAllRoleList() {
+  return request({
+    url: '/rbac/role/',
+    method: 'get'
+  })
+}
+
 export function logout() {
   return request({
     url: '/personnel/logout/',
