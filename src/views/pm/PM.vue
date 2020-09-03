@@ -50,7 +50,7 @@
 
   import PMListView from './childView/PMListView'
 
-  import {getProjects} from 'network/pm'
+  import {getProjects} from 'network/api/pm'
 
   export default {
     name: 'PM',

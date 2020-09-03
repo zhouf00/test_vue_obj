@@ -133,6 +133,7 @@
 <script>
   import {fetchList, updateStatus, createUser, fetchAllRoleList} from 'network/api/login'
   import {formatDate} from 'utils/date'
+
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 10,
@@ -161,7 +162,7 @@
         allocDialogVisible: false,
         allocRoleIds: [],
         allRoleList: [],
-        allocUserIds: null
+        allocUserId: null
       }
     },
     created() {
@@ -270,10 +271,10 @@
       },
       getRoleListByUser(User) {
         let allocRoleList = User.roles
-        this.allocUserIds = [];
+        this.allocRoleIds = [];
         if (allocRoleList != null && allocRoleList.length > 0) {
           for (let i in allocRoleList) {
-            this.allocUserIds.push(allocRoleList[i].id)
+            this.allocRoleIds.push(allocRoleList[i].id)
           }
         }
       }

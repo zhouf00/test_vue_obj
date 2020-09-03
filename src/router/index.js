@@ -115,7 +115,7 @@ export const asyncWebRouterMap = [
       {
         path: '',
         name: 'project',
-        // component: () => import('views/pm/PM'),
+        component: () => import('views/web/pm/project'),
         meta: {title: '项目列表', icon: 'el-icon-folder'}
       },
       {
