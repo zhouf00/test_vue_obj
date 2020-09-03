@@ -37,7 +37,7 @@
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
       <el-button class="btn-add" size="mini"
-        >添加</el-button>
+        @click="handleAddProject()">添加</el-button>
     </el-card>
     <!-- 表格展示 -->
     <div class="table-container">
@@ -94,7 +94,7 @@
               <el-button size="mini"
                 >查看</el-button>
               <el-button size="mini"
-                >日志</el-button>
+                @click="handleUpdateProject(scope.$index, scope.row)">编辑</el-button>
             </p>
           </template>
         </el-table-column>
@@ -163,6 +163,7 @@
       }
     },
     computed: {
+      // 优先级转换
       priorityShow() {
         return priority => {
           let priority_type = {}
@@ -189,6 +190,12 @@
           this.total = response.length
         })
       },
+      handleAddProject() {
+        this.$router.push({name: 'addProject'})
+      },
+      handleUpdateProject(index, row) {
+        this.$router.push({name: 'updateProject', query: {id:row.id}})
+      }
     }
   }
 </script>

@@ -121,14 +121,21 @@ export const asyncWebRouterMap = [
       {
         path: 'detail/:name',
         name: 'detail',
-        // component: () => import('views/pm/detail/Detail'),
         meta: { title: '项目详情'},
         hidden:true
       },
       {
         path: 'addProject',
         name: 'addProject',
+        component: () => import('views/web/pm/project/add'),
         meta:{title: '添加项目', icon: 'el-icon-folder-add'}
+      },
+      {
+        path: 'updateProject',
+        name: 'updateProject',
+        component: () => import('views/web/pm/project/update'),
+        meta:{title: '修改项目', icon: 'el-icon-folder-add'},
+        hidden: true
       },
       {
         path: 'facility',

@@ -242,7 +242,12 @@
             // 修改用户
           } else {
             // 添加用户
-
+            createUser(this.user).then(response => {
+              this.$message({
+              type: 'success',
+              message: '修改成功'
+            });
+            })
           }
         })
       },
