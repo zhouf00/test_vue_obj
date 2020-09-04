@@ -28,7 +28,7 @@ export function fetchList(search) {
 
 export function createUser(data) {
   return request({
-    url: '/personnel/list/',
+    url: '/personnel/register/',
     method: 'post',
     data: data
   })

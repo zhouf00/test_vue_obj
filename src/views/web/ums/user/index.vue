@@ -244,9 +244,11 @@
             // 添加用户
             createUser(this.user).then(response => {
               this.$message({
-              type: 'success',
-              message: '修改成功'
-            });
+                type: 'success',
+                message: '修改成功'
+              });
+              this.dialogVisible =false;
+              this.getList();
             })
           }
         })
