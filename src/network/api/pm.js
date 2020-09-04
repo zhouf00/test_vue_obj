@@ -8,7 +8,7 @@ export function getProjects() {
 
 export function createProject(data) {
   return request({
-    url: '/engineering/project/',
+    url: '/engineering/project/create/',
     method: 'post',
     data: data
   })

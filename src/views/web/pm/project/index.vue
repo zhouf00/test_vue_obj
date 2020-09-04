@@ -16,17 +16,21 @@
           >
           <el-form-item label="项目搜索：">
             <el-input style="width:203px" placeholder="项目名称"
-              ></el-input>
+              v-model="listQuery.name"></el-input>
           </el-form-item>
           <el-form-item label="内部编号：">
             <el-input style="width:203px" placeholder="项目编号"
-              ></el-input>
+              v-model="listQuery.sn"></el-input>
           </el-form-item>
           <el-form-item label="区域：">
-            <el-select placeholder="请选择区域" clearable 
-              >
+            <el-select placeholder="请选择区域" clearable style="width:203px"
+              v-model="listQuery.area"
+              @change="test(value)">
               <el-option 
-               ></el-option>
+               v-for="item in areaList"
+               :key="item"
+               :label="item"
+               :value="item"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -103,9 +107,12 @@
     <!-- 表格 批量操作 -->
     <div class="batch-operate-container">
       <el-select size="small" placeholder="批量操作"
-        >
+        v-model="operateType">
         <el-option
-          ></el-option>
+          v-for="item in operates"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"></el-option>
       </el-select>
       <el-button style="margin-left:20px" class="search-button" type="parmary" size="small"
         >确定</el-button>
@@ -130,12 +137,15 @@
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
-
+    name: '',
+    sn: '',
+    area: ''
   }
   export default {
     name: 'index',
     data() {
       return {
+        areaList: ['东部', '南部', '西部', '北部', '中部', '海外', ],
         editInfo: {
           dialogVisible: false,
         },
@@ -143,11 +153,16 @@
         listLoading: true,
         list: null,
         total: null,
+        operateType:null,
         projectStatus:[
           {value:1, label: '安装'},
           {value:2, label: '调试'},
           {value:3, label: '试运行'},
         ],
+        operates: [
+          {label: '设为紧急', value: 'urgency'},
+          {label: '试运行', value: 'pilot run'},
+        ]
       }
     },
     created() {
@@ -195,6 +210,10 @@
       },
       handleUpdateProject(index, row) {
         this.$router.push({name: 'updateProject', query: {id:row.id}})
+      },
+      test(value) {
+        console.log(value);
+        console.log('iaaa');
       }
     }
   }

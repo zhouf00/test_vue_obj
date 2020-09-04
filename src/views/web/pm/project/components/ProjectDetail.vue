@@ -23,16 +23,21 @@
   import ProjectFinish from './ProjectFinish'
 
   import {createProject} from 'network/api/pm'
+  import {formatDate} from 'utils/date'
 
   const defaultProjectParam = {
-    type: '',
+    is_delete: false,
+    type: '风电',
     name: '',
     area:'',
     priority: 0,
     status: 1,
-    manufacturers: 2,
+    manufacturers: [],
+    entrance_time: '',
+    memo: ''
   }
   export default {
+
     name: 'ProjectDetail',
     components: {
       ProjectInfoDetail,
@@ -53,9 +58,9 @@
     },
     created() {
       if(this.isEdit) {
-        console.log('编辑');
+
       } else {
-        console.log('新建');
+
       }
     },
     methods: {
@@ -79,21 +84,38 @@
         }).then(() => {
           if (isEdit) {
             // 更新
-            console.log('更新');
+            console.log('更新提交');
           } else {
             // 新建
-            console.log('新建');
-            createProject(this.projectParam).then( response => {
-              this.$message({
-                type:'success',
-                message: '提交成功',
-                duration: 1000
-              });
-              location.reload();
+            console.log('新建提交');
+            if (this.projectParam.entrance_time) {
+              this.projectParam.entrance_time = new Date(this.projectParam.entrance_time)
+            } else {
+              delete this.projectParam.entrance_time
+            }
+            createProject(this.projectParam).then(response => {
+              console.log(response)
+              if (response.err) {
+                let err = response.err
+                this.$message({
+                  type:'warning',
+                  message: err
+                });
+              } else{
+                this.$message({
+                  type:'success',
+                  message: '提交成功',
+                  duration: 1000
+                });
+              }
+              // location.reload();
             })
           }
         })
-      }
+      },
+    },
+    computed: {
+
     }
   }
 </script>

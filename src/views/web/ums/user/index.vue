@@ -145,7 +145,7 @@
     password: null,
     name:null,
     email: null,
-    note: null,
+    mobile:null,
     status: 1
   }
   export default {
@@ -221,12 +221,12 @@
       handleAdd() {
          this.dialogVisible = true;
          this.isEdit = false;
-         this.user = Object.assign({},defaultUser);
+         this.user = Object.assign({}, defaultUser);
       },
       handleUpdate(index, row) {
         this.dialogVisible = true;
          this.isEdit = true;
-         this.user = Object.assign({},row);
+         this.user = Object.assign({}, row);
       },
       handleSelectRole(index, row) {
         this.allocUserId = row.id;

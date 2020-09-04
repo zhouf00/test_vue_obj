@@ -17,15 +17,14 @@ export function request(config) {
     }
     return config
   },err => {
-    console.log(err)
+    return err
   })
 
   // respone 响应拦截
   instance.interceptors.response.use(res => {
-    
     return res.data
   },err => {
-
+    return {err:err.response.data}
   })
   // 发送网络请求
   return instance(config)

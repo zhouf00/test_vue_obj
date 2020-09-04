@@ -4,7 +4,7 @@
     <el-form ref="projectInfoForm" label-width="120px" style="width:600px" size="small"
       :model="value" :rules="rules" @next="nextStep()">
       <el-form-item label="项目类型" prop="type">
-        <el-select placeholder="请选择类型"
+        <el-select placeholder="请选择类型" style="width:300px"
           v-model="value.type">
           <el-option 
             v-for="item in projectTypeList"
@@ -14,13 +14,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目名称" prop="name">
-        <el-input v-model="value.name"></el-input>
+        <el-input style="width:300px" v-model="value.name"></el-input>
       </el-form-item>
       <el-form-item label="内部编号" prop="sn">
-        <el-input v-model="value.sn"></el-input>
+        <el-input style="width:300px" v-model="value.sn"></el-input>
       </el-form-item>
       <el-form-item label="区域" prop="area">
-        <el-select placeholder="请选择区域"
+        <el-select placeholder="请选择区域" style="width:300px"
           v-model="value.area">
           <el-option 
             v-for="item in areaList"
@@ -30,25 +30,25 @@
         </el-select>
       </el-form-item>
       <el-form-item label="地址" prop="address">
-        <el-input v-model="value.address"></el-input>
+        <el-input style="width:300px" v-model="value.address" ></el-input>
       </el-form-item>
       <el-form-item label="主机厂商" prop="manufacturers">
-        <el-select placeholder="请选择厂商"
+        <el-select placeholder="请选择厂商" multiple style="width:300px"
           v-model="value.manufacturers">
           <el-option 
             v-for="item in manuList"
             :key="item.id"
             :label="item.title"
             :value="item.id"></el-option>
-        </el-select>
+        </el-select><el-button style="margin-left:10px" icon="el-icon-edit" circle></el-button>
       </el-form-item>
       <el-form-item label="预计进场时间" prop="entrance_time">
-        <el-date-picker value-format="timestamp"
+        <el-date-picker value-format="timestamp" style="width:300px"
           v-model="value.entrance_time"
           ></el-date-picker>
       </el-form-item>
       <el-form-item label="项目状态" prop="status">
-        <el-select placeholder="请选择状态"
+        <el-select placeholder="请选择状态" style="width:300px"
           v-model="value.status">
           <el-option 
             v-for="item in projectStatus"
@@ -56,6 +56,10 @@
             :label="item.label"
             :value="item.value"></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input type="textarea" style="width:300px" :rows="5"
+          v-model="value.memo"></el-input>
       </el-form-item>
       <el-form-item style="text-align: center">
         <el-button type="primary" size="small" 
@@ -98,12 +102,9 @@
       }
     },
     created() {
-      this.defaultType()
     },
     computed:{
-      defaultType() {
-        return this.value.type = this.value.type ? this.value.type : this.projectTypeList[0]
-      }
+     
     },
     methods: {
       handleNext(formName) {
