@@ -137,7 +137,10 @@
               
             }).catch(error => {
               this.loading = false
-              console.log(error)
+              this.$message({
+                type: 'warning',
+                message: '帐号或密码不正确'
+              })
             })
           }else{
             console.log('参数验证不合法');

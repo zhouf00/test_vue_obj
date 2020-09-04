@@ -84,22 +84,22 @@
     <el-dialog
       :title="isEdit? '编辑用户': '添加用户'"
       :visible.sync="dialogVisible" width="40%">
-      <el-form :model="user" 
-               ref="userForm"
-               label-width="25%" size="small">
-        <el-form-item label="帐号：">
+      <el-form ref="userForm" label-width="25%" size="small"
+              :model="user" 
+              :rules="rules">
+        <el-form-item label="帐号：" prop="username"> 
           <el-input v-model="user.username" style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="姓名：">
           <el-input v-model="user.name" style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="手机：">
+        <el-form-item label="手机：" prop="mobile">
           <el-input v-model="user.mobile" style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="邮箱：">
           <el-input v-model="user.email" style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="密码：">
+        <el-form-item label="密码：" prop="password">
           <el-input v-model="user.password" type="password" style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="是否启用：">
@@ -143,7 +143,7 @@
     id: null,
     username: null,
     password: null,
-    nickName:null,
+    name:null,
     email: null,
     note: null,
     status: 1
@@ -162,7 +162,12 @@
         allocDialogVisible: false,
         allocRoleIds: [],
         allRoleList: [],
-        allocUserId: null
+        allocUserId: null,
+        rules:{
+          username:[{required:true, message:'必填项',}],
+          password:[{required:true, message:'必填项'}],
+          mobile:[{required:true, message:'必填项'}],
+        }
       }
     },
     created() {

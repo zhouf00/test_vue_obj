@@ -38,6 +38,7 @@ const user = {
         })
       })
     },
+
     Logout({commit, state}) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
@@ -50,6 +51,7 @@ const user = {
         })
       })
     },
+
     UserInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getUser().then(response => {
