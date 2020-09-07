@@ -36,4 +36,11 @@ export function fetchManufacturers() {
   })
 }
 
+export function createManufacturer(data) {
+  return request({
+    url: '/engineering/project/manufacturer/',
+    method: 'post',
+    data: data
+  })
+}
 

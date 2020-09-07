@@ -73,7 +73,7 @@
       :visible.sync="dialogVisible">
       <el-form label-width="25%" size="small" ref="ManuForm"
         :model="Manufacturer">
-        <el-form-item label="厂商名称">
+        <el-form-item label="厂商名称" prop="title">
           <el-input style="width: 80%" v-model="Manufacturer.title"></el-input>
         </el-form-item>
         <el-form-item label="厂商电话">
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import {fetchManufacturers} from 'network/api/pm'
+  import {fetchManufacturers, createManufacturer} from 'network/api/pm'
   import {isInteger, isNum} from 'utils/validate'
 
   const defaultManufacturer = {
@@ -170,8 +170,15 @@
           cancelButtonText:'取消',
           type: 'warning'
         }).then(() => {
-          console.log(this.Manufacturer);
-
+          createManufacturer(this.Manufacturer).then(response => {
+                this.$message({
+                type: 'success',
+                message: '提交成功',
+                duration:1000
+              });
+              this.getManufacturerList()
+              this.dialogVisible = false
+          })
         })
       }
     }

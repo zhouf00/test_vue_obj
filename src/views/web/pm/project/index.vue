@@ -12,7 +12,7 @@
           >重置</el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form size="small" label-width="140px"
+        <el-form size="small" label-width="140px" :inline="true" :model="listQuery"
           >
           <el-form-item label="项目搜索：">
             <el-input style="width:203px" placeholder="项目名称"
