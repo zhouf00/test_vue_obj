@@ -22,7 +22,7 @@
   import ProjectInfoDetail from './ProjectInfoDetail'
   import ProjectFinish from './ProjectFinish'
 
-  import {createProject} from 'network/api/pm'
+  import {createProject, getProjectInfo, updateProject} from 'network/api/pm'
   import {formatDate} from 'utils/date'
 
   const defaultProjectParam = {
@@ -58,9 +58,12 @@
     },
     created() {
       if(this.isEdit) {
-
-      } else {
-
+        getProjectInfo(this.$route.query.id).then(response => {
+          this.projectParam = response
+          if (response.entrance_time) {
+            this.projectParam.entrance_time = new Date(response.entrance_time)
+          }
+        })
       }
     },
     methods: {
@@ -76,6 +79,13 @@
           this.showStatus[this.active] = true
         }
       },
+      toDate(date) {
+        if (this.projectParam[date]) {
+          this.projectParam[date] = new Date(this.projectParam[date])
+        } else {
+          delete this.projectParam[date]
+        }
+      },
       finishCommit(isEdit) {
         this.$confirm('是否要提交该项目', '提示', {
           confirmButtonText: '确定',
@@ -85,14 +95,20 @@
           if (isEdit) {
             // 更新
             console.log('更新提交');
+            this.toDate('entrance_time')
+            updateProject(this.$route.query.id, this.projectParam).then(response => {
+              this.$message({
+                type: 'success',
+                message: '提交成功',
+                duration:1000
+              });
+              this.$router.back();
+            })
           } else {
             // 新建
             console.log('新建提交');
-            if (this.projectParam.entrance_time) {
-              this.projectParam.entrance_time = new Date(this.projectParam.entrance_time)
-            } else {
-              delete this.projectParam.entrance_time
-            }
+            // 修改预计完成时间格式
+            this.toDate('entrance_time')
             createProject(this.projectParam).then(response => {
               console.log(response)
               if (response.err) {
@@ -108,7 +124,7 @@
                   duration: 1000
                 });
               }
-              // location.reload();
+              location.reload();
             })
           }
         })

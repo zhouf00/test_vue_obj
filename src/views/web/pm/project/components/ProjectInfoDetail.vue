@@ -40,7 +40,9 @@
             :key="item.id"
             :label="item.title"
             :value="item.id"></el-option>
-        </el-select><el-button style="margin-left:10px" icon="el-icon-edit" circle></el-button>
+        </el-select>
+        <el-button style="margin-left:10px" icon="el-icon-edit" circle
+          @click="addManufacturer()"></el-button>
       </el-form-item>
       <el-form-item label="预计进场时间" prop="entrance_time">
         <el-date-picker value-format="timestamp" style="width:300px"
@@ -66,11 +68,39 @@
           @click="handleNext('projectInfoForm')">下一步</el-button>
       </el-form-item>
     </el-form>
+        <!-- 弹窗 编辑 -->
+    <el-dialog width="40%" title="添加设备厂商"
+      :visible.sync="dialogVisible">
+      <el-form label-width="25%" size="small" ref="ManuForm"
+        :model="Manufacturer">
+        <el-form-item label="厂商名称">
+          <el-input style="width: 80%" v-model="Manufacturer.title"></el-input>
+        </el-form-item>
+        <el-form-item label="厂商电话">
+          <el-input style="width: 80%" v-model="Manufacturer.telephone"></el-input>
+        </el-form-item>
+        <el-form-item label="备注说明">
+          <el-input style="width: 80%" type="textarea" maxlength="100" show-word-limit 
+            v-model="Manufacturer.memo"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogVisible=false">取 消</el-button>
+        <el-button size="small" type="primary" @click="addDialogConfirm()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+  import {fetchManufacturers} from 'network/api/pm'
   import {isInteger, isNum} from 'utils/validate'
+
+  const defaultManufacturer = {
+    title: '',
+    telephone: '',
+    memo: ''
+  }
 
   export default {
     name: 'ProjectInfoDetail',
@@ -83,6 +113,7 @@
     },
     data() {
       return {
+        dialogVisible: false,
         projectTypeList: ['风电', '火电', '水泥', '轨道', ],
         areaList: ['东部', '南部', '西部', '北部', '中部', '海外', ],
         projectStatus:[
@@ -98,15 +129,23 @@
           name: [{required:true, message:'必填项'}],
           sn:[{validator: isNum, trigger: 'blur'}],
           address: [{required:true, message:'必填项'}]
-        }
+        },
+        Manufacturer: Object.assign({}, defaultManufacturer)
       }
     },
     created() {
+      this.getManufacturerList()
     },
     computed:{
      
     },
     methods: {
+      getManufacturerList() {
+        fetchManufacturers().then(response => {
+          console.log(response);
+          this.manuList = response
+        })
+      },
       handleNext(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -119,6 +158,20 @@
             })
             return false
           }
+        })
+      },
+      addManufacturer() {
+        this.dialogVisible = true
+        this.Manufacturer = Object.assign({}, defaultManufacturer)
+      },
+      addDialogConfirm() {
+        this.$confirm('是否确认', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText:'取消',
+          type: 'warning'
+        }).then(() => {
+          console.log(this.Manufacturer);
+
         })
       }
     }

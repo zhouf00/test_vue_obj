@@ -2,7 +2,7 @@
 <template>
   <div>
     <div style="text-align: center">
-      <i></i>
+      <h2>{{value.name}}</h2>
     </div>
     <div style="text-align: center">
       <el-button type="primary" size="medium"
