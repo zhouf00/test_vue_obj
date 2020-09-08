@@ -115,7 +115,7 @@ export const asyncWebRouterMap = [
       {
         path: '',
         name: 'project',
-        component: () => import('views/web/pm/project'),
+        component: () => import('views/web/pm/projectList'),
         meta: {title: '项目列表', icon: 'el-icon-folder'}
       },
       {
@@ -127,14 +127,21 @@ export const asyncWebRouterMap = [
       {
         path: 'addProject',
         name: 'addProject',
-        component: () => import('views/web/pm/project/add'),
+        component: () => import('views/web/pm/projectList/add'),
         meta:{title: '添加项目', icon: 'el-icon-folder-add'}
       },
       {
         path: 'updateProject',
         name: 'updateProject',
-        component: () => import('views/web/pm/project/update'),
+        component: () => import('views/web/pm/projectList/update'),
         meta:{title: '修改项目', icon: 'el-icon-folder-add'},
+        hidden: true
+      },
+      {
+        path: 'showProject',
+        name: 'showProject',
+        component: () => import('views/web/pm/project'),
+        meta:{title: '查看项目', icon: 'el-icon-folder-show'},
         hidden: true
       },
       {

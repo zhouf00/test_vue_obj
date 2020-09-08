@@ -1,8 +1,16 @@
 import {request} from 'network/request'
 
-export function getProjects() {
+export function getProjects(data) {
   return request({
     url: '/engineering/project/',
+    params:{
+      page: data.page,
+      pageSize: data.pageSize,
+      id:data.id,
+      name: data.name,
+      area: data.area,
+      sn: data.sn,
+    }
   })
 }
 

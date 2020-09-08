@@ -1,224 +1,161 @@
-<!-- 项目列表 -->
+<!-- 单项目展示 -->
 <template>
-  <div class="app-container">
-    <!-- 搜索框 -->
+  <div class="app-container" v-if="loading">
+    <h2>{{value.name}}</h2>
+    <div class="table-layout" >
+      <el-row>
+        <el-col :span="4" class="table-cell-title">地址</el-col>
+        <el-col :span="4" class="table-cell-title">区域</el-col>
+        <el-col :span="4" class="table-cell-title">优先级</el-col>
+        <el-col :span="4" class="table-cell-title">内部编号</el-col>
+        <el-col :span="4" class="table-cell-title">项目状态</el-col>
+        <el-col :span="4" class="table-cell-title">监测类型</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4" class="table-cell">{{value.address}}</el-col>
+        <el-col :span="4" class="table-cell">{{value.area}}</el-col>
+        <el-col :span="4" class="table-cell"><priority-tag :value="value.priority"/></el-col>
+        <el-col :span="4" class="table-cell">{{value.sn}}</el-col>
+        <el-col :span="4" class="table-cell">
+          <project-status-select :value="value.status" :disableShow="false"></project-status-select>
+        </el-col>
+        <el-col :span="4" class="table-cell">
+          <el-tag v-for="item in value.monitor_type" size="mini" type="info">{{item.title}}</el-tag>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4" class="table-cell-title">主机厂商</el-col>
+        <el-col :span="4" class="table-cell-title">设备数量</el-col>
+        <el-col :span="4" class="table-cell-title">最后一次更新时间</el-col>
+        <el-col :span="4" class="table-cell-title">项目负责人</el-col>
+        <el-col :span="4" class="table-cell-title">维护施工人员</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4" class="table-cell">GE</el-col>
+        <el-col :span="4" class="table-cell">{{value.facility.length}}</el-col>
+        <el-col :span="4" class="table-cell">{{value.update_time | formatDateTime}}</el-col>
+        <el-col :span="4" class="table-cell"></el-col>
+        <el-col :span="4" class="table-cell"></el-col>
+      </el-row>
+    </div>
     <el-card class="filter-container" shadow="never">
       <div>
         <i class="el-icon-search"></i>
         <span>筛选搜索</span>
         <el-button style="float:right" type="primary" size="small"
-          >查询结果</el-button>
-        <el-button style="float:right; margin-right: 15px" size="small"
+          >查询搜索</el-button>
+          <el-button style="float:right;margin-right:15px" size="small"
           >重置</el-button>
       </div>
-      <div style="margin-top: 15px">
-        <el-form size="small" label-width="140px" :inline="true" :model="listQuery"
-          >
-          <el-form-item label="项目搜索：">
-            <el-input style="width:203px" placeholder="项目名称"
-              v-model="listQuery.name"></el-input>
+      <div style="margin-top:15px">
+        <el-form size="small" label-width="140px" :inline="true" :model="listQuery">
+          <el-form-item label="采集器ID：">
+            <el-input class="input-width" placeholder="采集器ID"></el-input>
           </el-form-item>
-          <el-form-item label="内部编号：">
-            <el-input style="width:203px" placeholder="项目编号"
-              v-model="listQuery.sn"></el-input>
-          </el-form-item>
-          <el-form-item label="区域：">
-            <el-select placeholder="请选择区域" clearable style="width:203px"
-              v-model="listQuery.area"
-              @change="test(value)">
-              <el-option 
-               v-for="item in areaList"
-               :key="item"
-               :label="item"
-               :value="item"></el-option>
-            </el-select>
+          <el-form-item label="传感器ID：">
+            <el-input class="input-width" placeholder="传感器ID"></el-input>
           </el-form-item>
         </el-form>
       </div>
     </el-card>
-    <!-- 数据列表 添加 -->
-    <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button class="btn-add" size="mini"
-        @click="handleAddProject()">添加</el-button>
-    </el-card>
-    <!-- 表格展示 -->
     <div class="table-container">
-      <el-table ref="productTable" style="width:100%" border
-        :data="list" v-loading="listLoading">
-        <el-table-column type="selection" width="40" align="center"></el-table-column>
-        <el-table-column label="编号" width="60" align="center">
-           <template slot-scope="scope">{{scope.row.sn}}</template>
+      <el-table style="width:100%" border
+        :data="value.facility">
+        <el-table-column label="设备名称" align="center">
+          <template slot-scope="scope">{{scope.row.title}}</template>
         </el-table-column>
-        <el-table-column label="区域" width="80" align="center">
-          <template slot-scope="scope">{{scope.row.area}}</template>
+        <el-table-column label="设备型号" align="center">
+          <template slot-scope="scope">{{scope.row.machine.title}}</template>
         </el-table-column>
-        <el-table-column label="优先级" width="80" align="center">
-          <template slot-scope="scope">
-            <!-- {{priorityShow(scope.row.priority)}} -->
-            <el-tag :type="priorityShow(scope.row.priority).type" effect="dark">{{priorityShow(scope.row.priority).title}}</el-tag>
-          </template>
+        <el-table-column label="采集器型号" align="center">
+          <template slot-scope="scope">{{scope.row.collector.title}}</template>
         </el-table-column>
-        <el-table-column label="项目名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+        <el-table-column label="采集器IP" align="center">
+          <template slot-scope="scope">{{scope.row.collector.ip}}</template>
         </el-table-column>
-        <el-table-column label="监测类型" width="120" align="center">
-          <template slot-scope="scope">
-            <el-tag size="mini" type="info">叶片</el-tag>
-            <el-tag size="mini" type="info">传动链</el-tag>
-            <el-tag size="mini" type="info">塔筒</el-tag>
-            <el-tag size="mini" type="info">油液</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="项目状态" width="110" align="center">
-          <template slot-scope="scope">
-            <el-select placeholder="紧急" size="small"
-              v-model="scope.row.status">
-              <el-option v-for="item in projectStatus"
-                :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="更新日期" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.update_time | formatDateTime}}</template>
-        </el-table-column>
-        <el-table-column label="设备数量" width="80" align="center">
-          <template slot-scope="scope">{{scope.row.facility.length}}</template>
-        </el-table-column>
-        <el-table-column label="施工人员" width="150" align="center">
-          <template slot-scope="scope">
-            吴承国 <el-tag size="mini" type="info" effect="plain">主</el-tag>
-            吴天承 李启龙 哈哈哈
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
-          <template slot-scope="scope">
-            <p>
-              <el-button size="mini"
-                >查看</el-button>
-              <el-button size="mini"
-                @click="handleUpdateProject(scope.$index, scope.row)">编辑</el-button>
-            </p>
-          </template>
+        <el-table-column label="操作" align="center">
+          <p>
+            <el-button size="mini"
+              >查看</el-button>
+            <el-button size="mini"
+              >编辑</el-button>
+          </p>
         </el-table-column>
       </el-table>
     </div>
-    <!-- 表格 批量操作 -->
-    <div class="batch-operate-container">
-      <el-select size="small" placeholder="批量操作"
-        v-model="operateType">
-        <el-option
-          v-for="item in operates"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"></el-option>
-      </el-select>
-      <el-button style="margin-left:20px" class="search-button" type="parmary" size="small"
-        >确定</el-button>
-    </div>
-    <!-- 表格 分页 -->
-    <div class="pagination-container">
-      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[5,10,15]" :total="total"></el-pagination>
-    </div>
-    <!-- 弹窗 编辑 -->
-    <el-dialog>
-
-    </el-dialog>
-    
   </div>
 </template>
 
 <script>
-  import {getProjects} from 'network/api/pm'
-  import {formatDate} from 'utils/date'
+  import projectStatusSelect from 'components/content/select/projectStatusSelect'
+  import priorityTag from 'components/content/tag/priorityTag'
 
-  const defaultListQuery = {
-    pageNum: 1,
-    pageSize: 5,
-    name: '',
-    sn: '',
-    area: ''
-  }
+  import {getProjects} from 'network/api/pm'
+  import filter from 'views/web/mixin/filter'
+
   export default {
     name: 'index',
+    components: {
+      priorityTag,
+      projectStatusSelect
+    },
+    mixins: [filter],
     data() {
       return {
-        areaList: ['东部', '南部', '西部', '北部', '中部', '海外', ],
-        editInfo: {
-          dialogVisible: false,
-        },
-        listQuery: Object.assign({}, defaultListQuery),
-        listLoading: true,
-        list: null,
-        total: null,
-        operateType:null,
-        projectStatus:[
-          {value:1, label: '安装'},
-          {value:2, label: '调试'},
-          {value:3, label: '试运行'},
-        ],
-        operates: [
-          {label: '设为紧急', value: 'urgency'},
-          {label: '试运行', value: 'pilot run'},
-        ]
+        value: null,
+        loading: null,
+        listQuery: Object.assign({},)
       }
     },
     created() {
-      this.getList()
+      
     },
-    filters: {
-      formatDateTime(time) {
-        if (time == null || time === '') {
-          return 'N/A'
-        }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd')
-      }
-    },
-    computed: {
-      // 优先级转换
-      priorityShow() {
-        return priority => {
-          let priority_type = {}
-            switch(priority){
-              case 1:
-                priority_type = {type: 'success', title: '普通'} 
-                break
-              case 2:
-                priority_type = {type: 'warning', title: '一般'} 
-                break
-              case 3:
-                priority_type = {type: 'danger', title: '紧急'} 
-                break
-            }
-            return priority_type
-        }
-      }
+    mounted() {
+      this.getProject()
     },
     methods: {
-      getList() {
-        getProjects(this.listQuery).then(response => {
-          this.listLoading = false;
-          this.list = response;
-          this.total = response.length
+      getProject() {
+        this.loading = false
+        getProjects({id:this.$route.query.id}).then(response => {
+          this.loading = true
+          this.value = response.results[0];
         })
-      },
-      handleAddProject() {
-        this.$router.push({name: 'addProject'})
-      },
-      handleUpdateProject(index, row) {
-        this.$router.push({name: 'updateProject', query: {id:row.id}})
-      },
-      test(value) {
-        console.log(value);
-        console.log('iaaa');
       }
     }
   }
 </script>
 
 <style scoped>
-  
+  .app-container {
+    width:80%;
+    margin:20px auto;
+  }
+  .filter-container {
+    margin-top: 20px;
+  }
+  .table-layout {
+    margin-top: 20px;
+    border-left: 1px solid #DCDFE6;
+    border-top: 1px solid #DCDFE6;
+  }
+  .table-cell {
+    height: 60px;
+    line-height: 40px;
+    border-right: 1px solid #DCDFE6;
+    border-bottom: 1px solid #DCDFE6;
+    padding: 10px;
+    font-size: 14px;
+    color: #606266;
+    text-align: center;
+    overflow: hidden;
+  }
+  .table-cell-title {
+    border-right: 1px solid #DCDFE6;
+    border-bottom: 1px solid #DCDFE6;
+    padding: 10px;
+    background: #F2F6FC;
+    text-align: center;
+    font-size: 14px;
+    color: #303133;
+  }
 </style>
