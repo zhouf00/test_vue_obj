@@ -41,26 +41,38 @@
               :value="item.value"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="硬盘总大小：">
+          <p>
+            {{diskCount}}
+            <el-button style="margin-left:50px" size="small"
+            @click="addDisk()">+</el-button>
+          </p>   
+        </el-form-item>
         <el-form-item :label="'硬盘类型'+(index+1)+':'" :model="serverParam.disks"
-          v-for="(item, index) in serverParam.disks">
-          <p>{{diskCount}}</p>
+          v-for="(item, index) in serverParam.disks">       
           <el-select style="margin-right:10px" v-model="item.disk_type">
             <el-option v-for="item in diskTypleList"
               :key="item"
               :label="item"
               :value="item"></el-option>
           </el-select>
-          <el-select style="margin-right:10px" v-model="serverParam.disk">
+          <el-select style="margin-right:10px" v-model="item.disk_raid">
+            <el-option v-for="item in raidList"
+              :key="item"
+              :label="item"
+              :value="item"></el-option>
+          </el-select>
+          <el-select style="margin-right:10px" v-model="item.disk_capacity">
             <el-option v-for="item in diskList"
               :key="item.value"
               :label="item.label"
               :value="item.value"></el-option>
           </el-select>
-          <el-select style="margin-right:10px" v-model="serverParam.disk">
-            <el-option v-for="item in diskList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"></el-option>
+          <el-select style="margin-right:10px" v-model="item.disk_count">
+            <el-option v-for="item in diskNum"
+              :key="item"
+              :label="item"
+              :value="item"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="'网卡'+(index+1)+'：'" :model="serverParam.nic"
@@ -112,6 +124,7 @@
           {value:4000, label: '4T'},
           {value:8000, label: '8T'},
         ],
+        diskNum: [1,2,3,4,5,6,7,8],
         raidList: ['RAID 0', 'RAID 1', 'RAID 5'],
         raidType: {'RAID 0':0, 'RAID 1':1, 'RAID 5':2},
       }
@@ -126,14 +139,34 @@
           let obj = {ip_adress:'', net_mask: '', gate_way: '', memo: ''};
           this.serverParam.nic.push(obj)
         })
-      }
+      },
+      addDisk() {
+        this.$confirm('是否确认', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText:'取消',
+          type: 'warning'
+        }).then(() => {
+          let obj = {disk_type: '', disk_capacity: null, disk_count: null, disk_raid: ''};
+          this.serverParam.disks.push(obj)
+        })
+      },
     },
     computed:{
       diskCount() {
         let count = 0
         let list = this.serverParam.disks
+        console.log(list);
         for (let i in list) {
-          count += (list[i].disk_count+(list[i].disk_count-this.raidType[list[i].disk_raid]))*list[i].disk_capacity/2
+          if (list[i].disk_raid === 'RAID 1') {
+            count += (list[i].disk_count+1)/2*list[i].disk_capacity
+            console.log(count,'raid1');
+          } else if(list[i].disk_type === 'RAID 5') {
+            count += (list[i].disk_count+list[i].disk_count%list[i].disk_count)/2*list[i].disk_capacity
+            console.log(count,'raid5');
+          } else {
+            count += list[i].disk_capacity*list[i].disk_count
+            console.log(count,'raid0');
+          }
         }
         return `${count/1000}T`
       }
