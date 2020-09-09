@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 项目添加、编辑页面 -->
 <template>
   <div style="margin-top: 50px">
     <el-form ref="projectInfoForm" label-width="120px" style="width:600px" size="small"

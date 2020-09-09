@@ -1,7 +1,10 @@
 <!-- 单项目展示 -->
 <template>
   <div class="app-container" v-if="loading">
+    <!-- 单项目信息展示 -->
     <h2>{{value.name}}</h2>
+    <el-button size="small"
+      @click="updateProject(value.id)">修改</el-button>
     <div class="table-layout" >
       <el-row>
         <el-col :span="4" class="table-cell-title">地址</el-col>
@@ -37,7 +40,24 @@
         <el-col :span="4" class="table-cell"></el-col>
         <el-col :span="4" class="table-cell"></el-col>
       </el-row>
+      <el-row>
+        <el-col class="table-cell-title">备注</el-col>
+        <el-col class="table-cell">这人懒什么也没留下...</el-col>
+      </el-row>
     </div>
+    <!-- 服务器信息展示 -->
+    <div class="table-container">
+      <div>
+        <span style="font-weight:bold;">服务器列表</span>
+        <el-button style="float:right;margin-bottom:10px" size="mini" class="el-icon-edit"
+          @click="addServer()"></el-button>
+      </div>
+      <el-table style="margin-bottom:5px" border
+        :data="value.server">
+
+      </el-table>
+    </div>
+    <!-- 搜索框 -->
     <el-card class="filter-container" shadow="never">
       <div>
         <i class="el-icon-search"></i>
@@ -58,7 +78,12 @@
         </el-form>
       </div>
     </el-card>
+    <!-- 设备信息展示 -->
     <div class="table-container">
+      <div>
+        <span style="font-weight:bold;">设备列表</span>
+        <el-button style="float:right;margin-bottom:10px" size="mini" class="el-icon-edit"></el-button>
+      </div>
       <el-table style="width:100%" border
         :data="value.facility">
         <el-table-column label="设备名称" align="center">
@@ -83,6 +108,11 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 服务器查看界面 -->
+    <el-dialog>
+
+    </el-dialog>
+    <!-- 设备展示界面 -->
   </div>
 </template>
 
@@ -104,7 +134,9 @@
       return {
         value: null,
         loading: null,
-        listQuery: Object.assign({},)
+        listQuery: Object.assign({},),
+        dialogServer:false,
+        Server: Object.assign({}, )
       }
     },
     created() {
@@ -120,6 +152,12 @@
           this.loading = true
           this.value = response.results[0];
         })
+      },
+      addServer(id) {
+        this.$router.push({name: 'server', query: {id:id}})
+      },
+      updateProject(id) {
+        this.$router.push({name: 'updateProject', query: {id:id}})
       }
     }
   }
