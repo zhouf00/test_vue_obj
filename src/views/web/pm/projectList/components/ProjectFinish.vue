@@ -3,6 +3,7 @@
   <div>
     <div style="text-align: center">
       <h2>{{value.name}}</h2>
+      {{value}}
     </div>
     <div style="text-align: center">
       <el-button type="primary" size="medium"

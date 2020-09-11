@@ -32,6 +32,7 @@
               :label="item"
               :value="item"></el-option>
           </el-select>
+          <el-button class="el-icon-edit" circle style="margin-left:10px"></el-button>
         </el-form-item>
         <el-form-item label="内存：">
           <el-select v-model="serverParam.ram">
@@ -49,31 +50,35 @@
           </p>   
         </el-form-item>
         <el-form-item :label="'硬盘类型'+(index+1)+':'" :model="serverParam.disks"
-          v-for="(item, index) in serverParam.disks">       
-          <el-select style="margin-right:10px" v-model="item.disk_type">
-            <el-option v-for="item in diskTypleList"
-              :key="item"
-              :label="item"
-              :value="item"></el-option>
-          </el-select>
-          <el-select style="margin-right:10px" v-model="item.disk_raid">
-            <el-option v-for="item in raidList"
-              :key="item"
-              :label="item"
-              :value="item"></el-option>
-          </el-select>
-          <el-select style="margin-right:10px" v-model="item.disk_capacity">
-            <el-option v-for="item in diskList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"></el-option>
-          </el-select>
-          <el-select style="margin-right:10px" v-model="item.disk_count">
-            <el-option v-for="item in diskNum"
-              :key="item"
-              :label="item"
-              :value="item"></el-option>
-          </el-select>
+          v-for="(item, index) in serverParam.disks">    
+          <div>
+            <el-select style="margin-right:10px" v-model="item.disk_type">
+              <el-option v-for="item in diskTypleList"
+                :key="item"
+                :label="item"
+                :value="item"></el-option>
+            </el-select>
+            <el-select style="margin-right:10px" v-model="item.disk_raid">
+              <el-option v-for="item in raidList"
+                :key="item"
+                :label="item"
+                :value="item"></el-option>
+            </el-select>
+          </div>   
+          <div style="margin-top:10px">
+            <el-select style="margin-right:10px" v-model="item.disk_capacity">
+              <el-option v-for="item in diskList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"></el-option>
+            </el-select>
+            <el-select style="margin-right:10px" v-model="item.disk_count">
+              <el-option v-for="item in diskNum"
+                :key="item"
+                :label="item"
+                :value="item"></el-option>
+            </el-select>
+          </div>
         </el-form-item>
         <el-form-item :label="'网卡'+(index+1)+'：'" :model="serverParam.nic"
           v-for="(item, index) in serverParam.nic">
@@ -82,7 +87,9 @@
           <el-input v-model="item.gate_way" style="width:120px;margin-left:10px"></el-input>
           <el-button style="margin-left:10px" size="small" v-if="index === 0"
             @click="addNic()">+</el-button>
-          <el-input v-model="item.memo" type="textarea" style="margin-top:10px"></el-input>
+          <div style="margin-top:10px">
+          <el-input v-model="item.memo" type="textarea"></el-input>
+          </div>
         </el-form-item>
       </el-form>
     </div>
@@ -158,14 +165,14 @@
         console.log(list);
         for (let i in list) {
           if (list[i].disk_raid === 'RAID 1') {
-            count += (list[i].disk_count+1)/2*list[i].disk_capacity
-            console.log(count,'raid1');
-          } else if(list[i].disk_type === 'RAID 5') {
-            count += (list[i].disk_count+list[i].disk_count%list[i].disk_count)/2*list[i].disk_capacity
-            console.log(count,'raid5');
+            count += (list[i].disk_count+list[i].disk_count%2)/2*list[i].disk_capacity
+            // console.log(count,'raid1');
+          } else if(list[i].disk_raid === 'RAID 5') {
+            count += (list[i].disk_count-1)*list[i].disk_capacity
+            // console.log(count,'raid5');
           } else {
             count += list[i].disk_capacity*list[i].disk_count
-            console.log(count,'raid0');
+            // console.log(count,'raid0');
           }
         }
         return `${count/1000}T`

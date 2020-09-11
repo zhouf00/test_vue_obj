@@ -2,7 +2,8 @@
 <template>
   <div>
     <el-select size="small"
-      v-model="value" v-if="disableShow">
+      v-model="value" v-if="disableShow"
+      @input="$emit('input', $event)">
       <el-option v-for="item in projectStatus"
         :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>

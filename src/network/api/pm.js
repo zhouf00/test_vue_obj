@@ -52,3 +52,10 @@ export function createManufacturer(data) {
   })
 }
 
+export function fetchMonitorType() {
+  return request({
+    url: '/engineering/project/monitortype/',
+    method: 'get'
+  })
+}
+

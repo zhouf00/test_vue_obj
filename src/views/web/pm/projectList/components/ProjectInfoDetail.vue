@@ -19,6 +19,9 @@
       <el-form-item label="内部编号" prop="sn">
         <el-input style="width:300px" v-model="value.sn"></el-input>
       </el-form-item>
+      <el-form-item label="优先级">
+        <priority-tag v-model="value.priority" :disableShow="true"></priority-tag>
+      </el-form-item>
       <el-form-item label="区域" prop="area">
         <el-select placeholder="请选择区域" style="width:300px"
           v-model="value.area">
@@ -59,6 +62,16 @@
             :value="item.value"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="监测类型" prop="monitor_type">
+        <el-select placeholder="请选择监测类型" multiple style="width:300px"
+          v-model="value.monitor_type">
+          <el-option 
+            v-for="item in monitortypeList"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="备注">
         <el-input type="textarea" style="width:300px" :rows="5"
           v-model="value.memo"></el-input>
@@ -93,7 +106,9 @@
 </template>
 
 <script>
-  import {fetchManufacturers, createManufacturer} from 'network/api/pm'
+  import priorityTag from 'components/content/tag/priorityTag'
+
+  import {fetchManufacturers, createManufacturer, fetchMonitorType} from 'network/api/pm'
   import {isInteger, isNum} from 'utils/validate'
 
   const defaultManufacturer = {
@@ -104,6 +119,9 @@
 
   export default {
     name: 'ProjectInfoDetail',
+    components: {
+      priorityTag
+    },
     props: {
       value: Object,
       isEdit: {
@@ -121,10 +139,8 @@
           {value:2, label: '调试'},
           {value:3, label: '试运行'},
         ],
-        manuList:[
-          {id:1, title: '金风'},
-          {id:2, title: 'GE'}
-        ],
+        manuList:[],
+        monitortypeList:[],
         rules: {
           name: [{required:true, message:'必填项'}],
           sn:[{validator: isNum, trigger: 'blur'}],
@@ -135,6 +151,7 @@
     },
     created() {
       this.getManufacturerList()
+      this.getMonitortypeList()
     },
     computed:{
      
@@ -142,8 +159,13 @@
     methods: {
       getManufacturerList() {
         fetchManufacturers().then(response => {
-          console.log(response);
           this.manuList = response
+        })
+      },
+      getMonitortypeList() {
+        fetchMonitorType().then(response => {
+          this.monitortypeList = response
+          console.log(response);
         })
       },
       handleNext(formName) {
