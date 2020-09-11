@@ -12,5 +12,11 @@ module.exports = {
       }
     },
   },
-  
+  devServer: {
+    headers:{
+      'Access-Control-Allow-Origin': '*',
+    },
+    hotOnly:false,
+    disableHostCheck: true
+  },
 }

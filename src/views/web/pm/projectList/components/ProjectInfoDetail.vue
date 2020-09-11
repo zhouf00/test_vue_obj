@@ -21,6 +21,7 @@
       </el-form-item>
       <el-form-item label="优先级">
         <priority-tag v-model="value.priority" :disableShow="true"></priority-tag>
+        <priority-tag v-model="value.priority" style="margin-left:10px"></priority-tag>
       </el-form-item>
       <el-form-item label="区域" prop="area">
         <el-select placeholder="请选择区域" style="width:300px"
@@ -51,6 +52,7 @@
         <el-date-picker value-format="timestamp" style="width:300px"
           v-model="value.entrance_time"
           ></el-date-picker>
+          {{value.entrance_time}}
       </el-form-item>
       <el-form-item label="项目状态" prop="status">
         <el-select placeholder="请选择状态" style="width:300px"
@@ -193,13 +195,13 @@
           type: 'warning'
         }).then(() => {
           createManufacturer(this.Manufacturer).then(response => {
-                this.$message({
+              this.$message({
                 type: 'success',
                 message: '提交成功',
                 duration:1000
               });
-              this.getManufacturerList()
-              this.dialogVisible = false
+            this.getManufacturerList()
+            this.dialogVisible = false
           })
         })
       }

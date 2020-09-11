@@ -1,13 +1,12 @@
 <!-- 优先级标签 -->
 <template>
-  <div>
-    <el-select size="small" :value="value" v-if="disableShow"
-      >
-      <el-option v-for="item in priorityList"
-        :key="item.value" :label="item.title" :value="item.value"></el-option>
-    </el-select>
-    <el-tag v-else :type="priorityShow(value).type" effect="dark">{{priorityShow(value).title}}</el-tag>
-  </div>
+  <el-select size="small" placeholder="请选择状态" v-if="disableShow"
+    :value="value" 
+    @input="$emit('input', $event)">
+    <el-option v-for="item in priorityList"
+      :key="item.value" :label="item.title" :value="item.value"></el-option>
+  </el-select>
+  <el-tag v-else :type="priorityShow(value).type" effect="dark">{{priorityShow(value).title}}</el-tag>
 </template>
 
 <script>

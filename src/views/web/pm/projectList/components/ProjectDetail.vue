@@ -14,7 +14,9 @@
       v-show="showStatus[1]"
       v-model="projectParam"
       :is-edit="isEdit"
+      @prevStep="prevStep"
       @finishCommit="finishCommit"></project-finish>
+      {{projectParam}}
   </el-card>
 </template>
 
@@ -30,10 +32,10 @@
     type: '风电',
     name: '',
     area:'',
-    priority: 0,
+    priority: 1,
     status: 1,
     manufacturers: [],
-    entrance_time: '',
+    entrance_time: new Date(),
     memo: ''
   }
   export default {
@@ -72,6 +74,14 @@
           this.showStatus[i] = false
         }
       },
+      prevStep() {
+        console.log(this.active)
+        if (this.active > 0 && this.active < this.showStatus.length) {
+          this.active--;
+          this.hideAll();
+          this.showStatus[this.active] = true
+        }
+      },
       nextStep() {
         if (this.active < this.showStatus.length -1) {
           this.active++;
@@ -81,7 +91,7 @@
       },
       toDate(date) {
         if (this.projectParam[date]) {
-          this.projectParam[date] = new Date(this.projectParam[date])
+          this.projectParam[date] = formatDate(new Date(this.projectParam[date]), 'yyyy-MM-dd hh:mm:ss')
         } else {
           delete this.projectParam[date]
         }
@@ -97,11 +107,19 @@
             console.log('更新提交');
             this.toDate('entrance_time')
             updateProject(this.$route.query.id, this.projectParam).then(response => {
-              this.$message({
-                type: 'success',
-                message: '提交成功',
-                duration:1000
-              });
+              if (response.err) {
+                this.$message({
+                  type: 'warning',
+                  message: '提交失败'+ response.err[0],
+                  duration: 2000
+                });
+              } else {
+                this.$message({
+                  type: 'success',
+                  message: '提交成功',
+                  duration:1000
+                });
+              }
               this.$router.back();
             })
           } else {

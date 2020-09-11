@@ -6,6 +6,8 @@
       {{value}}
     </div>
     <div style="text-align: center">
+      <el-button size="medium"
+        @click="handlePrev">上一步,返回项目信息</el-button>
       <el-button type="primary" size="medium"
         @click="handleFinishCommit">完成</el-button>
     </div>
@@ -13,6 +15,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'ProjectFinish',
     props:{
@@ -22,7 +25,11 @@
         default: false
       }
     },
+
     methods: {
+      handlePrev() {
+        this.$emit('prevStep')
+      },
       handleFinishCommit() {
         this.$emit('finishCommit', this.isEdit)
       }
