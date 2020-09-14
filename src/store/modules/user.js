@@ -1,4 +1,5 @@
 import {login, logout, getUser} from 'network/api/login'
+import {auth2} from 'network/api/auth2'
 import {getToken, setToken, removeToken} from 'utils/auth'
 
 const user = {
@@ -51,7 +52,19 @@ const user = {
         })
       })
     },
-
+    Auth2({commit},code) {
+      return new Promise((resolve, reject) => {
+        auth2(code).then(response => {
+          const data = response
+          const tokenStr = data.token
+          setToken(tokenStr)
+          commit('SET_TOKEN', tokenStr)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     UserInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getUser().then(response => {

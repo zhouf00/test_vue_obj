@@ -1,10 +1,12 @@
 <!--  -->
 <template>
-  <wxlogin
-    :appid="'wwa84b8b2c3e83d6e0'"
-    :agentid="'1000007'"
-    :redirect_uri="'http%3A%2F%2Ftest.windit.com.cn/login'"
-    ></wxlogin>
+  <div>
+    <wxlogin
+      :appid="appid"
+      :agentid="agentid"
+      :redirect_uri="redirect_uri"
+      ></wxlogin>
+  </div>
 </template>
 
 <script>
@@ -17,27 +19,66 @@
     components: {
       wxlogin
     },
+    props:{
+      isWxwork:{
+        type: Boolean,
+        default: false
+      }
+    },
     created() {
-      this.getCode()
+      if (this.isWxwork) {
+        this.getCodeWx()
+        console.log('wxwork is true');
+      } else {
+        this.getCode()
+      }
     },
     data() {
       return {
-        resCode: null
+        resCode: null,
+        appid:'wwa84b8b2c3e83d6e0',
+        agentid:'1000007',
+        redirect_uri:'http%3A%2F%2Ftest.windit.com.cn/login',
+        test: null
       }
     },
     methods: {
+      // 扫码登陆
       getCode() {
         this.resCode = this.$route.query.code
-        auth2(this.resCode).then(response => {
-            console.log(response)
+        this.loading = true
+        if (this.resCode) {
+          this.$store.dispatch('Auth2', this.resCode).then(() => {
+            this.loading = false
+            this.$router.push({path:'/'})
+          }).catch(error => {
+            this.loading = false
+            this.$message({
+              type: 'warning',
+              message: error
+            })
           })
-        if (this.resCode){
-          console.log('有数据1')
-          auth2(this.resCode).then(response => {
-            console.log(response)
+        }
+      },
+      // 企业微信登陆
+      getCodeWx() {
+        let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.appid}&redirect_uri=${this.redirect_uri}&response_type=code&scope=${this.agentid}&state=STATE#wechat_redirect`
+        this.resCode = this.$route.query.code
+        this.loading = true
+        if (this.resCode) {
+          this.$store.dispatch('Auth2', this.resCode).then(() => {
+            this.loading = false
+            this.$router.push({path:'/'})
+          }).catch(error => {
+            this.loading = false
+            this.$message({
+              type: 'warning',
+              message: error
+            })
           })
-        }else {
-          console.log('无数据')
+        } else {
+          // 打开外链地址
+          window.location.href = url
         }
       }
     }

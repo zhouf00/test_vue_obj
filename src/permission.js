@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
           // 获取菜单和用户名
           let menus = res.results.menus
           let roles = res.results.roles
-          let is_mobile = store.state.apps.device === 'mobile'  ? true : false
+          let is_mobile = store.state.apps.device === 'mobile' ? true : false
           // console.log(store.state.apps.device === 'mobile', store.getters.is_mobile);
           // console.log(is_mobile, '路由');
           // 发送请求生成路由表

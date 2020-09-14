@@ -83,6 +83,8 @@ const permission = {
           if ('管理员' === data.roles[index].title) {
             access = true
           }
+          // 所有人可以查看，发布后需修改
+          access = true
         }
         if(is_mobile) {
           newRouterMap = asyncRouterMap
