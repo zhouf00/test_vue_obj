@@ -80,8 +80,8 @@
         </el-table-column>
         <el-table-column label="维护施工人员" width="150" align="center">
           <template slot-scope="scope">
-            吴承国 <el-tag size="mini" type="info" effect="plain">主</el-tag>
-            吴天承 李启龙 哈哈哈
+            <!-- 吴承国 <el-tag size="mini" type="info" effect="plain">主</el-tag> -->
+            <p v-for="item in scope.row.builders">{{item.name}}</p>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200" align="center">

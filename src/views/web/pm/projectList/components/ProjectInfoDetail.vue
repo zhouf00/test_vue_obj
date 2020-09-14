@@ -52,7 +52,6 @@
         <el-date-picker value-format="timestamp" style="width:300px"
           v-model="value.entrance_time"
           ></el-date-picker>
-          {{value.entrance_time}}
       </el-form-item>
       <el-form-item label="项目状态" prop="status">
         <el-select placeholder="请选择状态" style="width:300px"
@@ -71,6 +70,16 @@
             v-for="item in monitortypeList"
             :key="item.id"
             :label="item.title"
+            :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="维护施工人员" prop="builders">
+        <el-select placeholder="请选择施工人员" multiple style="width:300px"
+          v-model="value.builders">
+          <el-option 
+            v-for="item in buildersList"
+            :key="item.id"
+            :label="item.name"
             :value="item.id"></el-option>
         </el-select>
       </el-form-item>
@@ -111,6 +120,7 @@
   import priorityTag from 'components/content/tag/priorityTag'
 
   import {fetchManufacturers, createManufacturer, fetchMonitorType} from 'network/api/pm'
+  import {fetchUserList} from 'network/api/login'
   import {isInteger, isNum} from 'utils/validate'
 
   const defaultManufacturer = {
@@ -143,6 +153,7 @@
         ],
         manuList:[],
         monitortypeList:[],
+        buildersList: [],
         rules: {
           name: [{required:true, message:'必填项'}],
           sn:[{validator: isNum, trigger: 'blur'}],
@@ -154,9 +165,7 @@
     created() {
       this.getManufacturerList()
       this.getMonitortypeList()
-    },
-    computed:{
-     
+      this.getbuildersList()
     },
     methods: {
       getManufacturerList() {
@@ -168,6 +177,11 @@
         fetchMonitorType().then(response => {
           this.monitortypeList = response
           console.log(response);
+        })
+      },
+      getbuildersList() {
+        fetchUserList().then(response => {
+          this.buildersList = response
         })
       },
       handleNext(formName) {

@@ -16,7 +16,6 @@
       :is-edit="isEdit"
       @prevStep="prevStep"
       @finishCommit="finishCommit"></project-finish>
-      {{projectParam}}
   </el-card>
 </template>
 

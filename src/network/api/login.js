@@ -1,5 +1,6 @@
 import {request} from 'network/request'
 
+// 帐号密码登陆
 export function login(usr, pwd) {
   return request ({
     url: '/personnel/login/',
@@ -11,6 +12,7 @@ export function login(usr, pwd) {
   })
 }
 
+// 登陆时获取用户信息
 export function getUser() {
   return request({
     url: '/personnel/user/',
@@ -18,6 +20,7 @@ export function getUser() {
   })
 }
 
+// 拉取所有用户
 export function fetchList(search) {
   return request({
     url: '/personnel/list/',
@@ -26,6 +29,7 @@ export function fetchList(search) {
   })
 }
 
+// 登陆用户
 export function createUser(data) {
   return request({
     url: '/personnel/register/',
@@ -34,14 +38,24 @@ export function createUser(data) {
   })
 }
 
+// 更新用户状态
 export function updateStatus(id, status) {
   return request({
-    url: `/personnel/list/${id}/`,
+    url: `/personnel/update/${id}/`,
     method: 'post',
     data: status
   })
 }
 
+// 拉取用户名列表
+export function fetchUserList() {
+  return request({
+    url: '/personnel/userlist/',
+    method: 'get'
+  })
+}
+
+// 拉取角色权限
 export function fetchAllRoleList() {
   return request({
     url: '/rbac/role/',

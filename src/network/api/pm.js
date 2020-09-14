@@ -59,3 +59,8 @@ export function fetchMonitorType() {
   })
 }
 
+export function fetchBuilders() {
+  return request({
+    url: '/engineering/project/builders/'
+  })
+}
