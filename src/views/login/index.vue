@@ -11,7 +11,7 @@
       <!-- 帐号密码登陆 -->
       <register v-if="isActive"/>
       <!-- 扫码登陆 -->
-      <auth v-if="!isActive" :isWxwork="isWenxin"/>
+      <auth v-if="!isActive"/>
     </el-card>
   </div>
 </template>
@@ -26,15 +26,13 @@
       register,
       auth
     },
-    mounted(){
-      this.isWxwork()
-    },
     data() {
       return {
         mode_scan:'扫码登陆',
         mode_input:'帐号密码',
         mode_status: false,
-        isWenxin: null
+        isWenxin: null,
+        testData: null
       }
     },
     computed:{
@@ -55,14 +53,6 @@
           this.mode_status = false
         } else {
           this.mode_status = true
-        }
-      },
-      isWxwork() {
-        let Agent = navigator.userAgent;
-        if (Agent.indexOf('wxwork') > -1){
-          this.isWenxin = true
-        } else {
-          this.isWenxin = false
         }
       }
     }

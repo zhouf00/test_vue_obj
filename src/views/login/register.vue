@@ -86,6 +86,7 @@
               setCookie("password", this.loginForm.password, 15);
               this.$router.push({path:'/'})      
             }).catch(error => {
+              console.log(error);
               this.loading = false
               this.$message({
                 type: 'warning',

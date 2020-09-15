@@ -19,18 +19,16 @@
     components: {
       wxlogin
     },
-    props:{
-      isWxwork:{
-        type: Boolean,
-        default: false
-      }
-    },
-    created() {
-      if (this.isWxwork) {
+    mounted() {
+      this.isWxwork()
+      if (this.isWenxin) {
         this.getCodeWx()
-        console.log('wxwork is true');
+        // this.test = 'wxwork is true'
+        // console.log('wxwork is true');
       } else {
         this.getCode()
+        // this.test = 'wxwork is false'
+        // console.log('wxwork is false');
       }
     },
     data() {
@@ -39,7 +37,7 @@
         appid:'wwa84b8b2c3e83d6e0',
         agentid:'1000007',
         redirect_uri:'http%3A%2F%2Ftest.windit.com.cn/login',
-        test: null
+        isWenxin: null
       }
     },
     methods: {
@@ -79,6 +77,16 @@
         } else {
           // 打开外链地址
           window.location.href = url
+        }
+      },
+      isWxwork() {
+        let Agent = navigator.userAgent;
+        this.testData = Agent
+        // this.isWenxin = true
+        if (Agent.indexOf('wxwork') > -1){
+          this.isWenxin = true
+        } else {
+          this.isWenxin = false
         }
       }
     }
