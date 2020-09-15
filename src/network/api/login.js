@@ -29,7 +29,7 @@ export function fetchList(search) {
   })
 }
 
-// 登陆用户
+// 创建用户
 export function createUser(data) {
   return request({
     url: '/personnel/register/',
@@ -38,10 +38,19 @@ export function createUser(data) {
   })
 }
 
+// 更新用户信息
+export function updateUser(id, data) {
+  return request({
+    url: `/personnel/updateuser/${id}/`,
+    method: 'post',
+    data: data
+  })
+}
+
 // 更新用户状态
 export function updateStatus(id, status) {
   return request({
-    url: `/personnel/update/${id}/`,
+    url: `/personnel/updatestatus/${id}/`,
     method: 'post',
     data: status
   })

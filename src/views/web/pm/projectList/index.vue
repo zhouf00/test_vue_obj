@@ -67,12 +67,12 @@
             <el-tag v-for="item in scope.row.monitor_type" size="mini" type="info">{{item.title}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="项目状态" width="110" align="center">
+        <el-table-column label="项目状态" width="105" align="center">
           <template slot-scope="scope">
             <project-status-select :value="scope.row.status"></project-status-select>
           </template>
         </el-table-column>
-        <el-table-column label="更新日期" width="100" align="center">
+        <el-table-column label="更新日期" width="105" align="center" prop="update_time" sortable>
           <template slot-scope="scope">{{scope.row.update_time | formatDateTime}}</template>
         </el-table-column>
         <el-table-column label="设备数量" width="105" align="center" prop="facility_count" sortable>

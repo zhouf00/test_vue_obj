@@ -131,7 +131,7 @@
 </template>
 
 <script>
-  import {fetchList, updateStatus, createUser, fetchAllRoleList} from 'network/api/login'
+  import {fetchList, updateStatus, createUser, updateUser, fetchAllRoleList} from 'network/api/login'
   import {formatDate} from 'utils/date'
 
   const defaultListQuery = {
@@ -244,7 +244,16 @@
           type: 'warning'
         }).then(() => {
           if (this.isEdit) {
+            console.log(this.user);
             // 修改用户
+            updateUser(this.user.id, this.user).then(response => {
+              this.$message({
+                type: 'success',
+                message: '修改成功'
+              });
+              this.dialogVisible =false;
+              this.getList();
+            })
           } else {
             // 添加用户
             createUser(this.user).then(response => {

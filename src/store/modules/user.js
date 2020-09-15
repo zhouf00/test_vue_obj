@@ -39,7 +39,6 @@ const user = {
         })
       })
     },
-
     Logout({commit, state}) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
