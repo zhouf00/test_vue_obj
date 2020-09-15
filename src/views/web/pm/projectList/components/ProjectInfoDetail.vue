@@ -77,10 +77,11 @@
         <el-select placeholder="请选择施工人员" multiple style="width:300px"
           v-model="value.builders">
           <el-option 
-            v-for="item in buildersList"
+            v-for="item in buildersList" 
             :key="item.id"
             :label="item.name"
-            :value="item.id"></el-option>
+            :value="item.id"
+            :disabled="item.project>0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="备注">
@@ -176,12 +177,13 @@
       getMonitortypeList() {
         fetchMonitorType().then(response => {
           this.monitortypeList = response
-          console.log(response);
+          // console.log(response);
         })
       },
       getbuildersList() {
         fetchUserList().then(response => {
           this.buildersList = response
+          // console.log(response);
         })
       },
       handleNext(formName) {

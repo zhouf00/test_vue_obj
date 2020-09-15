@@ -48,13 +48,13 @@
       <el-table ref="productTable" style="width:100%" border
         :data="list" v-loading="listLoading">
         <el-table-column type="selection" width="40" align="center"></el-table-column>
-        <el-table-column label="编号" width="60" align="center">
+        <el-table-column label="编号" width="75" align="center" prop="sn" sortable>
            <template slot-scope="scope">{{scope.row.sn}}</template>
         </el-table-column>
-        <el-table-column label="区域" width="80" align="center">
+        <el-table-column label="区域" width="80" align="center" prop="area" sortable>
           <template slot-scope="scope">{{scope.row.area}}</template>
         </el-table-column>
-        <el-table-column label="优先级" width="80" align="center">
+        <el-table-column label="优先级" width="90" align="center" prop="priority" sortable>
           <template slot-scope="scope">
             <priority-tag :value="scope.row.priority"></priority-tag>
           </template>
@@ -75,7 +75,7 @@
         <el-table-column label="更新日期" width="100" align="center">
           <template slot-scope="scope">{{scope.row.update_time | formatDateTime}}</template>
         </el-table-column>
-        <el-table-column label="设备数量" width="80" align="center">
+        <el-table-column label="设备数量" width="105" align="center" prop="facility_count" sortable>
           <template slot-scope="scope">{{scope.row.facility.length}}</template>
         </el-table-column>
         <el-table-column label="维护施工人员" width="150" align="center">
