@@ -155,6 +155,6 @@
 
 <style scoped>
   .form-container {
-    /* width: 800px; */
+    width: 800px;
   }
 </style>

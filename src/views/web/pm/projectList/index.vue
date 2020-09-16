@@ -76,7 +76,7 @@
           <template slot-scope="scope">{{scope.row.update_time | formatDateTime}}</template>
         </el-table-column>
         <el-table-column label="设备数量" width="105" align="center" prop="facility_count" sortable>
-          <template slot-scope="scope">{{scope.row.facility.length}}</template>
+          <template slot-scope="scope">{{scope.row.facility_count}}</template>
         </el-table-column>
         <el-table-column label="维护施工人员" width="150" align="center">
           <template slot-scope="scope">
