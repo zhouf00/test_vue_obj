@@ -204,13 +204,13 @@ export const asyncWebRouterMap = [
       {
         path: 'rbac',
         name: 'rbac',
-        // component: () => import('views/task/Task'),
+        component: () => import('views/web/ums/rbac'),
         meta: {title: '角色管理', icon: 'el-icon-s-custom'}
       },
       {
         path: 'menu',
         name: 'menu',
-        // component: () => import('views/task/Task'),
+        component: () => import('views/web/ums/menu'),
         meta: {title: '菜单列表', icon: 'el-icon-menu'}
       },
     ]

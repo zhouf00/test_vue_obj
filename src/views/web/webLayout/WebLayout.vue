@@ -21,8 +21,12 @@
       Sidebar
     },
     mixins: [ResizeMixin],
-    computed: {
-
+    mounted() {
+      wx.config({
+        beta:true,
+        debug:false,
+        appId:'wwa84b8b2c3e83d6e0',
+      })
     }
 
   }

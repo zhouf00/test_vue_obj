@@ -9,7 +9,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/permission'
-import 'utils/jweixin-1.2.0.js'
 
 
 Vue.config.productionTip = false

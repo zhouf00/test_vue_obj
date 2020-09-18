@@ -34,6 +34,16 @@
           console.log('注销成功');
           location.reload()
         })
+      },
+      getConfig() {
+        wx.config({
+          debug: true,
+          appId: 'wwa84b8b2c3e83d6e0',
+          timestamp: 1234567,
+          nonceStr:'aajdfaf',
+          signature: 'fakfjasld',
+          jsApiList: ['scanQRCode']
+        })
       }
     }
   }
