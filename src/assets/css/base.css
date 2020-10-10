@@ -1,5 +1,4 @@
 @import './normalize.css';
-
 /* :root -> 获取根元素html */
 
 :root {
@@ -11,9 +10,8 @@
   --line-height: 14px;
   --line-height: 1.5;
 }
-*,
-*::before,
-*::after{
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -21,10 +19,13 @@
 
 body {
   font-family: "helvetica Neue", Helvetica, "PingFang SC", "Hiragion Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  user-select: none; /* 禁止用户鼠标在页面上选中文字/图片等*/
-  -webkit-tap-highlight-color: transparent; /*webkit是苹果浏览器引擎，tab点击，highliaght背景高亮， color颜色，银灰色用来数值调节*/
+  user-select: none;
+  /* 禁止用户鼠标在页面上选中文字/图片等*/
+  -webkit-tap-highlight-color: transparent;
+  /*webkit是苹果浏览器引擎，tab点击，highliaght背景高亮， color颜色，银灰色用来数值调节*/
   background: var(--color-backgroud);
   width: 100vw;
+  background-color: #F7F9FA;
 }
 
 a {
@@ -51,4 +52,18 @@ a {
 
 .right {
   float: right;
+}
+
+.operate-container-header {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ecf1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.operate-container-body {
+  padding: 20px;
 }
