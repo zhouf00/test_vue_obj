@@ -9,3 +9,11 @@ export function auth2(code) {
     }
   })
 }
+
+export function queryJsConfig(param) {
+  return request({
+    url: '/back/jsapi/',
+    method: 'post',
+    data: param
+  })
+}
