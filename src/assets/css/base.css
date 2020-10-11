@@ -24,7 +24,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   /*webkit是苹果浏览器引擎，tab点击，highliaght背景高亮， color颜色，银灰色用来数值调节*/
   background: var(--color-backgroud);
-  width: 100vw;
+  /* width: 100vw; */
   background-color: #F7F9FA;
 }
 
@@ -55,7 +55,7 @@ a {
 }
 
 .operate-container-header {
-  padding: 20px;
+  padding: 15px;
   font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #ecf1f1;

@@ -2,185 +2,163 @@
 <template>
   <div class="app-container">
     <!-- 搜索框 -->
-    <el-card class="filter-container" shadow="hover" body-style="padding:0">
+    <el-card class="filter-container"
+      shadow="hover"
+      body-style="padding:0">
       <div class="operate-container-header">
         <div>
-          <i class="el-icon-search"></i>
+          <i class="el-icon-search"
+            style="margin-right: 10px"></i>
           <span>筛选搜索</span>
         </div>
       </div>
-      <div
-        class="operate-container-body"
-        style="display: flex; justify-content: space-between"
-      >
-        <el-form
-          size="small"
+      <div class="operate-container-body"
+        style="display: flex; justify-content: space-between">
+        <el-form size="small"
           label-width="140px"
           :inline="true"
-          :model="listQuery"
-        >
+          :model="listQuery">
           <el-form-item label="项目搜索：">
-            <el-input
-              style="width: 203px"
+            <el-input style="width: 203px"
               placeholder="项目名称"
-              v-model="listQuery.name"
-            ></el-input>
+              v-model="listQuery.name"></el-input>
           </el-form-item>
           <el-form-item label="内部编号：">
-            <el-input
-              style="width: 203px"
+            <el-input style="width: 203px"
               placeholder="项目编号"
-              v-model="listQuery.sn"
-            ></el-input>
+              v-model="listQuery.sn"></el-input>
           </el-form-item>
           <el-form-item label="区域：">
-            <el-select
-              placeholder="请选择区域"
+            <el-select placeholder="请选择区域"
               clearable
               style="width: 203px"
               v-model="listQuery.area"
-              @change="test(value)"
-            >
-              <el-option
-                v-for="item in areaList"
+              @change="test(value)">
+              <el-option v-for="item in areaList"
                 :key="item"
                 :label="item"
-                :value="item"
-              ></el-option>
+                :value="item"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
         <div>
-          <el-button type="primary" size="small">查询结果</el-button>
-          <el-button size="small" type="primary" plain>重置</el-button>
+          <el-button type="primary"
+            size="small">查询结果</el-button>
+          <el-button size="small"
+            type="primary"
+            plain>重置</el-button>
         </div>
       </div>
     </el-card>
     <!-- 数据列表 添加 -->
-    <el-card class="operate-container" shadow="hover" body-style="padding:0">
+    <el-card class="operate-container"
+      shadow="hover"
+      body-style="padding:0">
       <div class="operate-container-header">
         <div>
-          <i class="el-icon-tickets" style="margin-right: 10px"></i>
+          <i class="el-icon-tickets"
+            style="margin-right: 10px"></i>
           <span>数据列表</span>
         </div>
 
-        <el-button
-          class="btn-add"
+        <el-button class="btn-add"
           size="small"
           @click="handleAddProject()"
           type="primary"
-          plain
-          >添加</el-button
-        >
+          plain>添加</el-button>
       </div>
 
       <div class="operate-container-body">
         <!-- 表格展示 -->
         <div class="table-container">
-          <el-table
-            ref="productTable"
+          <el-table ref="productTable"
             style="width: 100%"
             border
             :data="list"
             v-loading="listLoading"
-            :header-cell-style="{ background: '#F5F7FA' }"
-          >
-            <el-table-column
-              type="selection"
+            :header-cell-style="{ background: '#F3F6FC' }">
+            <el-table-column type="selection"
               width="40"
-              align="center"
-            ></el-table-column>
-            <el-table-column
-              label="编号"
+              align="center"></el-table-column>
+            <el-table-column label="编号"
               width="75"
               align="center"
               prop="sn"
-              sortable
-            >
+              sortable>
               <template slot-scope="scope">{{ scope.row.sn }}</template>
             </el-table-column>
-            <el-table-column
-              label="区域"
+            <el-table-column label="区域"
               width="80"
               align="center"
               prop="area"
-              sortable
-            >
+              sortable>
               <template slot-scope="scope">{{ scope.row.area }}</template>
             </el-table-column>
-            <el-table-column
-              label="优先级"
+            <el-table-column label="优先级"
               width="90"
               align="center"
               prop="priority"
-              sortable
-            >
+              sortable>
               <template slot-scope="scope">
                 <priority-tag :value="scope.row.priority"></priority-tag>
               </template>
             </el-table-column>
-            <el-table-column label="项目名称" align="center">
+            <el-table-column label="项目名称"
+              align="center">
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>
-            <el-table-column label="监测类型" width="120" align="center">
+            <el-table-column label="监测类型"
+              width="120"
+              align="center">
               <template slot-scope="scope">
-                <el-tag
-                  v-for="item in scope.row.monitor_type"
+                <el-tag v-for="item in scope.row.monitor_type"
                   :key="item.id"
                   size="mini"
-                  type="info"
-                  >{{ item.title }}</el-tag
-                >
+                  type="info">{{ item.title }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="项目状态" width="105" align="center">
+            <el-table-column label="项目状态"
+              width="105"
+              align="center">
               <template slot-scope="scope">
-                <project-status-select
-                  :value="scope.row.status"
-                ></project-status-select>
+                <project-status-select :value="scope.row.status"></project-status-select>
               </template>
             </el-table-column>
-            <el-table-column
-              label="更新日期"
+            <el-table-column label="更新日期"
               width="105"
               align="center"
               prop="update_time"
-              sortable
-            >
+              sortable>
               <template slot-scope="scope">{{
                 scope.row.update_time | formatDateTime
               }}</template>
             </el-table-column>
-            <el-table-column
-              label="设备数量"
+            <el-table-column label="设备数量"
               width="105"
               align="center"
               prop="facility_count"
-              sortable
-            >
+              sortable>
               <template slot-scope="scope">{{
                 scope.row.facility_count
               }}</template>
             </el-table-column>
-            <el-table-column label="维护施工人员" width="150" align="center">
+            <el-table-column label="维护施工人员"
+              width="150"
+              align="center">
               <template slot-scope="scope">
                 <!-- 吴承国 <el-tag size="mini" type="info" effect="plain">主</el-tag> -->
                 <p v-for="item in scope.row.builders">{{ item.name }}</p>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="200" align="center">
+            <el-table-column label="操作"
+              width="200"
+              align="center">
               <template slot-scope="scope">
                 <p>
-                  <el-button
-                    size="mini"
-                    @click="handleShowProject(scope.$index, scope.row)"
-                    >查看</el-button
-                  >
-                  <el-button
-                    size="mini"
-                    @click="handleUpdateProject(scope.$index, scope.row)"
-                    >编辑</el-button
-                  >
+                  <el-button size="mini"
+                    @click="handleShowProject(scope.$index, scope.row)">查看</el-button>
+                  <el-button size="mini"
+                    @click="handleUpdateProject(scope.$index, scope.row)">编辑</el-button>
                 </p>
               </template>
             </el-table-column>
@@ -188,30 +166,25 @@
         </div>
         <!-- 表格 批量操作 -->
         <div class="batch-operate-container">
-          <el-select size="small" placeholder="批量操作" v-model="operateType">
-            <el-option
-              v-for="item in operates"
+          <el-select size="small"
+            placeholder="批量操作"
+            v-model="operateType">
+            <el-option v-for="item in operates"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
-            ></el-option>
+              :value="item.value"></el-option>
           </el-select>
-          <el-button
-            style="margin-left: 20px"
+          <el-button style="margin-left: 20px"
             class="search-button"
             type="parmary"
-            size="small"
-            >确定</el-button
-          >
+            size="small">确定</el-button>
         </div>
         <!-- 表格 分页 -->
         <div class="pagination-container">
-          <el-pagination
-            background
+          <el-pagination background
             layout="total, sizes, prev, pager, next, jumper"
             :page-sizes="[5, 10, 15]"
-            :total="total"
-          ></el-pagination>
+            :total="total"></el-pagination>
         </div>
       </div>
     </el-card>
@@ -233,20 +206,20 @@ const defaultListQuery = {
   pageSize: 5,
   name: "",
   sn: "",
-  area: "",
+  area: ""
 };
 export default {
   name: "index",
   components: {
     priorityTag,
-    projectStatusSelect,
+    projectStatusSelect
   },
   mixins: [filter],
   data() {
     return {
       areaList: ["东部", "南部", "西部", "北部", "中部", "海外"],
       editInfo: {
-        dialogVisible: false,
+        dialogVisible: false
       },
       listQuery: Object.assign({}, defaultListQuery),
       listLoading: true,
@@ -255,8 +228,8 @@ export default {
       operateType: null,
       operates: [
         { label: "设为紧急", value: "urgency" },
-        { label: "试运行", value: "pilot run" },
-      ],
+        { label: "试运行", value: "pilot run" }
+      ]
     };
   },
   created() {
@@ -265,7 +238,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      getProjects(this.listQuery).then((response) => {
+      getProjects(this.listQuery).then(response => {
         this.listLoading = false;
         this.list = response.results;
         this.total = response.results.length;
@@ -283,8 +256,8 @@ export default {
     test(value) {
       console.log(value);
       console.log("iaaa");
-    },
-  },
+    }
+  }
 };
 </script>
 
