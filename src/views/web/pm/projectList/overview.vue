@@ -75,9 +75,9 @@ export default {
     return {
       // 区域，图例的颜色
       areaColorArray: [
-        "rgba(231,210,99,1)",
-        "rgba(50,100,236,1)",
-        "rgba(2,201,251,1)",
+        "#ffc069",
+        "#13c2c2",
+        "#409eff",
         "rgba(159,202,70,1)",
         "rgba(225,131,46,1)",
       ],
@@ -235,19 +235,19 @@ export default {
         // 区域块上的label
         label: {
           show: true,
-          // color: "#fff",
+          color: "#303133",
           formatter: (param) => {
             return param.name;
           },
         },
         itemStyle: {
           normal: {
-            areaColor: "#e4e7ed",
-            borderColor: "#c0c4cc",
+            areaColor: "#69c0ff",
+            borderColor: "#fff",
             // borderWidth: 1,
           },
           emphasis: {
-            areaColor: "#909399",
+            areaColor: "#1890ff",
             // color:'white'
           },
         },
@@ -332,7 +332,8 @@ export default {
           },
           // 取消图例后的颜色
           outOfRange: {
-            color: ["red"],
+            color: ["#ff7a45"],
+            
           },
         },
         tooltip: {
@@ -424,9 +425,9 @@ export default {
     // 地图的图例也需要自定义
     // 模拟接口数据
     const outName = [
-      { name: "一区", area: ["北京", "天津", "上海"] },
+      { name: "一区", area: ["浙江", "江苏", "上海","安徽","湖北","江西 ","福建","广东"] },
       { name: "二区", area: ["青海", "新疆", "西藏"] },
-      { name: "三区", area: ["内蒙古", "黑龙江", "辽宁"] },
+      { name: "三区", area: ["内蒙古", "黑龙江", "辽宁","河北", "北京", "天津"] },
     ];
     if (outName.length > 0) {
       outName.forEach((item, index) => {
@@ -821,6 +822,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.el-table td, .el-table th{
+  padding: 7px 0;
+}
 .map-index {
   padding: 15px;
   margin: -20px -20px 0 -20px;

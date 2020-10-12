@@ -10,12 +10,11 @@
         </div>
       </div>
       <div
-        class="operate-container-body"
-        style="display: flex; justify-content: space-between; padding-top: 35px"
+        class="operate-container-body-two" 
       >
         <el-form
           size="small"
-          label-width="120px"
+          label-width="100px"
           :inline="true"
           :model="listQuery"
         >
@@ -51,7 +50,7 @@
           </el-form-item>
         </el-form>
         <div>
-          <el-button type="primary" size="small">查询结果</el-button>
+          <el-button type="primary" size="small" style="margin: 0 15px 0 40px">查询结果</el-button>
           <el-button size="small" type="primary" plain>重置</el-button>
         </div>
       </div>

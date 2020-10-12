@@ -11,7 +11,9 @@
   --line-height: 1.5;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -63,7 +65,22 @@ a {
   justify-content: space-between;
   align-items: center;
 }
-
+.operate-container-header-start {
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ecf1f1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
 .operate-container-body {
   padding: 20px;
+}
+
+.operate-container-body-two {
+  display: flex;
+  justify-content: start;
+  padding: 20px;
+  padding-top: 35px;
 }
