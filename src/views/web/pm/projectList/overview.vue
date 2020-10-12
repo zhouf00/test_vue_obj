@@ -1,23 +1,18 @@
 <template>
   <div>
-    <el-row style="margin: 20px 10px" :gutter="20">
-      <el-col :span="11">
+    <el-row style="margin: 20px 10px"
+      :gutter="20">
+      <el-col :span="14">
         <el-card shadow="hover">
           <div style="padding-bottom: 20px">
             <div class="map-index">
-              <span class="area-item" @click="changeMapIndexCode(-1)"
-                >中国</span
-              >
+              <span class="area-item"
+                @click="changeMapIndexCode(-1)">中国</span>
               <template v-for="(item, key) in mapIndex">
-                <span :key="item.code + 'right'"
-                  ><span class="el-icon-arrow-right"></span
-                ></span>
-                <span
-                  :key="item.code"
+                <span :key="item.code + 'right'"><span class="el-icon-arrow-right"></span></span>
+                <span :key="item.code"
                   class="area-item"
-                  @click="changeMapIndexCode(key)"
-                  >{{ item.name }}</span
-                >
+                  @click="changeMapIndexCode(key)">{{ item.name }}</span>
               </template>
             </div>
           </div>
@@ -25,39 +20,45 @@
           <div id="chinaMap" />
         </el-card>
       </el-col>
-      <el-col :span="6">
-        <el-card shadow="hover" style="margin-bottom: 20px">
+      <el-col :span="5">
+        <el-card shadow="hover"
+          style="margin-bottom: 20px">
           <div class="echarts_header">发货情况</div>
           <div id="delivery-the-pie-chart"></div>
         </el-card>
-        <el-card shadow="hover">
+
+      </el-col>
+      <el-col :span="5">
+        <el-card shadow="hover" style="margin-bottom: 20px">
           <div class="echarts_header">项目状态</div>
           <div id="project-the-pie-chart"></div>
         </el-card>
       </el-col>
-
-      <el-col :span="7">
-        <el-card shadow="hover" style="">
+      <el-col :span="10">
+        <el-card shadow="hover"
+          style="">
           <div class="echarts_header">实时数据</div>
-          <el-table
-            :data="realTimeTableData"
+          <el-table :data="realTimeTableData"
             style="width: 100%; margin-top: 20px"
-            height="700"
-            :header-cell-style="{ background: '#F3F6FC' }"
-          >
+            height="475"
+            :header-cell-style="{ background: '#F3F6FC' }">
             <el-table-column type="index"> </el-table-column>
-            <el-table-column prop="name" label="项目名称" align="center">
+            <el-table-column prop="name"
+              label="项目名称"
+              align="center">
             </el-table-column>
-            <el-table-column label="情况" align="center">
+            <el-table-column label="情况"
+              align="center">
               <template slot-scope="scope">
                 <span v-if="scope.row.state === 1">11状态</span>
                 <span v-if="scope.row.state === 2">22状态</span>
                 <span v-if="scope.row.state === 3">33状态</span>
                 <span v-if="scope.row.state === 4">44状态</span>
                 <span v-if="scope.row.number">{{`发货${scope.row.number}套`}}</span>
-              </template></el-table-column
-            >
-            <el-table-column prop="update" label="更新时间" align="center">
+              </template></el-table-column>
+            <el-table-column prop="update"
+              label="更新时间"
+              align="center">
             </el-table-column>
           </el-table>
         </el-card>
@@ -79,7 +80,7 @@ export default {
         "#13c2c2",
         "#409eff",
         "rgba(159,202,70,1)",
-        "rgba(225,131,46,1)",
+        "rgba(225,131,46,1)"
       ],
       areaPieces: [],
       outData: [],
@@ -89,7 +90,7 @@ export default {
         { value: 0, name: "[0%~33%]" },
         { value: 0, name: "[33%~66%]" },
         { value: 0, name: "[66%~99%]" },
-        { value: 0, name: "完毕" },
+        { value: 0, name: "完毕" }
       ],
       // 发货情况图例
       deliveryStatusLegend: [
@@ -97,14 +98,14 @@ export default {
         "[0%~33%]",
         "[33%~66%]",
         "[66%~99%]",
-        "完毕",
+        "完毕"
       ],
       // 项目情况饼图的数据
       projectStatusList: [
         { value: 0, name: "11状态" },
         { value: 0, name: "22状态" },
         { value: 0, name: "33状态" },
-        { value: 0, name: "44状态" },
+        { value: 0, name: "44状态" }
       ],
       // 项目情况图例
       projectStatusLegend: ["11状态", "22状态", "33状态", "44状态"],
@@ -115,117 +116,117 @@ export default {
       myChart: {},
       areaMapping: {
         安徽: {
-          code: "anhui",
+          code: "anhui"
         },
         澳门: {
-          code: "aomen",
+          code: "aomen"
         },
         北京: {
-          code: "beijing",
+          code: "beijing"
         },
         重庆: {
-          code: "chongqing",
+          code: "chongqing"
         },
         福建: {
-          code: "fujian",
+          code: "fujian"
         },
         甘肃: {
-          code: "gansu",
+          code: "gansu"
         },
         广东: {
-          code: "guangdong",
+          code: "guangdong"
         },
         广西: {
-          code: "guangxi",
+          code: "guangxi"
         },
         贵州: {
-          code: "guizhou",
+          code: "guizhou"
         },
         海南: {
-          code: "hainan",
+          code: "hainan"
         },
         南海诸岛: {
-          code: "hainan",
+          code: "hainan"
         },
         河北: {
-          code: "hebei",
+          code: "hebei"
         },
         黑龙江: {
-          code: "heilongjiang",
+          code: "heilongjiang"
         },
         河南: {
-          code: "henan",
+          code: "henan"
         },
         湖北: {
-          code: "hubei",
+          code: "hubei"
         },
         湖南: {
-          code: "hunan",
+          code: "hunan"
         },
         江苏: {
-          code: "jiangsu",
+          code: "jiangsu"
         },
         江西: {
-          code: "jiangxi",
+          code: "jiangxi"
         },
         吉林: {
-          code: "jilin",
+          code: "jilin"
         },
         辽宁: {
-          code: "liaoning",
+          code: "liaoning"
         },
         内蒙古: {
-          code: "neimenggu",
+          code: "neimenggu"
         },
         宁夏: {
-          code: "ningxia",
+          code: "ningxia"
         },
         青海: {
-          code: "qinghai",
+          code: "qinghai"
         },
         山东: {
-          code: "shandong",
+          code: "shandong"
         },
         上海: {
-          code: "shanghai",
+          code: "shanghai"
         },
         山西: {
-          code: "shanxi",
+          code: "shanxi"
         },
         陕西: {
-          code: "shanxi1",
+          code: "shanxi1"
         },
         四川: {
-          code: "sichuan",
+          code: "sichuan"
         },
         台湾: {
-          code: "taiwan",
+          code: "taiwan"
         },
         天津: {
-          code: "tianjin",
+          code: "tianjin"
         },
         香港: {
-          code: "xianggang",
+          code: "xianggang"
         },
         新疆: {
-          code: "xinjiang",
+          code: "xinjiang"
         },
         西藏: {
-          code: "xizang",
+          code: "xizang"
         },
         云南: {
-          code: "yunnan",
+          code: "yunnan"
         },
         浙江: {
-          code: "zhejiang",
-        },
+          code: "zhejiang"
+        }
       },
       mapSeriesOption: {},
       mapSeriesOptionGeoIndex: {
         name: "theMap",
         type: "map",
         map: "china",
-        geoIndex: 0,
+        geoIndex: 0
       },
       publicMapSeriesOption: {
         type: "map",
@@ -236,20 +237,20 @@ export default {
         label: {
           show: true,
           color: "#303133",
-          formatter: (param) => {
+          formatter: param => {
             return param.name;
-          },
+          }
         },
         itemStyle: {
           normal: {
             areaColor: "#69c0ff",
-            borderColor: "#fff",
+            borderColor: "#fff"
             // borderWidth: 1,
           },
           emphasis: {
-            areaColor: "#1890ff",
+            areaColor: "#1890ff"
             // color:'white'
-          },
+          }
         },
         // itemStyle: {
         //   normal: {
@@ -291,8 +292,8 @@ export default {
         //     borderWidth: 0
         //   }
         // },
-        layoutCenter: ["50%", "50%"],
-      },
+        layoutCenter: ["50%", "50%"]
+      }
     };
   },
   computed: {
@@ -300,11 +301,11 @@ export default {
       return {
         xAxis: {
           show: false,
-          type: "value",
+          type: "value"
         },
         yAxis: {
           show: false,
-          type: "value",
+          type: "value"
         },
         // 漫步-开启缩放和拖动
         roam: true,
@@ -312,7 +313,7 @@ export default {
         // 滚轮缩放控制
         scaleLimit: {
           min: 0.5,
-          max: 10,
+          max: 10
         },
         visualMap: {
           seriesIndex: 0,
@@ -323,29 +324,28 @@ export default {
           itemHeight: 15,
           textStyle: {
             color: "#333333",
-            fontSize: 14,
+            fontSize: 14
           },
           pieces: this.areaPieces,
           // 图例在的时候的颜色
           inRange: {
-            color: this.areaColorArray,
+            color: this.areaColorArray
           },
           // 取消图例后的颜色
           outOfRange: {
-            color: ["#ff7a45"],
-            
-          },
+            color: ["#ff7a45"]
+          }
         },
         tooltip: {
           trigger: "item",
-          formatter: (e) => {
+          formatter: e => {
             if (e.seriesName === "theMap") {
               return e.name;
             } else if (e.seriesName === "thePin") {
               // console.log(e);
               return e.data.deviceName;
             }
-          },
+          }
         },
         geo: this.mapSeriesOption,
         series: [
@@ -361,87 +361,93 @@ export default {
                 show: false,
                 textStyle: {
                   color: "#fff",
-                  fontSize: 9,
+                  fontSize: 9
                 },
                 formatter(value) {
                   return value.data.value[2];
-                },
-              },
+                }
+              }
             },
             itemStyle: {
               normal: {
-                color: function (params) {
+                color: function(params) {
                   const sds = ["red", "green"];
                   var a = params.dataIndex;
                   return sds[a];
-                },
+                }
               },
               emphasis: {
                 borderWidth: 2,
-                borderColor: "white",
-              },
+                borderColor: "white"
+              }
             },
             data: [
               {
                 value: [116.405285, 39.904989],
                 deviceName: "北京发电厂",
-                deviceData: [120, 50, 14],
+                deviceData: [120, 50, 14]
               },
               {
                 value: [103.9526, 30.7617],
                 deviceName: "成都发电厂",
-                deviceData: [140, 540, 24],
-              },
+                deviceData: [140, 540, 24]
+              }
             ],
             showEffectOn: "render",
             rippleEffect: {
-              brushType: "stroke",
+              brushType: "stroke"
             },
             hoverAnimation: true,
-            zlevel: 1,
+            zlevel: 1
           },
           {
             hoverAnimation: false,
             symbolSize: 5,
             itemStyle: {
               normal: {
-                color: "#fff",
-              },
+                color: "#fff"
+              }
             },
             name: "light",
             type: "scatter",
             coordinateSystem: "geo",
             data: [
               { value: [116.405285, 39.904989] },
-              { value: [103.9526, 30.7617] },
-            ],
-          },
-        ],
+              { value: [103.9526, 30.7617] }
+            ]
+          }
+        ]
       };
-    },
+    }
   },
   created() {
     // 接口获取一区二区的数据之后进行遍历
     // 地图的图例也需要自定义
     // 模拟接口数据
     const outName = [
-      { name: "一区", area: ["浙江", "江苏", "上海","安徽","湖北","江西 ","福建","广东"] },
+      {
+        name: "一区",
+        area: ["浙江", "江苏", "上海", "安徽", "湖北", "江西 ", "福建", "广东"]
+      },
       { name: "二区", area: ["青海", "新疆", "西藏"] },
-      { name: "三区", area: ["内蒙古", "黑龙江", "辽宁","河北", "北京", "天津"] },
+      {
+        name: "三区",
+        area: ["内蒙古", "黑龙江", "辽宁", "河北", "北京", "天津"]
+      }
     ];
     if (outName.length > 0) {
       outName.forEach((item, index) => {
-        item.area.forEach((areaItem) => {
+        item.area.forEach(areaItem => {
           this.outData.push({
             name: areaItem,
-            value: index,
+            value: index
           });
         });
 
         this.areaPieces.push({
           label: item.name,
           value: index,
-          color: this.areaColorArray[index % this.areaColorArray.length],
+          color: this.areaColorArray[index % this.areaColorArray.length]
         });
       });
     }
@@ -455,60 +461,60 @@ export default {
         name: "西安风电场项目",
         number: 20,
         total: 200,
-        update: "2020-09-04",
+        update: "2020-09-04"
       },
       {
         type: 1,
         name: "福建风电场项目",
         number: 50,
         total: 600,
-        update: "2020-09-06",
+        update: "2020-09-06"
       },
       {
         type: 1,
         name: "新疆风电场项目",
         number: 100,
         total: 100,
-        update: "2020-09-07",
+        update: "2020-09-07"
       },
       {
         name: "新疆风电场项目",
         type: 2,
         state: 1,
-        update: "2020-09-07",
+        update: "2020-09-07"
       },
       {
         name: "西安风电场项目",
         type: 2,
         state: 2,
-        update: "2020-09-05",
+        update: "2020-09-05"
       },
       {
         name: "西藏风电场项目",
         type: 2,
         state: 3,
-        update: "2020-09-06",
+        update: "2020-09-06"
       },
       {
         name: "浙江风电场项目",
         type: 2,
         state: 4,
-        update: "2020-09-08",
+        update: "2020-09-08"
       },
       {
         type: 1,
         name: "西藏风电场项目",
         number: 34,
         total: 600,
-        update: "2020-09-06",
+        update: "2020-09-06"
       },
       {
         type: 1,
         name: "浙江风电场项目",
         number: 50,
         total: 100,
-        update: "2020-09-07",
-      },
+        update: "2020-09-07"
+      }
     ];
     // 发货情况饼图的数据
     let deliverySimulated = [];
@@ -516,7 +522,7 @@ export default {
     let projectStatusArray = [];
     // 把type为1和2的分开
     if (blendedData.length > 0) {
-      blendedData.forEach((item) => {
+      blendedData.forEach(item => {
         if (item.type === 1) {
           deliverySimulated.push(item);
         } else {
@@ -533,7 +539,7 @@ export default {
     });
     // 发货情况的数据
     // deliveryStatusArray
-    deliverySimulated.forEach((item) => {
+    deliverySimulated.forEach(item => {
       const num = ((item.total - item.number) / item.total) * 100;
       console.log(item);
       if (num === 0) {
@@ -554,13 +560,13 @@ export default {
       this.realTimeTableData.push({
         name: item.name,
         update: item.update,
-        number: item.number,
+        number: item.number
       });
     });
 
     // 项目情况饼图数据
     //     projectStatusArray: [],
-    projectStatusArray.forEach((item) => {
+    projectStatusArray.forEach(item => {
       if (item.state === 1) {
         this.projectStatusList[0].value++;
       } else if (item.state === 2) {
@@ -575,7 +581,7 @@ export default {
       this.realTimeTableData.push({
         name: item.name,
         update: item.update,
-        state: item.state,
+        state: item.state
       });
     });
 
@@ -600,13 +606,13 @@ export default {
       this.myChart = echarts.init(document.getElementById("chinaMap"));
       // 这里依据屏幕大小配置
       const clientWidth = document.body.clientWidth;
-      let layoutSize = "100%";
+      let layoutSize = "110%";
       const specialMapSeriesOption = {
         // 这里决定了地图使用china.js
         map: "china",
         // 需要设置layoutCenter，layoutSize才会有效
         layoutSize: layoutSize,
-        data: this.outData,
+        data: this.outData
       };
       this.mapSeriesOption = Object.assign(
         specialMapSeriesOption,
@@ -620,7 +626,7 @@ export default {
       console.log(this.mapOption);
       this.myChart.setOption(this.mapOption);
       // 注册点击事件
-      this.myChart.on("click", (params) => {
+      this.myChart.on("click", params => {
         if (params.seriesName === "theMap") {
           this.drawProvinceMap(params.name, []);
         } else if (params.seriesName === "thePin") {
@@ -629,7 +635,7 @@ export default {
           const theName = params.data.deviceName;
           this.mapIndex.push({
             name: theName,
-            code: theName,
+            code: theName
           });
         }
       });
@@ -645,7 +651,7 @@ export default {
       this.mapIndex = [];
       this.mapIndex.push({
         name: provinceName,
-        code: provinceCode,
+        code: provinceCode
       });
       this.mapIndexCode = 0;
       // 如果存在则先销毁
@@ -661,7 +667,7 @@ export default {
         map: "China",
         // 需要设置layoutCenter，layoutSize才会有效
         layoutSize: "95%",
-        data: cityData,
+        data: cityData
       };
       this.mapSeriesOption = Object.assign(
         specialMapSeriesOption,
@@ -735,36 +741,38 @@ export default {
       const option = {
         tooltip: {
           trigger: "item",
-          formatter: "{b}: {c} ({d}%)",
+          formatter: "{b}: {c} ({d}%)"
         },
         legend: {
           orient: "vertical",
-          left: 0,
-          data: this.deliveryStatusLegend,
+          left: "5%",
+          y: "center",
+          data: this.deliveryStatusLegend
         },
         series: [
           {
             name: "访问来源",
             type: "pie",
-            radius: ["40%", "55%"],
+            radius: ["65%", "85%"],
+            center: ["70%", "50%"],
             avoidLabelOverlap: false,
             label: {
               show: false,
-              position: "center",
+              position: "center"
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: "18",
-                fontWeight: "bold",
-              },
+                fontSize: "16",
+                fontWeight: "bold"
+              }
             },
             labelLine: {
-              show: false,
+              show: false
             },
-            data: this.deliveryStatusArray,
-          },
-        ],
+            data: this.deliveryStatusArray
+          }
+        ]
       };
       pieChart.setOption(option);
 
@@ -780,49 +788,52 @@ export default {
       const option = {
         tooltip: {
           trigger: "item",
-          formatter: "{b}: {c} ({d}%)",
+          formatter: "{b}: {c} ({d}%)"
         },
         legend: {
           orient: "vertical",
-          left: 0,
-          data: this.projectStatusLegend,
+          left: "5%",
+          y: "center",
+          data: this.projectStatusLegend
         },
         series: [
           {
             name: "访问来源",
             type: "pie",
-            radius: ["40%", "55%"],
+            radius: ["65%", "85%"],
+            center: ["70%", "50%"],
             avoidLabelOverlap: false,
             label: {
               show: false,
-              position: "center",
+              position: "center"
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: "18",
-                fontWeight: "bold",
-              },
+                fontSize: "16",
+                fontWeight: "bold"
+              }
             },
             labelLine: {
-              show: false,
+              show: false
             },
-            data: this.projectStatusList,
-          },
-        ],
+            data: this.projectStatusList
+          }
+        ]
       };
       pieChart.setOption(option);
 
       window.addEventListener("resize", () => {
         pieChart.resize();
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-/deep/.el-table td, .el-table th{
+/deep/.el-table td,
+.el-table th {
   padding: 7px 0;
 }
 .map-index {
@@ -938,18 +949,18 @@ export default {
 }
 
 #chinaMap {
-  height: 700px;
+  height: 750px;
   width: 100%;
   box-sizing: border-box;
 }
 #delivery-the-pie-chart {
-  height: 295px;
+  height: 160px;
   width: 100%;
   box-sizing: border-box;
   margin-top: 20px;
 }
 #project-the-pie-chart {
-  height: 293px;
+  height: 160px;
   width: 100%;
   box-sizing: border-box;
   margin-top: 20px;
@@ -979,4 +990,6 @@ export default {
   margin: -20px -20px 0 -20px;
   border-bottom: 1px solid #ecf1f1;
 }
+
+
 </style>
