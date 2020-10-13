@@ -40,7 +40,7 @@
           <div class="echarts_header">实时数据</div>
           <el-table :data="realTimeTableData"
             style="width: 100%; margin-top: 20px"
-            height="475"
+            height="478"
             :header-cell-style="{ background: '#F3F6FC' }">
             <el-table-column type="index"> </el-table-column>
             <el-table-column prop="name"
@@ -88,16 +88,16 @@ export default {
       deliveryStatusArray: [
         { value: 0, name: "未发" },
         { value: 0, name: "[0%~33%]" },
-        { value: 0, name: "[33%~66%]" },
-        { value: 0, name: "[66%~99%]" },
+        { value: 0, name: "[34%~66%]" },
+        { value: 0, name: "[67%~99%]" },
         { value: 0, name: "完毕" }
       ],
       // 发货情况图例
       deliveryStatusLegend: [
         "未发",
         "[0%~33%]",
-        "[33%~66%]",
-        "[66%~99%]",
+        "[34%~66%]",
+        "[67%~99%]",
         "完毕"
       ],
       // 项目情况饼图的数据
