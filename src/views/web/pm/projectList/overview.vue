@@ -62,7 +62,9 @@
                   <span v-if="scope.row.state === 3">33状态</span>
                   <span v-if="scope.row.state === 4">44状态</span>
                   <span v-if="scope.row.number">{{
-                    `发货${scope.row.number}套`
+                    `发货${scope.row.number}套，剩${
+                      scope.row.total - scope.row.number
+                    }套`
                   }}</span>
                 </template></el-table-column
               >
@@ -588,6 +590,7 @@ export default {
         name: item.name,
         update: item.update,
         number: item.number,
+        total: item.total,
       });
       this.realTimeTableDataSlice = this.realTimeTableData.slice(0, 5);
       console.log(this.realTimeTableDataSlice);
