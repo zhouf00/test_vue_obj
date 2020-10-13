@@ -54,24 +54,80 @@
           style="margin-left:20px">添加</el-button>
       </div>
 
+      <!-- 表格展示 -->
       <div class="operate-container-body">
-
+        <el-table ref="rbacTable"
+          :data="list"
+          style="width:100%"
+          v-loading="listLoading"
+          :header-cell-style="{ background: '#F3F6FC' }"
+          border>
+          <el-table-column label="编号"
+            width="60"
+            align="center">
+            <template slot-scope="scope">{{scope.row.id}}</template>
+          </el-table-column>
+          <el-table-column label="角色名称"
+            align="center">
+            <template slot-scope="scope">{{scope.row.title}}</template>
+          </el-table-column>
+          <el-table-column label="描述"
+            align="center">
+            <template slot-scope="scope">{{scope.row.memo}}</template>
+          </el-table-column>
+          <el-table-column label="用户数"
+            width="150"
+            align="center">
+            <template slot-scope="scope">{{scope.row.user}}</template>
+          </el-table-column>
+          <el-table-column label="添加时间"
+            width="160"
+            align="center">
+            <template slot-scope="scope">{{scope.row.create_time | formatDateTime }}</template>
+          </el-table-column>
+          <el-table-column label="是否启用"
+            width="100"
+            align="center">
+            <template slot-scope="scope">
+              <el-switch @change="handleStatusChange(scope.$index, scope.row)"
+                :active-value="ture"
+                :inactive-value="false"
+                v-model="scope.row.status" />
+            </template>
+          </el-table-column>
+          <el-table-column label="操作"
+            width="150"
+            align="center">
+            <template slot-scope="scope">
+              <el-button size="mini"
+                type="text"
+                @click="handleSelectRole(scope.$index, scope.row)">分配菜单</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="handleSelectRole(scope.$index, scope.row)">用户管理</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="pagination-container"
+          style="padding-bottom:20px">
+          <el-pagination background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="total, sizes, prev, pager, next, jumper"
+            :current-page.sync="listQuery.pageNum"
+            :page-size="listQuery.pageSize"
+            :page-sizes="[10,15,20]"
+            :total="total">
+          </el-pagination>
+        </div>
       </div>
     </el-card>
-    <!-- 表格展示 -->
-
-    <div class="pagination-container">
-      <!-- <el-pagination
-        background 
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes, prev, pager, next, jumper"
-        :current-page.sync="listQuery.pageNum"
-        :page-size="listQuery.pageSize"
-        :page-sizes="[10,15,20]"
-        :total="total">
-      </el-pagination> -->
-    </div>
 
     <!-- 弹窗显示：分配角色 -->
     <el-dialog>
@@ -91,7 +147,10 @@ export default {
   data() {
     return {
       listQuery: Object.assign({}, defaultListQuery),
-      isEdit: null
+      isEdit: null,
+      list:[
+        {id:1, title:'管理员', memo:'系统管理员', user:20, create_time:'2020-10-10', status:false}
+      ]
     };
   }
 };

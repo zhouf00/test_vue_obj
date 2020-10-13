@@ -110,7 +110,6 @@
             </template>
           </el-table-column>
         </el-table>
-
         <div class="pagination-container"
           style="padding-bottom:20px">
           <el-pagination background
