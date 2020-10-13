@@ -561,7 +561,7 @@ export default {
     // 发货情况的数据
     // deliveryStatusArray
     deliverySimulated.forEach((item) => {
-      const num = ((item.total - item.number) / item.total) * 100;
+      const num = (item.number / item.total) * 100;
       console.log(item);
       if (num === 0) {
         // 未发
