@@ -785,6 +785,7 @@ export default {
           "#40a9ff",
           "#ffa940",
           "#597ef7",
+          "#ff7a45",
         ],
         tooltip: {
           trigger: "item",
@@ -833,12 +834,13 @@ export default {
         document.getElementById("project-the-pie-chart")
       );
       const option = {
-                color: [
+        color: [
           //自定义的颜色
           "#36cfc9",
           "#40a9ff",
           "#ffa940",
           "#597ef7",
+          "#ff7a45",
         ],
         tooltip: {
           trigger: "item",
