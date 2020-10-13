@@ -10,8 +10,7 @@
                 ><span class="el-icon-arrow-right"></span
               ></span>
               <span
-                :key="item.code"
-                class="area-item"
+                :key="item.code" 
                 @click="changeMapIndexCode(key)"
                 >{{ item.name }}</span
               >
@@ -891,6 +890,9 @@ export default {
   align-items: center;
 }
 .map-index > .area-item {
+  &:hover{
+    color: #409EFF;
+  }
   cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0);
   padding: 0 3px;
