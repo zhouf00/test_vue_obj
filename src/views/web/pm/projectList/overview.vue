@@ -9,11 +9,9 @@
               <span :key="item.code + 'right'"
                 ><span class="el-icon-arrow-right"></span
               ></span>
-              <span
-                :key="item.code" 
-                @click="changeMapIndexCode(key)"
-                >{{ item.name }}</span
-              >
+              <span :key="item.code" @click="changeMapIndexCode(key)">{{
+                item.name
+              }}</span>
             </template>
           </div>
           <div style="padding: 20px">
@@ -781,6 +779,13 @@ export default {
         document.getElementById("delivery-the-pie-chart")
       );
       const option = {
+        color: [
+          //自定义的颜色
+          "#36cfc9",
+          "#40a9ff",
+          "#ffa940",
+          "#597ef7",
+        ],
         tooltip: {
           trigger: "item",
           formatter: "{b}: {c} ({d}%)",
@@ -828,6 +833,13 @@ export default {
         document.getElementById("project-the-pie-chart")
       );
       const option = {
+                color: [
+          //自定义的颜色
+          "#36cfc9",
+          "#40a9ff",
+          "#ffa940",
+          "#597ef7",
+        ],
         tooltip: {
           trigger: "item",
           formatter: "{b}: {c} ({d}%)",
@@ -890,8 +902,8 @@ export default {
   align-items: center;
 }
 .map-index > .area-item {
-  &:hover{
-    color: #409EFF;
+  &:hover {
+    color: #409eff;
   }
   cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0);
