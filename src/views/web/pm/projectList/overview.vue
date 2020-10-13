@@ -273,6 +273,12 @@ export default {
             // color:'white'
           },
         },
+        emphasis: {
+          label: {
+            color: "#303133",
+          },
+          // color:'white'
+        },
         // itemStyle: {
         //   normal: {
         //     areaColor: "rgb(19, 91, 153)",
