@@ -87,7 +87,7 @@ export default {
       // 发货情况饼图的数据
       deliveryStatusArray: [
         { value: 0, name: "未发" },
-        { value: 0, name: "[0%~33%]" },
+        { value: 0, name: "[1%~33%]" },
         { value: 0, name: "[34%~66%]" },
         { value: 0, name: "[67%~99%]" },
         { value: 0, name: "完毕" }
@@ -95,7 +95,7 @@ export default {
       // 发货情况图例
       deliveryStatusLegend: [
         "未发",
-        "[0%~33%]",
+        "[1%~33%]",
         "[34%~66%]",
         "[67%~99%]",
         "完毕"
