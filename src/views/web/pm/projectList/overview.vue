@@ -1040,4 +1040,7 @@ export default {
     margin: 0 10px;
   }
 }
+/deep/.cell {
+  white-space: nowrap;
+}
 </style>
