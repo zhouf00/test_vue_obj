@@ -53,25 +53,12 @@
           class="btn-add"
           style="margin-left:20px">添加</el-button>
       </div>
-
+      <!-- 表格展示 -->
       <div class="operate-container-body">
 
       </div>
     </el-card>
-    <!-- 表格展示 -->
 
-    <div class="pagination-container">
-      <!-- <el-pagination
-        background 
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes, prev, pager, next, jumper"
-        :current-page.sync="listQuery.pageNum"
-        :page-size="listQuery.pageSize"
-        :page-sizes="[10,15,20]"
-        :total="total">
-      </el-pagination> -->
-    </div>
 
     <!-- 弹窗显示：分配角色 -->
     <el-dialog>

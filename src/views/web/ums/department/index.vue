@@ -53,7 +53,6 @@
           class="btn-add"
           style="margin-left:20px">添加</el-button>
       </div>
-
       <!-- 表格展示 -->
       <div class="operate-container-body">
         <el-table ref="rbacTable"
@@ -129,6 +128,7 @@
       </div>
     </el-card>
 
+
     <!-- 弹窗显示：分配角色 -->
     <el-dialog>
 
@@ -147,10 +147,7 @@ export default {
   data() {
     return {
       listQuery: Object.assign({}, defaultListQuery),
-      isEdit: null,
-      list:[
-        {id:1, title:'管理员', memo:'系统管理员', user:20, create_time:'2020-10-10', status:true}
-      ]
+      isEdit: null
     };
   }
 };

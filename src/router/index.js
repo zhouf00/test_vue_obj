@@ -116,173 +116,184 @@ export const asyncRouterMap = [{
 },
 ]
 
-export const asyncWebRouterMap = [{
-  path: '',
-  component: WebLayout,
-  redirect: '/home',
-  children: [{
-    path: 'home',
-    name: 'webHome',
-    component: () => import('views/web/home'),
-    meta: {
-      title: '网页管理',
-      icon: 'el-icon-s-home'
-    }
-  }]
-},
-{
-  path: '/pm',
-  component: WebLayout,
-  redirect: '/pm',
-  name: 'PM',
-  meta: {
-    title: '项目管理',
-    icon: 'el-icon-s-claim'
-  },
-  children: [{
+export const asyncWebRouterMap = [
+  {
     path: '',
-    name: 'project',
-    component: () => import('views/web/pm/projectList'),
-    meta: {
-      title: '项目列表',
-      icon: 'el-icon-folder'
-    }
+    component: WebLayout,
+    redirect: '/home',
+    children: [{
+      path: 'home',
+      name: 'webHome',
+      component: () => import('views/web/home'),
+      meta: {
+        title: '网页管理',
+        icon: 'el-icon-s-home'
+      }
+    }]
   },
   {
-    path: 'addProject',
-    name: 'addProject',
-    component: () => import('views/web/pm/projectList/add'),
+    path: '/pm',
+    component: WebLayout,
+    redirect: '/pm',
+    name: 'PM',
     meta: {
-      title: '添加项目',
-      icon: 'el-icon-folder-add'
-    }
-  },
-  {
-    path: 'overview',
-    name: 'overview',
-    component: () => import('views/web/pm/projectList/overview'),
-    meta: {
-      title: '总览',
-      icon: 'el-icon-folder-add'
-    }
-  },
-  {
-    path: 'updateProject',
-    name: 'updateProject',
-    component: () => import('views/web/pm/projectList/update'),
-    meta: {
-      title: '修改项目',
-      icon: 'el-icon-folder-add'
+      title: '项目管理',
+      icon: 'el-icon-s-claim'
     },
+    children: [{
+      path: '',
+      name: 'project',
+      component: () => import('views/web/pm/projectList'),
+      meta: {
+        title: '项目列表',
+        icon: 'el-icon-folder'
+      }
+    },
+    {
+      path: 'addProject',
+      name: 'addProject',
+      component: () => import('views/web/pm/projectList/add'),
+      meta: {
+        title: '添加项目',
+        icon: 'el-icon-folder-add'
+      }
+    },
+    {
+      path: 'overview',
+      name: 'overview',
+      component: () => import('views/web/pm/projectList/overview'),
+      meta: {
+        title: '总览',
+        icon: 'el-icon-folder-add'
+      }
+    },
+    {
+      path: 'updateProject',
+      name: 'updateProject',
+      component: () => import('views/web/pm/projectList/update'),
+      meta: {
+        title: '修改项目',
+        icon: 'el-icon-folder-add'
+      },
+      hidden: true
+    },
+    {
+      path: 'showProject',
+      name: 'showProject',
+      component: () => import('views/web/pm/project'),
+      meta: {
+        title: '查看项目',
+        icon: 'el-icon-folder-show'
+      },
+      hidden: true
+    },
+    {
+      path: 'equipmentManagement',
+      name: 'equipmentManagement',
+      meta: {
+        title: '设备管理',
+        icon: 'el-icon-box'
+      },
+      component: () => import('views/web/pm/projectList/equipmentManagement'),
+    },
+    {
+      path: 'server',
+      name: 'server',
+      meta: {
+        title: '服务器管理',
+        icon: 'el-icon-box'
+      },
+      component: () => import('views/web/pm/project/components/server/serverDialog'),
+      hidden: true
+    }
+    ]
+  },
+  {
+    path: '/ams',
+    component: WebLayout,
+    redirect: '/ams',
+    children: [{
+      path: '',
+      name: 'AMS',
+      meta: {
+        title: '资产管理',
+        icon: 'el-icon-collection-tag'
+      }
+    }]
+  },
+  {
+    path: '/profile',
+    component: WebLayout,
+    children: [{
+      path: '',
+      name: 'profile',
+      // component: () => import('views/profile/Profile'),
+      meta: {
+        title: '个人中心'
+      },
+    }],
     hidden: true
   },
   {
-    path: 'showProject',
-    name: 'showProject',
-    component: () => import('views/web/pm/project'),
-    meta: {
-      title: '查看项目',
-      icon: 'el-icon-folder-show'
-    },
-    hidden: true
+    path: '/task',
+    component: WebLayout,
+    children: [{
+      path: '',
+      name: 'task',
+      // component: () => import('views/task/Task'),
+      meta: {
+        title: '任务管理',
+        icon: 'el-icon-collection-tag'
+      }
+    }]
   },
   {
-    path: 'equipmentManagement',
-    name: 'equipmentManagement',
+    path: '/ums',
+    component: WebLayout,
+    name: 'ums',
     meta: {
-      title: '设备管理',
-      icon: 'el-icon-box'
+      title: '系统管理',
+      icon: 'el-icon-setting'
     },
-    component: () => import('views/web/pm/projectList/equipmentManagement'),
+    children: [
+      {
+        path: 'user',
+        name: 'user',
+        component: () => import('views/web/ums/user'),
+        meta: {
+          title: '用户管理',
+          icon: 'el-icon-user'
+        }
+      },
+      {
+        path: 'rbac',
+        name: 'rbac',
+        component: () => import('views/web/ums/rbac'),
+        meta: {
+          title: '角色管理',
+          icon: 'el-icon-s-custom'
+        }
+      },
+      {
+        path: 'department',
+        name: 'department',
+        component: () => import('views/web/ums/department'),
+        meta: {
+          title: '组织结构',
+          icon: 'el-icon-office-building'
+        }
+      },
+      {
+        path: 'menu',
+        name: 'menu',
+        component: () => import('views/web/ums/menu'),
+        meta: {
+          title: '菜单列表',
+          icon: 'el-icon-menu'
+        }
+      },
+    ]
   },
-  {
-    path: 'server',
-    name: 'server',
-    meta: {
-      title: '服务器管理',
-      icon: 'el-icon-box'
-    },
-    component: () => import('views/web/pm/project/components/server/serverDialog'),
-    hidden: true
-  }
-  ]
-},
-{
-  path: '/ams',
-  component: WebLayout,
-  redirect: '/ams',
-  children: [{
-    path: '',
-    name: 'AMS',
-    meta: {
-      title: '资产管理',
-      icon: 'el-icon-collection-tag'
-    }
-  }]
-},
-{
-  path: '/profile',
-  component: WebLayout,
-  children: [{
-    path: '',
-    name: 'profile',
-    // component: () => import('views/profile/Profile'),
-    meta: {
-      title: '个人中心'
-    },
-  }],
-  hidden: true
-},
-{
-  path: '/task',
-  component: WebLayout,
-  children: [{
-    path: '',
-    name: 'task',
-    // component: () => import('views/task/Task'),
-    meta: {
-      title: '任务管理',
-      icon: 'el-icon-collection-tag'
-    }
-  }]
-},
-{
-  path: '/ums',
-  component: WebLayout,
-  name: 'ums',
-  meta: {
-    title: '系统管理',
-    icon: 'el-icon-setting'
-  },
-  children: [{
-    path: 'user',
-    name: 'user',
-    component: () => import('views/web/ums/user'),
-    meta: {
-      title: '用户管理',
-      icon: 'el-icon-user'
-    }
-  },
-  {
-    path: 'rbac',
-    name: 'rbac',
-    component: () => import('views/web/ums/rbac'),
-    meta: {
-      title: '角色管理',
-      icon: 'el-icon-s-custom'
-    }
-  },
-  {
-    path: 'menu',
-    name: 'menu',
-    component: () => import('views/web/ums/menu'),
-    meta: {
-      title: '菜单列表',
-      icon: 'el-icon-menu'
-    }
-  },
-  ]
-},
 ]
 
 const router = new VueRouter({
