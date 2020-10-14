@@ -66,33 +66,17 @@
             align="center">
             <template slot-scope="scope">{{scope.row.id}}</template>
           </el-table-column>
-          <el-table-column label="角色名称"
+          <el-table-column label="部门编号" 
             align="center">
-            <template slot-scope="scope">{{scope.row.title}}</template>
+            <template slot-scope="scope">{{scope.row.deptid}}</template>
           </el-table-column>
-          <el-table-column label="描述"
+          <el-table-column label="部门名称"
             align="center">
-            <template slot-scope="scope">{{scope.row.memo}}</template>
+            <template slot-scope="scope">{{scope.row.name}}</template>
           </el-table-column>
-          <el-table-column label="用户数"
-            width="150"
+          <el-table-column label="上级部门"
             align="center">
-            <template slot-scope="scope">{{scope.row.user}}</template>
-          </el-table-column>
-          <el-table-column label="添加时间"
-            width="160"
-            align="center">
-            <template slot-scope="scope">{{scope.row.create_time | formatDateTime }}</template>
-          </el-table-column>
-          <el-table-column label="是否启用"
-            width="100"
-            align="center">
-            <template slot-scope="scope">
-              <el-switch @change="handleStatusChange(scope.$index, scope.row)"
-                :active-value="true"
-                :inactive-value="false"
-                v-model="scope.row.status" />
-            </template>
+            <template slot-scope="scope">{{scope.row.parentid}}</template>
           </el-table-column>
           <el-table-column label="操作"
             width="150"
@@ -100,16 +84,10 @@
             <template slot-scope="scope">
               <el-button size="mini"
                 type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">分配菜单</el-button>
-              <el-button size="mini"
-                type="text"
                 @click="handleSelectRole(scope.$index, scope.row)">用户管理</el-button>
               <el-button size="mini"
                 type="text"
                 @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini"
-                type="text"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -147,7 +125,10 @@ export default {
   data() {
     return {
       listQuery: Object.assign({}, defaultListQuery),
-      isEdit: null
+      isEdit: null,
+      list: [
+        {id:1, deptid:101, name:'开发部', parentid: null,order: 1}
+      ]
     };
   }
 };

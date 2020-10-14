@@ -16,10 +16,16 @@
           :model="listQuery"
           size="small"
           label-width="100px">
-          <el-form-item label="输入搜索：">
+          <el-form-item label="用户搜索：">
             <el-input v-model="listQuery.search"
               class="input-width"
               placeholder="帐号/姓名"
+              clearable></el-input>
+          </el-form-item>
+           <el-form-item label="部门搜索：">
+            <el-input v-model="listQuery.search"
+              class="input-width"
+              placeholder="部门名称"
               clearable></el-input>
           </el-form-item>
         </el-form>
@@ -49,7 +55,6 @@
             style="margin-right:10px"></i>
           <span>数据列表</span>
         </div>
-
         <el-button size="mini"
           class="btn-add"
           style="margin-left:20px"
@@ -74,6 +79,10 @@
           <el-table-column label="姓名"
             align="center">
             <template slot-scope="scope">{{scope.row.name}}</template>
+          </el-table-column>
+          <el-table-column label="职务"
+            align="center">
+            <template slot-scope="scope">{{scope.row.position}}</template>
           </el-table-column>
           <el-table-column label="手机"
             align="center">
@@ -215,7 +224,7 @@ import { formatDate } from "utils/date";
 
 const defaultListQuery = {
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 9,
   search: null
 };
 const defaultUser = {
@@ -225,7 +234,8 @@ const defaultUser = {
   name: null,
   email: null,
   mobile: null,
-  status: 1
+  status: 1,
+  position: null
 };
 export default {
   name: "user",

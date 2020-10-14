@@ -149,7 +149,10 @@ export default {
       listQuery: Object.assign({}, defaultListQuery),
       isEdit: null,
       list:[
-        {id:1, title:'管理员', memo:'系统管理员', user:20, create_time:'2020-10-10', status:true}
+        {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
+        {id:2, title:'项目管理员', memo:'项目模块的所有权限', user:20, create_time:'2020-10-10', status:true},
+        {id:3, title:'销售管理员', memo:'销售模块的所有权限', user:20, create_time:'2020-10-10', status:true},
+        {id:4, title:'普通用户', memo:'浏览及指定权限', user:20, create_time:'2020-10-10', status:true}
       ]
     };
   }

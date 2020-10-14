@@ -279,7 +279,9 @@ export default {
       this.$router.push({ name: "updateProject", query: { id: row.id } });
     },
     handleShowProject(index, row) {
-      this.$router.push({ name: "showProject", query: { id: row.id } });
+      console.log(this.$store.getters.name)
+      console.log(row.builders[0].name)
+      // this.$router.push({ name: "showProject", query: { id: row.id } });
     },
     test(value) {
       console.log(value);
