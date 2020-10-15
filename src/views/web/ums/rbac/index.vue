@@ -80,11 +80,6 @@
             align="center">
             <template slot-scope="scope">{{scope.row.user}}</template>
           </el-table-column>
-          <el-table-column label="添加时间"
-            width="160"
-            align="center">
-            <template slot-scope="scope">{{scope.row.create_time | formatDateTime }}</template>
-          </el-table-column>
           <el-table-column label="是否启用"
             width="100"
             align="center">
@@ -100,17 +95,9 @@
             align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">分配菜单</el-button>
+                type="text">编辑</el-button>
               <el-button size="mini"
-                type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">用户管理</el-button>
-              <el-button size="mini"
-                type="text"
-                @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini"
-                type="text"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                type="text">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -148,6 +135,8 @@ export default {
     return {
       listQuery: Object.assign({}, defaultListQuery),
       isEdit: null,
+      listLoading: null,
+      total: null,
       list:[
         {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
         {id:2, title:'项目管理员', memo:'项目模块的所有权限', user:20, create_time:'2020-10-10', status:true},
@@ -155,6 +144,19 @@ export default {
         {id:4, title:'普通用户', memo:'浏览及指定权限', user:20, create_time:'2020-10-10', status:true}
       ]
     };
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.listQuery.pageNum = 1;
+      this.listQuery.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageNum = val;
+
+    },
+    handleStatusChange (index, row) {
+
+    }
   }
 };
 </script>

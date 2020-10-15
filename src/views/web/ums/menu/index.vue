@@ -80,6 +80,19 @@ export default {
       listQuery: Object.assign({}, defaultListQuery),
       isEdit: null
     };
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.listQuery.pageNum = 1;
+      this.listQuery.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageNum = val;
+
+    },
+    handleStatusChange (index, row) {
+
+    }
   }
 };
 </script>

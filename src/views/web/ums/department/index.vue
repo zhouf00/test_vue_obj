@@ -79,15 +79,13 @@
             <template slot-scope="scope">{{scope.row.parentid}}</template>
           </el-table-column>
           <el-table-column label="操作"
-            width="150"
+            width="200"
             align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">用户管理</el-button>
+                type="text">菜单管理</el-button>
               <el-button size="mini"
-                type="text"
-                @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
+                type="text">用户管理</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -126,10 +124,23 @@ export default {
     return {
       listQuery: Object.assign({}, defaultListQuery),
       isEdit: null,
+      listLoading: null,
+      total: null,
       list: [
         {id:1, deptid:101, name:'开发部', parentid: null,order: 1}
       ]
     };
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.listQuery.pageNum = 1;
+      this.listQuery.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageNum = val;
+
+    },
+
   }
 };
 </script>
