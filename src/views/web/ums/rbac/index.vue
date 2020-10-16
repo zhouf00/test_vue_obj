@@ -51,9 +51,9 @@
 
         <el-button size="mini"
           class="btn-add"
-          style="margin-left:20px">添加</el-button>
+          style="margin-left:20px"
+          @click="handleAdd()">添加</el-button>
       </div>
-
       <!-- 表格展示 -->
       <div class="operate-container-body">
         <el-table ref="rbacTable"
@@ -75,10 +75,18 @@
             align="center">
             <template slot-scope="scope">{{scope.row.memo}}</template>
           </el-table-column>
+          <el-table-column label="管理员"
+            align="center">
+            <template slot-scope="scope"  >
+              <div v-for="item in scope.row.user_list" :key="item">
+                <p v-if="listIndex(item.id, scope.row.leader)">{{scope.row.leader}}</p>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column label="用户数"
             width="150"
             align="center">
-            <template slot-scope="scope">{{scope.row.user}}</template>
+            <template slot-scope="scope">{{scope.row.count}}</template>
           </el-table-column>
           <el-table-column label="是否启用"
             width="100"
@@ -91,11 +99,16 @@
             </template>
           </el-table-column>
           <el-table-column label="操作"
-            width="150"
+            width="140"
             align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                type="text">编辑</el-button>
+                type="text">人员管理</el-button>
+                <el-button size="mini"
+                type="text">分配菜单</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini"
                 type="text">删除</el-button>
             </template>
@@ -116,6 +129,54 @@
       </div>
     </el-card>
 
+    <!-- 弹窗显示：新增、编辑角色 -->
+    <el-dialog :title="isEdit? '编辑用户': '添加用户'"
+      :visible.sync="dialogVisible"
+      width="40%">
+      <el-form ref="roleForm"
+        label-width="25%"
+        size="small"
+        :model="role">
+        <el-form-item label="角色名："
+          prop="rolename">
+          <el-input v-model="role.title"
+            style="width: 80%"></el-input>
+        </el-form-item>
+        <el-form-item label="描述：">
+          <el-input v-model="role.memo" type="textarea"
+            style="width: 80%"></el-input>
+        </el-form-item>
+        <el-form-item v-if="isEdit" label="管理员："
+          prop="mobile">
+          <el-select v-model="role.leader"
+            multiple
+            size="small"
+            style="width:80%"
+            placeholder="请选择">
+            <el-option v-for="item in role.user_list"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否启用：">
+          <el-radio-group v-model="role.status"
+            style="width: 80%">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <span slot="footer"
+        class="dialog-footer">
+        <el-button @click="dialogVisible = false"
+          size="small">取 消</el-button>
+        <el-button @click="handleDialogConfirm()"
+          size="small"
+          type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
+
     <!-- 弹窗显示：分配角色 -->
     <el-dialog>
 
@@ -124,10 +185,20 @@
 </template>
 
 <script>
+import { getrole } from "network/api/role";
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
   search: null
+};
+const defaultRole = {
+  id: null,
+  title: null,
+  memo: null,
+  leader: null,
+  permissions: null,
+  status: 1,
+  user_list:null
 };
 export default {
   name: "index",
@@ -137,15 +208,29 @@ export default {
       isEdit: null,
       listLoading: null,
       total: null,
-      list:[
-        {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
-        {id:2, title:'项目管理员', memo:'项目模块的所有权限', user:20, create_time:'2020-10-10', status:true},
-        {id:3, title:'销售管理员', memo:'销售模块的所有权限', user:20, create_time:'2020-10-10', status:true},
-        {id:4, title:'普通用户', memo:'浏览及指定权限', user:20, create_time:'2020-10-10', status:true}
-      ]
+      list: null,
+      role: Object.assign({}, defaultRole),
+      dialogVisible: false
+      // list:[
+      //   {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
+      //   {id:2, title:'项目管理员', memo:'项目模块的相关权限', user:20, create_time:'2020-10-10', status:true},
+      //   {id:3, title:'销售管理员', memo:'销售模块的相关权限', user:20, create_time:'2020-10-10', status:true},
+      //   {id:4, title:'普通用户', memo:'浏览及指定权限', user:20, create_time:'2020-10-10', status:true}
+      // ]
     };
   },
+  created() {
+    this.getList();
+  },
   methods: {
+    getList() {
+      this.listLoading = true;
+      getrole(this.listQuery).then(response => {
+        this.listLoading = false;
+        this.list = response;
+        this.total = response.length;
+      });
+    },
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
       this.listQuery.pageSize = val;
@@ -156,6 +241,20 @@ export default {
     },
     handleStatusChange (index, row) {
 
+    },
+    handleAdd(){
+      this.dialogVisible = true;
+      this.isEdit = false;
+      this.role = Object.assign({}, defaultRole);
+    },
+    handleUpdate(index, row) {
+      this.dialogVisible = true;
+      this.isEdit = true;
+      this.role = Object.assign({}, row);
+    },
+    listIndex(id, row) {
+      row.indexOf(id)
+      return true
     }
   }
 };
