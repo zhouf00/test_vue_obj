@@ -79,7 +79,7 @@
             align="center">
             <template slot-scope="scope"  >
               <div v-for="item in scope.row.user_list" :key="item">
-                <p v-if="listIndex(item.id, scope.row.leader)">{{scope.row.leader}}</p>
+                <p v-if="listIndex(item.id, scope.row.leader)">{{item.name}}</p>
               </div>
             </template>
           </el-table-column>
@@ -221,6 +221,7 @@ export default {
   },
   created() {
     this.getList();
+    this.test()
   },
   methods: {
     getList() {
@@ -253,8 +254,17 @@ export default {
       this.role = Object.assign({}, row);
     },
     listIndex(id, row) {
-      row.indexOf(id)
-      return true
+      if(row.indexOf(id)>=0){
+        return true
+      } else{
+        return false
+      }
+      
+    },
+    test(){
+      let a = ['1']
+      let b = '1'
+      console.log(a.indexOf(b))
     }
   }
 };
