@@ -80,17 +80,24 @@
         this.$refs.loginForm.validate(valid => {
           if(valid){
             this.loading = true;
-            this.$store.dispatch('Login', this.loginForm).then(() => {
-              this.loading = false;
-              setCookie("username", this.loginForm.username, 15);
-              setCookie("password", this.loginForm.password, 15);
-              this.$router.push({path:'/'})      
+            this.$store.dispatch('Login', this.loginForm).then(data => {
+              if (data.err) {
+                this.loading = false;
+                this.$message({
+                  type: 'warning',
+                  message: '帐号或密码不正确'
+              })
+              } else {
+                this.loading = false;
+                setCookie("username", this.loginForm.username, 15);
+                setCookie("password", this.loginForm.password, 15);
+                this.$router.push({path:'/'})     
+              }
             }).catch(error => {
-              console.log(error);
               this.loading = false
               this.$message({
                 type: 'warning',
-                message: '帐号或密码不正确'
+                message: '服务器连接有误'
               })
             })
           }else{

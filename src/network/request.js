@@ -5,9 +5,9 @@ import store from '../store'
 export function request(config) {
   // 创建axios实例
   const instance = axios.create({
-    // baseURL: 'http://aa.windit.com.cn',
+    baseURL: 'http://aa.windit.com.cn',
     // baseURL: 'http://tianle.iok.la',  // API的base_url
-    baseURL: 'http://localhost:8000',
+    // baseURL: 'http://localhost:8000',
     timeout: 15000  // 请求超时时间  
   })
   // request 请求拦截

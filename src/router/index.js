@@ -140,74 +140,74 @@ export const asyncWebRouterMap = [
       title: '项目管理',
       icon: 'el-icon-s-claim'
     },
-    children: [{
-      path: '',
-      name: 'project',
-      component: () => import('views/web/pm/projectList'),
-      meta: {
-        title: '项目列表',
-        icon: 'el-icon-folder'
+    children: [
+      {
+        path: 'overview',
+        name: 'overview',
+        component: () => import('views/web/pm/projectList/overview'),
+        meta: {
+          title: '总览',
+          icon: 'el-icon-folder-add'
+        }
+      },
+      {
+        path: '',
+        name: 'project',
+        component: () => import('views/web/pm/projectList'),
+        meta: {
+          title: '项目列表',
+          icon: 'el-icon-folder'
+        }
+      },
+      {
+        path: 'addProject',
+        name: 'addProject',
+        component: () => import('views/web/pm/projectList/add'),
+        meta: {
+          title: '添加项目',
+          icon: 'el-icon-folder-add'
+        }
+      },
+      {
+        path: 'updateProject',
+        name: 'updateProject',
+        component: () => import('views/web/pm/projectList/update'),
+        meta: {
+          title: '修改项目',
+          icon: 'el-icon-folder-add'
+        },
+        hidden: true
+      },
+      {
+        path: 'showProject',
+        name: 'showProject',
+        component: () => import('views/web/pm/project'),
+        meta: {
+          title: '查看项目',
+          icon: 'el-icon-folder-show'
+        },
+        hidden: true
+      },
+      {
+        path: 'deviceMangement',
+        name: 'deviceMangementt',
+        meta: {
+          title: '设备管理',
+          icon: 'el-icon-box'
+        },
+        component: () => import('views/web/pm/deviceMangement/deviceMangement'),
+      },
+      {
+        path: 'server',
+        name: 'server',
+        meta: {
+          title: '服务器管理',
+          icon: 'el-icon-box'
+        },
+        component: () => import('views/web/pm/project/components/server/serverDialog'),
+        hidden: true
       }
-    },
-    {
-      path: 'addProject',
-      name: 'addProject',
-      component: () => import('views/web/pm/projectList/add'),
-      meta: {
-        title: '添加项目',
-        icon: 'el-icon-folder-add'
-      }
-    },
-    {
-      path: 'overview',
-      name: 'overview',
-      component: () => import('views/web/pm/projectList/overview'),
-      meta: {
-        title: '总览',
-        icon: 'el-icon-folder-add'
-      }
-    },
-    {
-      path: 'updateProject',
-      name: 'updateProject',
-      component: () => import('views/web/pm/projectList/update'),
-      meta: {
-        title: '修改项目',
-        icon: 'el-icon-folder-add'
-      },
-      hidden: true
-    },
-    {
-      path: 'showProject',
-      name: 'showProject',
-      component: () => import('views/web/pm/project'),
-      meta: {
-        title: '查看项目',
-        icon: 'el-icon-folder-show'
-      },
-      hidden: true
-    },
-    {
-      path: 'equipmentManagement',
-      name: 'equipmentManagement',
-      meta: {
-        title: '设备管理',
-        icon: 'el-icon-box'
-      },
-      component: () => import('views/web/pm/projectList/equipmentManagement'),
-    },
-    {
-      path: 'server',
-      name: 'server',
-      meta: {
-        title: '服务器管理',
-        icon: 'el-icon-box'
-      },
-      component: () => import('views/web/pm/project/components/server/serverDialog'),
-      hidden: true
-    }
-    ]
-  },
+    ]},
   {
     path: '/ams',
     component: WebLayout,

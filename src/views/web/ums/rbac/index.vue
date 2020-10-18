@@ -78,15 +78,15 @@
           <el-table-column label="管理员"
             align="center">
             <template slot-scope="scope"  >
-              <div v-for="item in scope.row.user_list" :key="item">
-                <p v-if="listIndex(item.id, scope.row.leader)">{{item.name}}</p>
+              <div v-for="item in scope.row.user_list" :key="item.id">
+                <p v-if="listIndex(item.id, scope.row.leader_list)">{{item.name}}</p>
               </div>
             </template>
           </el-table-column>
           <el-table-column label="用户数"
             width="150"
             align="center">
-            <template slot-scope="scope">{{scope.row.count}}</template>
+            <template slot-scope="scope">{{scope.row.user_list.length}}</template>
           </el-table-column>
           <el-table-column label="是否启用"
             width="100"
@@ -103,7 +103,8 @@
             align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                type="text">人员管理</el-button>
+                type="text"
+                @click="handleUserMassage()">人员管理</el-button>
                 <el-button size="mini"
                 type="text">分配菜单</el-button>
               <el-button size="mini"
@@ -148,7 +149,7 @@
         </el-form-item>
         <el-form-item v-if="isEdit" label="管理员："
           prop="mobile">
-          <el-select v-model="role.leader"
+          <el-select v-model="role.leader_list"
             multiple
             size="small"
             style="width:80%"
@@ -178,14 +179,16 @@
     </el-dialog>
 
     <!-- 弹窗显示：分配角色 -->
-    <el-dialog>
-
+    <el-dialog title="用户管理"
+      width="630px"
+      :visible.sync="userDialogVisible">
+      
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getrole } from "network/api/role";
+import { getrole, updateRole, createRole} from "network/api/role";
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
@@ -196,6 +199,7 @@ const defaultRole = {
   title: null,
   memo: null,
   leader: null,
+  leader_list: null,
   permissions: null,
   status: 1,
   user_list:null
@@ -210,7 +214,9 @@ export default {
       total: null,
       list: null,
       role: Object.assign({}, defaultRole),
-      dialogVisible: false
+      dialogVisible: false,
+      userDialogVisible: false,
+
       // list:[
       //   {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
       //   {id:2, title:'项目管理员', memo:'项目模块的相关权限', user:20, create_time:'2020-10-10', status:true},
@@ -221,7 +227,6 @@ export default {
   },
   created() {
     this.getList();
-    this.test()
   },
   methods: {
     getList() {
@@ -259,13 +264,31 @@ export default {
       } else{
         return false
       }
-      
     },
-    test(){
-      let a = ['1']
-      let b = '1'
-      console.log(a.indexOf(b))
-    }
+    handleDialogConfirm() {
+      if (this.isEdit) {
+        // 因leader字段为分格字符串字段
+        if (this.role.leader_list.length > 0) {
+          this.role.leader = this.role.leader_list.join(',')
+        }
+        updateRole(this.role.id, this.role).then(response => {
+          this.dialogVisible = false;
+          this.getList();
+        })
+        console.log('aa')
+      } else {
+        console.log('bb')
+        createRole(this.role).then(response => {
+          console.log(response)
+          this.dialogVisible = false;
+          this.getList();
+        })
+      }
+    },
+    handleUserMassage() {
+      this.userDialogVisible = true
+
+    },
   }
 };
 </script>

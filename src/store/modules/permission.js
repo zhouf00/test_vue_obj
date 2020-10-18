@@ -88,7 +88,7 @@ const permission = {
         }
         if(is_mobile) {
           newRouterMap = asyncRouterMap
-          console.log('手机');
+          // console.log('手机');
         } else {
           newRouterMap = asyncWebRouterMap
         }
