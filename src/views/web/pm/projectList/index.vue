@@ -245,7 +245,7 @@ export default {
   mixins: [filter],
   data() {
     return {
-      areaList: ["东部", "南部", "西部", "北部", "中部", "海外"],
+      areaList: this.$store.state.show.areaList,
       editInfo: {
         dialogVisible: false,
       },
@@ -262,6 +262,7 @@ export default {
   },
   created() {
     this.getList();
+    console.log(this.$store.state)
   },
   methods: {
     getList() {

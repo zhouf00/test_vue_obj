@@ -208,6 +208,19 @@ export const asyncWebRouterMap = [
         hidden: true
       }
     ]},
+    {
+      path: '/sales',
+      component: WebLayout,
+      redirect: '/sales',
+      children: [{
+        path: '',
+        name: 'SALES',
+        meta: {
+          title: '销售管理',
+          icon: 'el-icon-collection-tag'
+        }
+      }]
+    },
   {
     path: '/ams',
     component: WebLayout,

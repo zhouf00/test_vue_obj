@@ -5,7 +5,7 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 
-import {user, permission, apps} from './modules'
+import {user, permission, apps, show} from './modules'
 
 // 安装插件
  Vue.use(Vuex)
@@ -15,7 +15,8 @@ import {user, permission, apps} from './modules'
     modules: {
       user,
       permission,
-      apps
+      apps,
+      show
     },
     actions,
     getters,

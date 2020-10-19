@@ -76,14 +76,17 @@
       </el-form-item>
       <el-form-item label="项目状态"
         prop="status">
-        <el-select placeholder="请选择状态"
+        <!-- <el-select placeholder="请选择状态"
           style="width:300px"
           v-model="value.status">
           <el-option v-for="item in projectStatus"
             :key="item.value"
             :label="item.label"
             :value="item.value"></el-option>
-        </el-select>
+        </el-select> -->
+        <project-status-select
+                  :value="value.status"
+                ></project-status-select>
       </el-form-item>
       <el-form-item label="监测类型"
         prop="monitor_type">
@@ -160,6 +163,7 @@
 </template>
 
 <script>
+import projectStatusSelect from "components/content/select/projectStatusSelect";
 import priorityTag from "components/content/tag/priorityTag";
 
 import {
@@ -179,7 +183,8 @@ const defaultManufacturer = {
 export default {
   name: "ProjectInfoDetail",
   components: {
-    priorityTag
+    priorityTag,
+    projectStatusSelect
   },
   props: {
     value: Object,
@@ -192,12 +197,8 @@ export default {
     return {
       dialogVisible: false,
       projectTypeList: ["风电", "火电", "水泥", "轨道"],
-      areaList: ["东部", "南部", "西部", "北部", "中部", "海外"],
-      projectStatus: [
-        { value: 1, label: "安装" },
-        { value: 2, label: "调试" },
-        { value: 3, label: "试运行" }
-      ],
+      areaList: this.$store.state.show.areaList,
+      projectStatus: this.$store.state.show.projectStatus,
       manuList: [],
       monitortypeList: [],
       buildersList: [],
