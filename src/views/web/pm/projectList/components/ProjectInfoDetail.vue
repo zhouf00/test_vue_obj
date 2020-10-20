@@ -76,17 +76,14 @@
       </el-form-item>
       <el-form-item label="项目状态"
         prop="status">
-        <!-- <el-select placeholder="请选择状态"
+        <el-select placeholder="请选择状态"
           style="width:300px"
           v-model="value.status">
           <el-option v-for="item in projectStatus"
             :key="item.value"
             :label="item.label"
             :value="item.value"></el-option>
-        </el-select> -->
-        <project-status-select
-                  :value="value.status"
-                ></project-status-select>
+        </el-select>
       </el-form-item>
       <el-form-item label="监测类型"
         prop="monitor_type">
@@ -173,6 +170,7 @@ import {
 } from "network/api/pm";
 import { fetchUserList } from "network/api/login";
 import { isInteger, isNum } from "utils/validate";
+import { default as show } from 'utils/global'
 
 const defaultManufacturer = {
   title: "",
@@ -197,8 +195,8 @@ export default {
     return {
       dialogVisible: false,
       projectTypeList: ["风电", "火电", "水泥", "轨道"],
-      areaList: this.$store.state.show.areaList,
-      projectStatus: this.$store.state.show.projectStatus,
+      areaList: show.areaList,
+      projectStatus: show.projectStatus,
       manuList: [],
       monitortypeList: [],
       buildersList: [],
@@ -211,6 +209,7 @@ export default {
     };
   },
   created() {
+    console.log(show)
     this.getManufacturerList();
     this.getMonitortypeList();
     this.getbuildersList();
