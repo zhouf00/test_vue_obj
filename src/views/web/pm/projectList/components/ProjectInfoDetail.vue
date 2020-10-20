@@ -15,9 +15,9 @@
           style="width:300px"
           v-model="value.type">
           <el-option v-for="item in projectTypeList"
-            :key="item"
-            :label="item"
-            :value="item"></el-option>
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="项目名称"
@@ -30,27 +30,39 @@
         <el-input style="width:300px"
           v-model="value.sn"></el-input>
       </el-form-item>
-      <el-form-item label="优先级">
+      <!-- 暂不使用 -->
+      <!-- <el-form-item label="优先级">
         <priority-tag v-model="value.priority"
           :disableShow="true"></priority-tag>
         <priority-tag v-model="value.priority"
           style="margin-left:10px"></priority-tag>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="区域"
         prop="area">
         <el-select placeholder="请选择区域"
           style="width:300px"
           v-model="value.area">
           <el-option v-for="item in areaList"
-            :key="item"
-            :label="item"
-            :value="item"></el-option>
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="地址"
         prop="address">
         <el-input style="width:300px"
           v-model="value.address"></el-input>
+      </el-form-item>
+      <el-form-item label="安装环境"
+        prop="working_env">
+        <el-select placeholder="请选择区域"
+          style="width:300px"
+          v-model="value.working_env">
+          <el-option v-for="item in workingEnvList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="主机厂商"
         prop="manufacturers">
@@ -97,6 +109,17 @@
             :value="item.id"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="项目负责人"
+        prop="builders">
+        <el-select placeholder="请选择负责人"
+          style="width:300px"
+          v-model="value.manager">
+          <el-option v-for="item in buildersList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="维护施工人员"
         prop="builders">
         <el-select placeholder="请选择施工人员"
@@ -124,7 +147,7 @@
     </el-form>
     <!-- 弹窗 编辑 -->
     <el-dialog width="40%"
-      title="添加设备厂商"
+      title="添加主机厂商"
       :visible.sync="dialogVisible">
       <el-form label-width="25%"
         size="small"
@@ -160,7 +183,6 @@
 </template>
 
 <script>
-import projectStatusSelect from "components/content/select/projectStatusSelect";
 import priorityTag from "components/content/tag/priorityTag";
 
 import {
@@ -170,7 +192,7 @@ import {
 } from "network/api/pm";
 import { fetchUserList } from "network/api/login";
 import { isInteger, isNum } from "utils/validate";
-import { default as show } from 'utils/global'
+import { globalVar } from 'utils/global'
 
 const defaultManufacturer = {
   title: "",
@@ -182,7 +204,6 @@ export default {
   name: "ProjectInfoDetail",
   components: {
     priorityTag,
-    projectStatusSelect
   },
   props: {
     value: Object,
@@ -194,9 +215,10 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      projectTypeList: ["风电", "火电", "水泥", "轨道"],
-      areaList: show.areaList,
-      projectStatus: show.projectStatus,
+      projectTypeList: globalVar.projectTypeList,
+      areaList: globalVar.areaList,
+      projectStatus: globalVar.projectStatusList,
+      workingEnvList: globalVar.workingEnvList,
       manuList: [],
       monitortypeList: [],
       buildersList: [],
@@ -209,7 +231,6 @@ export default {
     };
   },
   created() {
-    console.log(show)
     this.getManufacturerList();
     this.getMonitortypeList();
     this.getbuildersList();

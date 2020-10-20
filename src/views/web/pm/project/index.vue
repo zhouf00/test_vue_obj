@@ -78,9 +78,13 @@
             value.update_time | formatDateTime
           }}</el-col>
           <el-col :span="4"
-            class="table-cell"></el-col>
+            class="table-cell">{{value.manager}}</el-col>
+            <!-- 只显示了一个 -->
           <el-col :span="4"
-            class="table-cell"></el-col>
+            class="table-cell">
+              <p v-for="item in value.builders" :key="item.id" >
+                {{ item.name }}</p>
+            </el-col>
         </el-row>
         <el-row>
           <el-col class="table-cell-title">备注</el-col>

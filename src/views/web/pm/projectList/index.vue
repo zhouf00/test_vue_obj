@@ -42,9 +42,9 @@
             >
               <el-option
                 v-for="item in areaList"
-                :key="item"
-                :label="item"
-                :value="item"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -105,9 +105,12 @@
               prop="area"
               sortable
             >
-              <template slot-scope="scope">{{ scope.row.area }}</template>
+              <template slot-scope="scope" >
+                <p v-for="item in areaList" v-if="item.value==scope.row.area" :key="item.value">{{item.label}}</p>
+              </template>
             </el-table-column>
-            <el-table-column
+            <!-- 优先级暂时不用了 -->
+            <!-- <el-table-column
               label="优先级"
               width="90"
               align="center"
@@ -117,7 +120,7 @@
               <template slot-scope="scope">
                 <priority-tag :value="scope.row.priority"></priority-tag>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="项目名称" align="center">
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>
@@ -134,9 +137,13 @@
             </el-table-column>
             <el-table-column label="项目状态" width="105" align="center">
               <template slot-scope="scope">
-                <project-status-select
-                  :value="scope.row.status"
-                ></project-status-select>
+                <el-select placeholder="请选择状态"
+                  v-model="scope.row.status">
+                  <el-option v-for="item in projectStatus"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"></el-option>
+                </el-select>
               </template>
             </el-table-column>
             <el-table-column
@@ -163,7 +170,7 @@
             </el-table-column>
             <el-table-column label="维护施工人员" width="150" align="center">
               <template slot-scope="scope">
-                <!-- 吴承国 <el-tag size="mini" type="info" effect="plain">主</el-tag> -->
+                {{scope.row.manager}} <el-tag size="mini" type="info" effect="plain">负责</el-tag>
                 <p v-for="item in scope.row.builders" :key="item.name">
                   {{ item.name }}
                 </p>
@@ -223,11 +230,11 @@
 </template>
 
 <script>
-import projectStatusSelect from "components/content/select/projectStatusSelect";
 import priorityTag from "components/content/tag/priorityTag";
 
 import { getProjects } from "network/api/pm";
 import filter from "views/web/mixin/filter";
+import { globalVar } from 'utils/global'
 
 const defaultListQuery = {
   page: 1,
@@ -240,12 +247,12 @@ export default {
   name: "index",
   components: {
     priorityTag,
-    projectStatusSelect,
   },
   mixins: [filter],
   data() {
     return {
-      areaList: this.$store.state.show.areaList,
+      areaList: globalVar.areaList,
+      projectStatus: globalVar.projectStatusList,
       editInfo: {
         dialogVisible: false,
       },
