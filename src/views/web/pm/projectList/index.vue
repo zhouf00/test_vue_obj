@@ -238,7 +238,7 @@ import { globalVar } from 'utils/global'
 
 const defaultListQuery = {
   page: 1,
-  pageSize: 5,
+  pageSize: 10,
   name: "",
   sn: "",
   area: "",
@@ -269,7 +269,6 @@ export default {
   },
   created() {
     this.getList();
-    console.log(this.$store.state)
   },
   methods: {
     getList() {
@@ -278,6 +277,7 @@ export default {
         this.listLoading = false;
         this.list = response.results;
         this.total = response.results.length;
+        console.log(this.list)
       });
     },
     handleAddProject() {

@@ -117,7 +117,7 @@
           <el-option v-for="item in buildersList"
             :key="item.id"
             :label="item.name"
-            :value="item.id"></el-option>
+            :value="item.name"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="维护施工人员"
@@ -225,7 +225,9 @@ export default {
       rules: {
         name: [{ required: true, message: "必填项" }],
         sn: [{ validator: isNum, trigger: "blur" }],
-        address: [{ required: true, message: "必填项" }]
+        address: [{ required: true, message: "必填项" }],
+        manufacturers:[{ required: true, message: "必填项" }],
+        monitor_type: [{ required: true, message: "必填项" }],
       },
       Manufacturer: Object.assign({}, defaultManufacturer)
     };

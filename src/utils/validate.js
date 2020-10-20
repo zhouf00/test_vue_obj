@@ -26,7 +26,9 @@ export function isNum(rule, value, callback) {
   const re = /^[0-9]*$/
   if (!re.test(value)) {
     callback(new Error('请输入数字'))
-  } else {
+  } else if(!value){
+    callback()
+  }else {
     callback()
   }
 }

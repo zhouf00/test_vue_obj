@@ -34,12 +34,14 @@ import { formatDate } from "utils/date";
 
 const defaultProjectParam = {
   is_delete: false,
-  type: "风电",
+  type: 1,
   name: "",
-  area: "",
+  area: null,
+  sn: null,
   priority: 1,
   status: 1,
   manufacturers: [],
+  monitor_type: [1],
   entrance_time: new Date(),
   memo: ""
 };
@@ -151,7 +153,7 @@ export default {
                 duration: 1000
               });
             }
-            location.reload();
+            // location.reload();
           });
         }
       });
