@@ -24,10 +24,10 @@ export function isInteger(rule, value, callback) {
 
 export function isNum(rule, value, callback) {
   const re = /^[0-9]*$/
-  if (!re.test(value)) {
-    callback(new Error('请输入数字'))
-  } else if(!value){
+  if (!value) {
     callback()
+  } else if(!re.test(value)){
+    callback(new Error('请输入数字'))
   }else {
     callback()
   }

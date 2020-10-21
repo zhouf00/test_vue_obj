@@ -131,19 +131,21 @@
                   :key="item.id"
                   size="mini"
                   type="info"
+                  style="margin:3px"
                   >{{ item.title }}</el-tag
                 >
               </template>
             </el-table-column>
             <el-table-column label="项目状态" width="105" align="center">
               <template slot-scope="scope">
-                <el-select placeholder="请选择状态"
+                <!-- <el-select placeholder="请选择状态"
                   v-model="scope.row.status">
                   <el-option v-for="item in projectStatus"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"></el-option>
-                </el-select>
+                </el-select> -->
+                <span>{{getVar(scope.row.status, projectStatus)}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -296,6 +298,17 @@ export default {
       console.log("iaaa");
     },
   },
+  computed:{
+    getVar (){
+      return function (a, list) {
+        for(let i in list) {
+          if (list[i].value == a){
+            return list[i].label
+          }
+        }
+      }
+    }
+  }
 };
 </script>
 

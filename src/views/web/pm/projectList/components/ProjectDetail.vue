@@ -37,13 +37,12 @@ const defaultProjectParam = {
   type: 1,
   name: "",
   area: null,
-  sn: null,
   priority: 1,
   status: 1,
   manufacturers: [],
   monitor_type: [1],
   entrance_time: new Date(),
-  memo: ""
+  memo: "写些什么"
 };
 export default {
   name: "ProjectDetail",

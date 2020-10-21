@@ -82,8 +82,8 @@
             <!-- 只显示了一个 -->
           <el-col :span="4"
             class="table-cell">
-              <p v-for="item in value.builders" :key="item.id" >
-                {{ item.name }}</p>
+              <span v-for="item in value.builders" :key="item.id">
+                {{ item.name}} </span>
             </el-col>
         </el-row>
         <el-row>

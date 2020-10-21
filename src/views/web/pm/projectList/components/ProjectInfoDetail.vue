@@ -256,6 +256,7 @@ export default {
       });
     },
     handleNext(formName) {
+      console.log(this.value)
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$emit("nextStep");
