@@ -13,12 +13,12 @@
             <!-- <el-tag :type="TagType(pmItem.status)" effect="dark">{{pmItem.status}}</el-tag> -->
             {{pmItem.name}}</h3>
           <div style="margin-bottom: 5px;">
-            <span v-for="(tag,index) in pmItem.tag">{{tag}}<el-divider v-if="index !== pmItem.tag.length-1" direction="vertical"/>
+            <span v-for="(tag,index) in pmItem.tag" :key="tag.id">{{tag}}<el-divider v-if="index !== pmItem.tag.length-1" direction="vertical"/>
             </span>
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-wind-power"></i>
-            <span v-for="manu in pmItem.manufacturers">{{manu.title}} </span>
+            <span v-for="manu in pmItem.manufacturers" :key="manu.id">{{manu.title}} </span>
           </div>
           <div style="margin-bottom: 5px;">
             <i class="el-icon-location-information"/>

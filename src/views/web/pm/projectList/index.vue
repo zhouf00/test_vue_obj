@@ -174,7 +174,7 @@
               <template slot-scope="scope">
                 {{scope.row.manager}} <el-tag size="mini" type="info" effect="plain">负责</el-tag>
                 <p v-for="item in scope.row.builders" :key="item.name">
-                  {{ item.name }}
+                  {{ item.name}}
                 </p>
               </template>
             </el-table-column>
