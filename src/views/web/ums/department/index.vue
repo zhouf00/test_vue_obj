@@ -76,16 +76,17 @@
           </el-table-column>
           <el-table-column label="上级部门"
             align="center">
-            <template slot-scope="scope">{{scope.row.parentid}}</template>
+            <template slot-scope="scope">{{deptQuery(scope.row.parentid)}}</template>
           </el-table-column>
           <el-table-column label="操作"
             width="200"
             align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                type="text">菜单管理</el-button>
+                type="text"
+                @click="handleUserMassage()">用户管理</el-button>
               <el-button size="mini"
-                type="text">用户管理</el-button>
+                type="text">菜单管理</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -104,15 +105,17 @@
       </div>
     </el-card>
 
-
     <!-- 弹窗显示：分配角色 -->
-    <el-dialog>
-
+    <el-dialog title="用户管理" width="630px" :visible.sync="userDialogVisible" @close="closeAfter(1)">
+      <el-transfer v-model="personValue" :data="personList"/>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { getDept } from 'network/api/department'
+import { fetchList} from 'network/api/login'
+
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
@@ -126,21 +129,66 @@ export default {
       isEdit: null,
       listLoading: null,
       total: null,
-      list: [
-        {id:1, deptid:101, name:'开发部', parentid: null,order: 1}
-      ]
+      list: null,
+      users: null,
+
+      userDialogVisible: false,
+      personValue: [],
     };
   },
+  created() {
+    this.getlist();
+    this.getUsers();
+  },
   methods: {
+    getlist() {
+      this.listLoading = true
+      getDept(this.listQuery).then(response => {
+        this.list = response
+        this.listLoading = false
+        this.deptQuery()
+      })
+    },
+    getUsers() {
+      fetchList().then(response => {
+        this.users = response
+      })
+    },
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
       this.listQuery.pageSize = val;
     },
     handleCurrentChange(val) {
       this.listQuery.pageNum = val;
-
     },
-
+    handleUserMassage() {
+      this.userDialogVisible = true
+      let List = this.users
+      this.generateData(List);
+    },
+    generateData(list) {
+        if (list.length > 0) {
+          const rs = [];
+          list.forEach((item, index) => {
+            rs.push({
+              label: item.name,
+              key: index
+            });
+          });
+          this.personList = rs;
+        }
+      },
+  },
+  computed: {
+    deptQuery() {
+      return parent => {
+        for (let i in this.list) {
+          if (parent === this.list[i].deptid){
+            return this.list[i].name
+          }
+        }
+      }
+    }
   }
 };
 </script>

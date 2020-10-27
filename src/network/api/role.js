@@ -1,9 +1,10 @@
 import {request} from 'network/request'
 
-export function getrole() {
+export function getrole(data) {
   return request({
     url: '/rbac/role/',
     method: 'get',
+    params: data
   })
 }
 

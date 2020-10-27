@@ -5,6 +5,7 @@ import {getToken, setToken, removeToken} from 'utils/auth'
 const user = {
   state: {
     token: getToken(),
+    id: '',
     name: '',
     avatar: '',
     roles: []
@@ -12,6 +13,9 @@ const user = {
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_ID: (state, id) => {
+      state.id = id
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -69,11 +73,14 @@ const user = {
         getUser().then(response => {
           const data = response.results
           // 验证返回的roles是否为空数组
-          if (data.roles && data.roles.length > 0) {
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('UserInfo: roles must be a non-null array!')
-          }
+          data.roles = [1]
+          commit('SET_ROLES', data.roles)
+          // if (data.roles && data.roles.length > 0) {
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('UserInfo: roles must be a non-null array!')
+          // }
+          commit('SET_ID',data.id)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           resolve(response)

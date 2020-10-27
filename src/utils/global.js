@@ -1,4 +1,8 @@
 const globalVar = {
+    roleList:[
+      {value:1, label: "超级管理员"},
+      {value:2, label: "分级管理员"},
+    ],
     projectTypeList: [
       {value:1, label: "风电"},
       {value:2, label: "火电"},

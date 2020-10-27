@@ -21,20 +21,21 @@ export const constantRouterMap = [{
 
 ]
 
-export const asyncRouterMap = [{
-  path: '',
-  component: Layout,
-  redirect: '/home',
-  children: [{
-    path: 'home',
-    name: 'home',
-    component: () => import('views/home/Home'),
-    meta: {
-      title: '首页',
-      icon: 'el-icon-s-home'
-    }
-  }]
-},
+export const asyncRouterMap = [
+  {
+    path: '',
+    component: Layout,
+    redirect: '/home',
+    children: [{
+      path: 'home',
+      name: 'home',
+      component: () => import('views/home/Home'),
+      meta: {
+        title: '首页',
+        icon: 'el-icon-s-home'
+      }
+    }]
+  },
 {
   path: '/pm',
   component: Layout,
@@ -188,39 +189,49 @@ export const asyncWebRouterMap = [
         },
         hidden: true
       },
+    ]
+  },
+  {
+    path: '/product',
+    component: WebLayout,
+    redirect: '/product',
+    meta: {
+      title: '产品管理',
+      icon: 'el-icon-s-claim'
+    },
+    children: [
       {
-        path: 'deviceMangement',
-        name: 'deviceMangementt',
+        path: 'publishProduct',
+        name: 'publishProduct',
         meta: {
-          title: '设备管理',
+          title: '发布产品',
           icon: 'el-icon-box'
         },
-        component: () => import('views/web/pm/deviceMangement/deviceMangement'),
+        component: () => import('views/web/pms/productAttr'),
       },
       {
-        path: 'server',
-        name: 'server',
-        meta: {
-          title: '服务器管理',
-          icon: 'el-icon-box'
-        },
-        component: () => import('views/web/pm/project/components/server/serverDialog'),
-        hidden: true
-      }
-    ]},
-    {
-      path: '/sales',
-      component: WebLayout,
-      redirect: '/sales',
-      children: [{
         path: '',
-        name: 'SALES',
+        name: 'product',
         meta: {
-          title: '销售管理',
+          title: '产品管理',
           icon: 'el-icon-collection-tag'
         }
-      }]
-    },
+      },
+    ]
+  },
+  {
+    path: '/sales',
+    component: WebLayout,
+    redirect: '/sales',
+    children: [{
+      path: '',
+      name: 'SALES',
+      meta: {
+        title: '销售管理',
+        icon: 'el-icon-collection-tag'
+      }
+    }]
+  },
   {
     path: '/ams',
     component: WebLayout,
@@ -283,7 +294,7 @@ export const asyncWebRouterMap = [
         name: 'rbac',
         component: () => import('views/web/ums/rbac'),
         meta: {
-          title: '角色管理',
+          title: '权限管理',
           icon: 'el-icon-s-custom'
         }
       },

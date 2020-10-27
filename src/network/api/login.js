@@ -48,11 +48,11 @@ export function updateUser(id, data) {
 }
 
 // 更新用户状态
-export function updateStatus(id, status) {
+export function updateStatus(id, is_active) {
   return request({
     url: `/personnel/updatestatus/${id}/`,
     method: 'post',
-    data: status
+    data: is_active
   })
 }
 

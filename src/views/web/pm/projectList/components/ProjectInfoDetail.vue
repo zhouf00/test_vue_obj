@@ -14,11 +14,15 @@
         <el-select placeholder="请选择类型"
           style="width:300px"
           v-model="value.type">
-          <el-option v-for="item in projectTypeList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
+          <el-option v-for="item in typeList"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"></el-option>
         </el-select>
+        <el-button style="margin-left:10px"
+            icon="el-icon-edit"
+            circle
+            @click="typeDialogVisible=true"/>
       </el-form-item>
       <el-form-item label="项目名称"
         prop="name">
@@ -43,10 +47,14 @@
           style="width:300px"
           v-model="value.area">
           <el-option v-for="item in areaList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"></el-option>
         </el-select>
+        <el-button style="margin-left:10px"
+            icon="el-icon-edit"
+            circle
+            @click="areaDialogVisible=true"/>
       </el-form-item>
       <el-form-item label="地址"
         prop="address">
@@ -58,11 +66,15 @@
         <el-select placeholder="请选择区域"
           style="width:300px"
           v-model="value.working_env">
-          <el-option v-for="item in workingEnvList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
+          <el-option v-for="item in working_envList"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"></el-option>
         </el-select>
+        <el-button style="margin-left:10px"
+            icon="el-icon-edit"
+            circle
+            @click="working_envDialogVisible=true"/>
       </el-form-item>
       <el-form-item label="主机厂商"
         prop="manufacturers">
@@ -70,7 +82,7 @@
           multiple
           style="width:300px"
           v-model="value.manufacturers">
-          <el-option v-for="item in manuList"
+          <el-option v-for="item in manufacturerList"
             :key="item.id"
             :label="item.title"
             :value="item.id"></el-option>
@@ -78,24 +90,22 @@
         <el-button style="margin-left:10px"
           icon="el-icon-edit"
           circle
-          @click="addManufacturer()"></el-button>
-      </el-form-item>
-      <el-form-item label="预计进场时间"
-        prop="entrance_time">
-        <el-date-picker value-format="timestamp"
-          style="width:300px"
-          v-model="value.entrance_time"></el-date-picker>
+          @click="manufacturerDialogVisible=true"/>
       </el-form-item>
       <el-form-item label="项目状态"
         prop="status">
         <el-select placeholder="请选择状态"
           style="width:300px"
           v-model="value.status">
-          <el-option v-for="item in projectStatus"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
+          <el-option v-for="item in statusList"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"></el-option>
         </el-select>
+        <el-button style="margin-left:10px"
+            icon="el-icon-edit"
+            circle
+            @click="statusDialogVisible=true"/>
       </el-form-item>
       <el-form-item label="监测类型"
         prop="monitor_type">
@@ -103,18 +113,33 @@
           multiple
           style="width:300px"
           v-model="value.monitor_type">
-          <el-option v-for="item in monitortypeList"
+          <el-option v-for="item in monitorTypeList"
             :key="item.id"
             :label="item.title"
             :value="item.id"></el-option>
         </el-select>
+        <el-button style="margin-left:10px"
+          icon="el-icon-edit"
+          circle
+          @click="monitorDialogVisible=true"/>
+      </el-form-item>
+      <el-form-item label="设备数量"
+        prop="facility_count">
+        <el-input style="width:300px"
+          v-model="value.facility_count"></el-input>
+      </el-form-item>
+      <el-form-item label="预计进场时间"
+        prop="entrance_time">
+        <el-date-picker value-format="timestamp"
+          style="width:300px"
+          v-model="value.entrance_time"></el-date-picker>
       </el-form-item>
       <el-form-item label="项目负责人"
         prop="builders">
         <el-select placeholder="请选择负责人"
           style="width:300px"
           v-model="value.manager">
-          <el-option v-for="item in buildersList"
+          <el-option v-for="item in usersList"
             :key="item.id"
             :label="item.name"
             :value="item.name"></el-option>
@@ -126,7 +151,7 @@
           multiple
           style="width:300px"
           v-model="value.builders">
-          <el-option v-for="item in buildersList"
+          <el-option v-for="item in usersList"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -145,66 +170,172 @@
           @click="handleNext('projectInfoForm')">下一步</el-button>
       </el-form-item>
     </el-form>
-    <!-- 弹窗 编辑 -->
-    <el-dialog width="40%"
-      title="添加主机厂商"
-      :visible.sync="dialogVisible">
-      <el-form label-width="25%"
-        size="small"
-        ref="ManuForm"
-        :model="Manufacturer">
-        <el-form-item label="厂商名称"
-          prop="title">
-          <el-input style="width: 80%"
-            v-model="Manufacturer.title"></el-input>
-        </el-form-item>
-        <el-form-item label="厂商电话">
-          <el-input style="width: 80%"
-            v-model="Manufacturer.telephone"></el-input>
-        </el-form-item>
-        <el-form-item label="备注说明">
-          <el-input style="width: 80%"
-            type="textarea"
-            maxlength="100"
-            show-word-limit
-            v-model="Manufacturer.memo"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-        class="dialog-footer">
-        <el-button size="small"
-          @click="dialogVisible=false">取 消</el-button>
-        <el-button size="small"
-          type="primary"
-          @click="addDialogConfirm()">确 定</el-button>
-      </span>
+
+    <!-- 添加 项目类型 -->
+    <el-dialog title="项目类型标签"
+      :visible.sync="typeDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="typeList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitType()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- 添加 区域标签 -->
+    <el-dialog title="项目区域标签"
+      :visible.sync="areaDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="areaList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitArea()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- 添加 工作环境标签 -->
+    <el-dialog title="安装环境标签"
+      :visible.sync="working_envDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="working_envList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitWorkingEnv()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- 添加 项目状态标签 -->
+    <el-dialog title="项目状态标签"
+      :visible.sync="statusDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="statusList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitStatus()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- 添加 厂商标签 -->
+    <el-dialog title="项目状态标签"
+      :visible.sync="manufacturerDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="manufacturerList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitManufacturer()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- 添加 监测类型标签 -->
+    <el-dialog title="监测类型标签"
+      :visible.sync="monitorDialogVisible" width="650px">
+      <el-button size="small"  @click="addEdit()">新建</el-button>
+      <el-table
+        :data="monitorTypeList">
+        <el-table-column prop="title">
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-form label-width="120px" :model="editParam">
+          <el-form-item label="项目类型名称">
+            <el-input v-model="editParam.title" style="width: 85%"></el-input>
+            <el-button size="small"  style="margin-left:10px" @click="submitMonitorType()">{{isEditType ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import priorityTag from "components/content/tag/priorityTag";
 
 import {
-  fetchManufacturers,
-  createManufacturer,
-  fetchMonitorType
+  getMonitorType, createMonitorType, updateMonitorType,
+  getManufacturer, createManufacturer, updateManufacturer,
+  getType, createType, updateType,
+  getArea, createArea, updateArea,
+  getWorkingenv, createWorkingenv, updateWorkingenv,
+  getStatus,createStatus, updateStatus
 } from "network/api/pm";
 import { fetchUserList } from "network/api/login";
 import { isInteger, isNum } from "utils/validate";
 import { globalVar } from 'utils/global'
 
-const defaultManufacturer = {
-  title: "",
-  telephone: "",
-  memo: ""
-};
+import projectTag from './projectTag'
+
 
 export default {
   name: "ProjectInfoDetail",
-  components: {
-    priorityTag,
-  },
   props: {
     value: Object,
     isEdit: {
@@ -212,16 +343,14 @@ export default {
       default: false
     }
   },
+  components: {
+    projectTag
+  },
   data() {
     return {
       dialogVisible: false,
-      projectTypeList: globalVar.projectTypeList,
-      areaList: globalVar.areaList,
-      projectStatus: globalVar.projectStatusList,
-      workingEnvList: globalVar.workingEnvList,
-      manuList: [],
-      monitortypeList: [],
-      buildersList: [],
+      monitorDialogVisible: false,
+
       rules: {
         name: [{ required: true, message: "必填项" }],
         sn: [{ validator: isNum, trigger: "blur" }],
@@ -229,34 +358,78 @@ export default {
         manufacturers:[{ required: true, message: "必填项" }],
         monitor_type: [{ required: true, message: "必填项" }],
       },
-      Manufacturer: Object.assign({}, defaultManufacturer)
+      usersList: [],
+
+      isEditType:false,
+      editParam:Object.assign({}),
+
+      typeList:[],
+      typeDialogVisible: false,
+
+      areaList: [],
+      areaDialogVisible: false,
+
+      statusList: [],
+      statusDialogVisible: false,
+
+      manufacturerList: [],
+      manufacturerDialogVisible: false,
+
+      monitorTypeList: [],
+      monitorTypeDialogVisible: false,
+
+      working_envList:[],
+      working_envDialogVisible: false,
     };
   },
   created() {
-    this.getManufacturerList();
-    this.getMonitortypeList();
-    this.getbuildersList();
+    this.getManufacturerList(); // 拉取厂商信息
+    this.getMonitorTypeList();  // 拉取监测类型信息
+    this.getUsersList();        // 拉取用户信息
+    this.getWorkingenvList()    // 拉取安装环境信息
+    this.getAreaList()          // 拉取区域信息
+    this.getTypeList()          // 拉取项目类型信息
+    this.getStatusList()     // 拉取项目状态信息
   },
   methods: {
     getManufacturerList() {
-      fetchManufacturers().then(response => {
-        this.manuList = response;
+      getManufacturer().then(response => {
+        this.manufacturerList = response;
       });
     },
-    getMonitortypeList() {
-      fetchMonitorType().then(response => {
-        this.monitortypeList = response;
-        // console.log(response);
+    getMonitorTypeList() {
+      getMonitorType().then(response => {
+        this.monitorTypeList = response;
       });
     },
-    getbuildersList() {
+    getUsersList() {
       fetchUserList().then(response => {
-        this.buildersList = response;
-        // console.log(response);
+        this.usersList = response;
       });
     },
+    getWorkingenvList() {
+      getWorkingenv().then(response => {
+        this.working_envList = response
+      })
+    },
+    getAreaList() {
+      getArea().then(response => {
+        this.areaList = response
+      })
+    },
+    getTypeList() {
+      getType().then(response => {
+        this.typeList = response
+      })
+    },
+    getStatusList() {
+      getStatus().then(response => {
+        this.statusList = response
+      })
+    },
+    
     handleNext(formName) {
-      console.log(this.value)
+      // console.log(this.value)
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$emit("nextStep");
@@ -270,26 +443,234 @@ export default {
         }
       });
     },
-    addManufacturer() {
-      this.dialogVisible = true;
-      this.Manufacturer = Object.assign({}, defaultManufacturer);
+    
+    addEdit(row=null) {
+      if(row) {
+        this.isEdit = true
+        console.log('修改')
+        this.editParam = Object.assign({}, row)
+        
+      } else {
+        this.isEditType = false
+        console.log('新增')
+        this.editParam = Object.assign({})
+      }
     },
-    addDialogConfirm() {
-      this.$confirm("是否确认", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        createManufacturer(this.Manufacturer).then(response => {
-          this.$message({
-            type: "success",
-            message: "提交成功",
-            duration: 1000
-          });
-          this.getManufacturerList();
-          this.dialogVisible = false;
-        });
-      });
+    // 项目类型
+    submitType() {
+      if (this.isEditType) {
+          updateType(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getTypeList()
+            }
+          })
+        } else {
+          createType(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getTypeList()
+            }
+          })
+        }
+    },
+    // 项目区域
+    submitArea() {
+      if (this.isEditType) {
+          updateArea(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getAreaList()
+            }
+          })
+        } else {
+          createArea(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getAreaList()
+            }
+          })
+        }
+    },
+    // 项目工作环境
+    submitWorkingEnv() {
+      if (this.isEditType) {
+          updateWorkingenv(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getWorkingenvList()
+            }
+          })
+        } else {
+          createWorkingenv(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getWorkingenvList()
+            }
+          })
+        }
+    },
+    // 项目状态
+    submitStatus() {
+      if (this.isEditType) {
+          updateStatus(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getStatusList()
+            }
+          })
+        } else {
+          createStatus(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getStatusList()
+            }
+          })
+        }
+    },
+    
+    submitManufacturer() {
+      if (this.isEditType) {
+          updateManufacturer(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getManufacturerList()
+            }
+          })
+        } else {
+          createManufacturer(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getManufacturerList()
+            }
+          })
+        }
+    },
+  
+    submitMonitorType() {
+      if (this.isEditType) {
+          updateMonitorType(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getMonitorTypeList()
+            }
+          })
+        } else {
+          createMonitorType(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getMonitorTypeList()
+            }
+          })
+        }
     }
   }
 };

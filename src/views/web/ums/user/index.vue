@@ -98,9 +98,9 @@
             align="center">
             <template slot-scope="scope">
               <el-switch @change="handleStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.status" />
+                :active-value="true"
+                :inactive-value="false"
+                v-model="scope.row.is_active" />
             </template>
           </el-table-column>
           <el-table-column label="操作"
@@ -109,7 +109,7 @@
             <template slot-scope="scope">
               <el-button size="mini"
                 type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">分配角色</el-button>
+                @click="handleSelectRole(scope.$index, scope.row)">设置部门</el-button>
               <el-button size="mini"
                 type="text"
                 @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
@@ -170,10 +170,10 @@
             style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="是否启用：">
-          <el-radio-group v-model="user.status"
+          <el-radio-group v-model="user.is_active"
             style="width: 80%">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -234,7 +234,7 @@ const defaultUser = {
   name: null,
   email: null,
   mobile: null,
-  status: 1,
+  status: true,
   position: null
 };
 export default {
@@ -286,7 +286,7 @@ export default {
         concelButtonText: "取消"
       })
         .then(() => {
-          updateStatus(row.id, { status: row.status }).then(response => {
+          updateStatus(row.id, {is_active:row.is_active} ).then(response => {
             this.$message({
               type: "success",
               message: "修改成功"
@@ -350,7 +350,7 @@ export default {
           createUser(this.user).then(response => {
             this.$message({
               type: "success",
-              message: "修改成功"
+              message: "添加成功"
             });
             this.dialogVisible = false;
             this.getList();

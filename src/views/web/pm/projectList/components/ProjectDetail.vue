@@ -34,15 +34,17 @@ import { formatDate } from "utils/date";
 
 const defaultProjectParam = {
   is_delete: false,
+  sn:null,
   type: 1,
   name: "",
   area: null,
-  priority: 1,
   status: 1,
   manufacturers: [],
   monitor_type: [1],
   entrance_time: new Date(),
-  memo: "写些什么"
+  memo: "写些什么",
+  working_env: 2,
+  facility_count:0
 };
 export default {
   name: "ProjectDetail",
@@ -63,10 +65,11 @@ export default {
       showStatus: [true, false]
     };
   },
-  created() {
+  created() {  
     if (this.isEdit) {
       getProjectInfo(this.$route.query.id).then(response => {
         this.projectParam = response;
+        // console.log(this.projectParam)
         if (response.entrance_time) {
           this.projectParam.entrance_time = new Date(response.entrance_time);
         }
@@ -119,8 +122,7 @@ export default {
               if (response.err) {
                 this.$message({
                   type: "warning",
-                  message: "提交失败" + response.err[0],
-                  duration: 2000
+                  message: response.err,
                 });
               } else {
                 this.$message({
@@ -128,8 +130,8 @@ export default {
                   message: "提交成功",
                   duration: 1000
                 });
+                this.$router.back();
               }
-              this.$router.back();
             }
           );
         } else {
@@ -151,8 +153,8 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.$router.back();
             }
-            // location.reload();
           });
         }
       });

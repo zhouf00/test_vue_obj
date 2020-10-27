@@ -5,6 +5,7 @@ const getters = {
   sidebar: state => state.apps.sidebar,
   navbarStatus: state => state.apps.NavbarStatus,
   is_mobile: state => state.apps.isMobile,
+  id: state => state.user.id,
   name: state => state.user.name,
   avatar: state => state.user.avatar,
   token: state => state.user.token,
