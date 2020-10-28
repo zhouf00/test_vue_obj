@@ -214,10 +214,8 @@
 
 <script>
 import {
-  fetchList,
+  fetchList, createUser, updateUser,
   updateStatus,
-  createUser,
-  updateUser,
   fetchAllRoleList
 } from "network/api/login";
 import { formatDate } from "utils/date";
@@ -335,7 +333,7 @@ export default {
         type: "warning"
       }).then(() => {
         if (this.isEdit) {
-          console.log(this.user);
+          // console.log(this.user);
           // 修改用户
           updateUser(this.user.id, this.user).then(response => {
             this.$message({

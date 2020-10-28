@@ -84,13 +84,12 @@
 
     <!-- 我要发货 弹窗 -->
     <el-dialog title="发货" :visible.sync="dialogVisible" width="600px">
-      <el-form
+      <el-form 
         :model="invoice"
-        :rules="rules"
+        :rules="rulesInvoice"
         ref="invoice"
-        label-width="150px"
-        class="demo-ruleForm">
-        <el-form-item label="货物名称" prop="">
+        label-width="150px">
+        <el-form-item label="货物名称" prop="title">
           <el-input v-model="invoice.cargo.title" :disabled="true" style="width: 180px"/>
         </el-form-item>
         <el-form-item label="发货类型" prop="type">
@@ -101,7 +100,7 @@
               :value="item.type"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="发货数量" prop="deliveryNumber">
+        <el-form-item label="发货数量">
           <el-input-number v-model="invoice.count"
             :min="0"
             :max="9999"
@@ -127,7 +126,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleDialogConfirm()"
+          <el-button type="primary" @click="verifyForm('invoice',handleDialogConfirm)"
             :disabled="invoice.cargo.undelivered === 0">确认发货</el-button>
         </el-form-item>
       </el-form>
@@ -136,10 +135,10 @@
     <!-- 初始化清单 -->
     <el-dialog :title="isEdit? '编辑清单': '初始化清单'" 
       :visible.sync="initDialogVisible" width="650px">
-      <el-form 
+      <el-form ref="cargo"
         :model="initCargoParam"
-        label-width="120px"
-        class="demo-ruleForm">
+        :rules="rulesCargo"
+        label-width="120px">
         <el-form-item label="货物名称" prop="title">
           <el-input v-model="initCargoParam.title" style="width: 85%"/>
         </el-form-item>
@@ -167,7 +166,7 @@
             style="width: 85%"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleInitDialogConfirm()">确定</el-button>
+          <el-button type="primary" @click="verifyForm('cargo',handleInitDialogConfirm)">确定</el-button>
           <el-button size="small" @click="initDialogVisible = false">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -192,7 +191,7 @@
   import { getCargo, createCargo, updateCargo, 
            getInvoice, createInvoice, updateInvoice,
            getInvoiceImage,  
-           fetchMonitorType } from "network/api/pm";
+           getMonitorType } from "network/api/pm";
   import ElImageViewer from "element-ui/packages/image/src/image-viewer";
   import filter from "views/web/mixin/filter";
 
@@ -208,6 +207,7 @@
   const defaultInvoice = {
     type: 1,
     count: 0,
+    memo: '',
     cargo: {}
   }
 
@@ -237,9 +237,14 @@
         // 测试数据
         initCargoParam: Object.assign({}, defaultInitCargo),
         invoice: Object.assign({}, defaultInvoice),
-        rules: {
-          name: [{ required: true, message: "请输入设备名称", trigger: "blur" }],
-          type: [{ required: true, message: "请选择设备类型", trigger: "change" }]
+        rulesInvoice: {
+          memo: [{ required: true, message: "请输入发货情况", trigger: "blur" }],
+          type: [{ required: true, message: "请选择发货类型", trigger: "change" }]
+        },
+        rulesCargo: {
+          title: [{ required: true, message: "请输入货物名称", trigger: "blur" }],
+          type: [{ required: true, message: "请输入货物类型", trigger: "blur" }],
+          totality: [{ required: true, message: "请输入货物数量", trigger: "blur" }],
         },
         showViewer: false, // 显示查看器
         invoiceType: [
@@ -277,7 +282,7 @@
         })
       },
       getMonitortypeList() {
-        fetchMonitorType().then(response => {
+        getMonitorType().then(response => {
           this.monitortypeList = response;
         });
       },
@@ -391,6 +396,20 @@
       // 关闭查看器
       closeViewer() {
         this.showViewer = false;
+      },
+      verifyForm(formName, obj){
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            obj()
+          } else {
+            this.$message({
+              message: "带*号的为必填项",
+              type: "error",
+              durattion: 1000
+            });
+            return false;
+          }
+        });
       }
     }
   }

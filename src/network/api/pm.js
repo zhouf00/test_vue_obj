@@ -262,3 +262,28 @@ export function updateManufacturer(id, data) {
     data:data
   })
 }
+
+// 监测数量
+export function getMonitorNumber(data) {
+  return request({
+    url: '/engineering/projectTag/monitornumber/',
+    method: 'get',
+    params:data
+  })
+}
+
+export function createMonitorNumber(data) {
+  return request({
+    url: '/engineering/projectTag/monitornumber/',
+    method: 'post',
+    data:data
+  })
+}
+
+export function updateMonitorNumber(id, data) {
+  return request({
+    url: `/engineering/projectTag/monitornumber/update/${id}/`,
+    method: 'post',
+    data:data
+  })
+}

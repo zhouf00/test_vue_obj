@@ -9,7 +9,9 @@
           align-items: center;
           justify-content: space-between;">
         <h2>{{ value.name }}</h2>
-        <el-button size="small" @click="updateProject(value.id)">修改</el-button>
+        <div>
+          <el-button size="small" @click="updateProject(value.id)">修改</el-button>
+        </div>
       </div>
       <div class="table-layout">
         <el-row>
@@ -45,6 +47,9 @@
           <el-col :span="4" class="table-cell-title">最后一次更新时间</el-col>
           <el-col :span="4" class="table-cell-title">项目负责人</el-col>
           <el-col :span="4" class="table-cell-title">维护施工人员</el-col>
+          <el-col :span="4" class="table-cell-title">
+            <a @click="showDialog()">各设备台数(点击修改)</a>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="4" class="table-cell">
@@ -59,8 +64,10 @@
           <el-col :span="4" class="table-cell">{{value.manager}}</el-col>
           <!-- 只显示了一个 -->
           <el-col :span="4" class="table-cell">
-            <!-- <span v-for="item in value.builders" :key="item.id">{{ item.name}}</span> -->
             <span>{{ addComma(value.buildersList)}}</span>
+          </el-col>
+          <el-col :span="4" class="table-cell">
+            <span v-for="item in monitorNumberList">{{item.title}}: {{item.number}}</span>
           </el-col>
         </el-row>
         <el-row>
@@ -79,7 +86,7 @@
         </div>
         <el-button size="mini" @click="bomDialogVisible()">添加机房设备</el-button>
       </div>
-      <idc-room ref="bomDialogVisible" v-model="bomList"/>
+      <idc-room ref="bomDialogVisible"/>
     </el-card>
 
     <!-- 设备信息展示 -->
@@ -113,7 +120,7 @@
           <el-button size="small">重置</el-button>
         </div>
       </div>
-      <product ref="productDialogVisible" v-model="productList"/>
+      <product ref="productDialogVisible"/>
     </el-card>
 
     <!-- 发货功能 -->
@@ -128,15 +135,48 @@
           <!-- <el-button size="mini" @click="inventoryDialogVisible()">我要发货</el-button> -->
         </div>
       </div>
-      <inventory ref="inventoryDialogVisible" v-model="inventoryList"/>
+      <inventory ref="inventoryDialogVisible"/>
     </el-card>
     
+    <!-- 添加 监测设备数量 -->
+    <el-dialog title="状态标签"
+      :visible.sync="monitorNumberDialog" width="650px">
+      <el-button size="small"  @click="addEdit()" 
+        :disabled="addShow">新建</el-button>
+      <el-table
+        :data="monitorNumberList">
+        <el-table-column label="监测设备类型" prop="title">
+        </el-table-column>
+        <el-table-column label="数量" prop="number">
+        </el-table-column>
+        <el-table-column label="操作" width="100px">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="addEdit(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top:20px" >
+        <el-form label-width="50px" :model="editParam">
+          <el-form-item>
+             <el-select v-model="editParam.title" placeholder="请选择通道类型">
+              <el-option v-for="item in value.monitortypeList"
+                :key="item.id"
+                :label="item.title"
+                :value="item.title"></el-option>
+            </el-select>
+            <el-input v-model="editParam.number" style="width: 30%" placeholder="数量"/>
+            <el-button size="small"  style="margin-left:10px" @click="submitMonitorNubmer()">{{isEditTag || addShow ? '修改':'新增'}}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-  import { getProjects, fetchMonitorType } from "network/api/pm";
+  import { getProjects, 
+           getMonitorNumber, createMonitorNumber, updateMonitorNumber} from "network/api/pm";
   import filter from "views/web/mixin/filter";
 
   import IdcRoom from "./components/IdcRoom"
@@ -158,51 +198,16 @@
         listQuery: Object.assign({}),
 
         // 测试数据
-        bomList: [
-          {
-            title: "dell r730",
-            sn: "12345",
-            memo: "cpu:xxx / 内存:xxx / 硬盘:xxx / RAID:xxx / 阵列卡:xxx\n系统版本:windows 2008\n帐号密码:administrator/12345",
-            version: "v2.1.46",
-            IPaddress: "网卡1:192.168.0.89\t掩码:255.255.255.0\t网关:\n"
-          }
-        ],
-        productList:[
-          {
-            facility: '1号风机',
-            sn: 12345,
-            sw: 'v2.1.48',
-            ip: '192.168.0.89/255.255.255.0/',
-            statusInfo:{title:'故障'},
-            lifecycleInfo: {title:'发货'},
-            memo: '这世间没你想的那么完美',
-            sensor: 'a公司传感器|AABBCC',
-            info:{
-              id: 1,
-              title: "叶片监测产品",
-              memo: "2020-10发布工程使用",
-              model: "CS2000v2.1",
-              aisleType: '后8通道',
-              status: {title:'新品'},
-              hardVersion:'1.11'
-            }
-          }
-        ],
-        inventoryList: [
-          {
-            name: "C2000",
-            type: [{ id: "1", title: "传动链" }],
-            total: "20",
-            sent: "10",
-            not_send: "10",
-            update: "2020-09-20"
-          },
-        ]
+        addShow:false,
+        isEditTag: null,
+        monitorNumberList:[],
+        editParam: Object.assign({}),
+        monitorNumberDialog: false,
       };
     },
-    created() {},
-    mounted() {
+    created() {
       this.getProject();
+      this.getMonitorNumberList()
     },
     methods: {
       addComma(list, name='name') {
@@ -226,13 +231,6 @@
       inventoryDialogVisible() {
         this.$refs['inventoryDialogVisible'].isShow(true)
       },
-      // initDialogVisible() {
-      //   this.$refs['inventoryDialogVisible'].isShow(true, 'init')
-      // },
-      // 弹窗重置
-      // resetForm(formName) {
-      //   this.$refs[formName].resetFields();
-      // },
       getProject() {
         this.loading = false;
         getProjects({ id: this.$route.query.id }).then(response => {
@@ -241,12 +239,74 @@
           console.log(this.value);
         });
       },
+      getMonitorNumberList() {
+        this.editParam.project = Number(this.$route.query.id)
+        getMonitorNumber({search:this.$route.query.id}).then(response => {
+          this.monitorNumberList = response
+          if (!this.addShow && this.monitorNumberDialog) {
+            this.addShow = (this.monitorNumberList.length >= this.value.monitortypeList.length ? true : false)
+            this.editParam = Object.assign({})
+          }
+        })
+      },
       updateProject(id) {
         this.$router.push({ name: "updateProject", query: { id: id } });
       },
-  
+      showDialog() {
+        this.monitorNumberDialog=true
+        this.editParam = Object.assign({})
+        this.addShow = (this.monitorNumberList.length >= this.value.monitortypeList.length ? true : false)
+      },
+      addEdit(row=null) {
+        if(row) {
+          this.isEditTag= true
+          // console.log('修改')
+          this.editParam = Object.assign({}, row)
+          
+        } else {
+          this.isEditTag = false
+          // console.log('新增')
+        }
+      },
+      submitMonitorNubmer() {
+        console.log(this.editParam)
+        if (this.isEditTag) {
+          updateMonitorNumber(this.editParam.id, this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getMonitorNumberList()
+            }
+          })
+        } else if(!this.addShow) {
+          createMonitorNumber(this.editParam).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getMonitorNumberList()
+            }
+          })
+        }
+      },
     },
     computed: {
+      // 没用，遍历数组用
       showQuery() {
         return (a, list) => {
           for (let i in list) {

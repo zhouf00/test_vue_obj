@@ -145,7 +145,14 @@
               prop="facility_count"
               sortable>
               <template slot-scope="scope">
-                {{scope.row.facility_count}}</template>
+                <div v-if="scope.row.monitorNumberList.length <= 0">
+                  <span>{{scope.row.facility_count}}</span>
+                </div>
+                <div v-else>
+                  <span>{{scope.row.facility_count}}</span><br>
+                  <span v-for="item in scope.row.monitorNumberList">{{item.title}}: {{item.number}} </span>
+                </div>
+              </template>
             </el-table-column>
             <el-table-column label="维护施工人员" width="150" align="center">
               <template slot-scope="scope">
@@ -155,7 +162,7 @@
                 </p>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="200" align="center">
+            <el-table-column label="操作" width="150" align="center">
               <template slot-scope="scope">
                 <p>
                   <el-button
@@ -253,7 +260,7 @@ export default {
         this.listLoading = false;
         this.list = response.results;
         this.total = response.count;
-
+        console.log(this.list)
       });
     },
     handleAddProject() {

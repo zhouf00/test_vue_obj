@@ -34,11 +34,10 @@
     <!-- 机房设备新增与修改 -->
     <el-dialog :title="isEdit? '编辑机房设备': '添加机房设备'" 
       :visible.sync="dialogVisible" width="650px">
-      <el-form ref="ruleFormForServe"
+      <el-form ref="ruleForm"
         :model="idcroomParem"
-        :rules="rulesIdcroomParem"
-        label-width="120px"
-        class="demo-ruleForm">
+        :rules="rules"
+        label-width="120px">
         <el-form-item label="设备名称" prop="title">
           <el-input v-model="idcroomParem.title" style="width: 85%"/>
         </el-form-item>
@@ -52,16 +51,16 @@
             v-model="idcroomParem.describe"
             style="width: 85%"/>
         </el-form-item>
-        <el-form-item label="软件版本" prop="version">
+        <el-form-item label="软件版本" prop="software">
           <el-input v-model="idcroomParem.software" style="width: 85%"
             placeholder="请输入软件版本"/>
         </el-form-item>
-        <el-form-item label="IP地址" prop="IPaddress" >
+        <el-form-item label="IP地址" prop="ip" >
           <el-input type="textarea"  style="width: 85%"
             :rows="3"
             v-model="idcroomParem.ip"/>
         </el-form-item>
-        <el-form-item label="备注" prop="describe">
+        <el-form-item label="备注" prop="memo">
           <el-input
             type="textarea"
             :rows="4"
@@ -69,7 +68,7 @@
             style="width: 85%"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleDialogConfirm()">确定</el-button>
+          <el-button type="primary" @click="verifyForm('ruleForm',handleDialogConfirm)">确定</el-button>
           <el-button size="small" @click="dialogVisible = false">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -102,7 +101,7 @@
         isEdit: false,
         list:　[],
         idcroomParem: Object.assign({}, defaultAsset),
-        rulesIdcroomParem: {
+        rules: {
           title: [{ required: true, message: "请输入设备名称", trigger: "blur" }],
           software: [{ required: true, message: "请输入版本号", trigger: "blur" }],
           ip: [
@@ -177,6 +176,20 @@
             
           })
         }
+      },
+      verifyForm(formName, obj){
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            obj()
+          } else {
+            this.$message({
+              message: "带*号的为必填项",
+              type: "error",
+              durattion: 1000
+            });
+            return false;
+          }
+        });
       }
     }
   }

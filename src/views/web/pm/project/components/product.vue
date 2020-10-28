@@ -22,9 +22,9 @@
           <el-table-column label="采集器IP" align="center">
             <template slot-scope="scope">{{scope.row.ip}}</template>
           </el-table-column>
-          <el-table-column label="状态" align="center">
+          <!-- <el-table-column label="状态" align="center">
             <template slot-scope="scope">{{scope.row.lifecycleInfo.title}}</template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button size="mini">查看</el-button>
@@ -35,17 +35,17 @@
         </el-table>
       </div>
 
-      <!--  -->
+      <!-- 弹窗 添加采集器 -->
       <el-dialog :title="isEdit? '编辑采集器': '添加采集器'" 
       :visible.sync="dialogVisible" width="650px">
-        <el-form 
+        <el-form ref="addProduct"
         :model="productionParam"
-        label-width="120px"
-        class="demo-ruleForm">
+        :rules="ruleForm"
+        label-width="120px">
         <el-form-item label="风机号" prop="title">
           <el-input v-model="productionParam.facility" style="width: 85%"/>
         </el-form-item>
-        <el-form-item label="采集器型号">
+        <el-form-item label="采集器型号" prop="product">
           <el-select placeholder="请选择采集器"
             style="width:300px"
             v-model="productionParam.product"
@@ -70,10 +70,10 @@
             <el-col :span="6" class="table-cell-title">{{showProduct.aisleInfo.title}}</el-col>
         </el-row>
         </el-form-item>
-        <el-form-item label="采集器编号" prop="title">
+        <el-form-item label="采集器编号" prop="sn">
           <el-input v-model="productionParam.sn" style="width: 85%"/>
         </el-form-item>
-        <el-form-item label="嵌入式版本" prop="version">
+        <el-form-item label="嵌入式版本" prop="sw">
           <el-input v-model="productionParam.sw" style="width: 85%"
             placeholder="请输入嵌入式版本"/>
         </el-form-item>
@@ -94,7 +94,7 @@
             v-model="productionParam.ip"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleDialogConfirm()">确定</el-button>
+          <el-button type="primary" @click="verifyForm('addProduct', handleDialogConfirm)">确定</el-button>
           <el-button size="small" @click="dialogVisible = false">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -110,6 +110,10 @@
     pageSize: 5,
     project: null
   }
+  const defaultProduct = {
+    product:1,
+    sw: ''
+  }
   export default {
     name: 'product',
     data() {
@@ -124,6 +128,10 @@
         productList: [],
 
         // 测试数据
+        ruleForm: {
+          product: [{ required: true, message: "必填项" }],
+          sw: [{ required: true, message: "必填项" }],
+        }
  
       }
     },
@@ -136,6 +144,7 @@
       isShow(dialogVisible) {
         this.isEdit = false
         this.dialogVisible = dialogVisible
+        this.productionParam = Object.assign({},defaultProduct)
       },
       getList() {
         this.listLoading = true
@@ -170,9 +179,9 @@
                 message: "提交成功",
                 duration: 1000
               });
+              this.getList()
+              this.dialogVisible = false
             }
-            this.getList()
-            this.dialogVisible = false
           })
         } else {
           console.log('新增')
@@ -190,14 +199,29 @@
                 message: "提交成功",
                 duration: 1000
               });
+              this.getList()
+              this.dialogVisible = false
             }
-            this.getList()
-            this.dialogVisible = false
+            
           })
         }
       },
       emitSelect() {
         this.showProduct = this.getVar(this.productionParam.product, this.productList)
+      },
+      verifyForm(formName, obj){
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            obj()
+          } else {
+            this.$message({
+              message: "带*号的为必填项",
+              type: "error",
+              durattion: 1000
+            });
+            return false;
+          }
+        });
       }
     },
     computed:{

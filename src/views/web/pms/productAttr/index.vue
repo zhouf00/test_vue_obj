@@ -293,14 +293,13 @@
       },
 
       addEdit(row=null) {
-        this.showAisleParam = true
         if(row) {
-          this.isEditAisle = true
+          this.isEditTag= true
           // console.log('修改')
           this.editParam = Object.assign({}, row)
           
         } else {
-          this.isEditAisle = false
+          this.isEditTag = false
           // console.log('新增')
           this.editParam = Object.assign({})
         }
