@@ -68,7 +68,7 @@
             style="width: 85%"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="verifyForm('ruleForm',handleDialogConfirm)">确定</el-button>
+          <el-button type="primary" size="small" @click="verifyForm('ruleForm',handleDialogConfirm)">确定</el-button>
           <el-button size="small" @click="dialogVisible = false">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -161,7 +161,8 @@
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -173,7 +174,6 @@
               this.getList()
               this.dialogVisible = false
             }
-            
           })
         }
       },

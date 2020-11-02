@@ -34,16 +34,17 @@ import { formatDate } from "utils/date";
 
 const defaultProjectParam = {
   is_delete: false,
+  pj_sn:null,
   sn:null,
-  type: 1,
+  type: null,
   name: "",
   area: null,
-  status: 1,
+  status: null,
   manufacturers: [],
-  monitor_type: [1],
+  monitor_type: [],
   entrance_time: new Date(),
-  memo: "写些什么",
-  working_env: 2,
+  memo: "",
+  working_env: null,
   facility_count:0
 };
 export default {
@@ -117,7 +118,9 @@ export default {
           // 更新
           console.log("更新提交");
           this.toDate("entrance_time");
-          updateProject(this.$route.query.id, this.projectParam).then(
+          this.projectParam.id = this.$route.query.id
+          console.log(this.projectParam)
+          updateProject(this.projectParam.id, this.projectParam).then(
             response => {
               if (response.err) {
                 this.$message({

@@ -110,12 +110,23 @@ export function getInvoiceImage(data) {
   })
 }
 
-export function getManufacturers() {
+export function getTrace(data) {
   return request({
-    url: '/engineering/project/manufacturer/',
-    method: 'get'
+    url: '/engineering/trace/',
+    method: 'get',
+    params:data
   })
 }
+
+export function createTrace(data) {
+  return request({
+    url: '/engineering/trace/',
+    method: 'post',
+    data:data
+  })
+}
+
+
 
 // ##########
 // 标签路由

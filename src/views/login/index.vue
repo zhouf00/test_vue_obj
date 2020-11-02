@@ -1,8 +1,8 @@
 <!-- 登陆界面 -->
 <template>
   <div>
-    <el-card class="login-form-layout">
-      <div slot="header">
+    <el-card class="login-form-layout" v-loading="isShow">
+      <div slot="header" >
         <span :style="isActive"
           @click="itemClick(mode_scan)">{{mode_scan}}</span>
         <span :style="'float: right;'+ isActive" 
@@ -32,8 +32,12 @@
         mode_input:'帐号密码',
         mode_status: false,
         isWenxin: null,
-        testData: null
+        testData: null,
+        isShow:false
       }
+    },
+    mounted() {
+      this.includeCode()
     },
     computed:{
       isActive() {
@@ -53,6 +57,15 @@
           this.mode_status = false
         } else {
           this.mode_status = true
+        }
+      },
+      includeCode() {
+        if(this.$route.query.code) {
+          // console.log('有CODE')
+          this.isShow = true
+        } else {
+          // console.log('无CODE')
+          this.isShow = false
         }
       }
     }

@@ -29,6 +29,11 @@
         <el-input style="width:300px"
           v-model="value.name"></el-input>
       </el-form-item>
+      <el-form-item label="项目编号"
+        prop="pj_sn">
+        <el-input style="width:300px"
+          v-model="value.pj_sn"></el-input>
+      </el-form-item>
       <el-form-item label="内部编号"
         prop="sn">
         <el-input style="width:300px"
@@ -56,6 +61,18 @@
             circle
             @click="areaDialogVisible=true"/>
       </el-form-item>
+      <el-form-item label="省份"
+        prop="province">
+        <el-select placeholder="请选择省份"
+          filterable
+          style="width:300px"
+          v-model="value.province">
+          <el-option v-for="item in provinceList"
+            :key="item"
+            :label="item"
+            :value="item"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="地址"
         prop="address">
         <el-input style="width:300px"
@@ -63,7 +80,7 @@
       </el-form-item>
       <el-form-item label="安装环境"
         prop="working_env">
-        <el-select placeholder="请选择区域"
+        <el-select placeholder="请选择安装环境"
           style="width:300px"
           v-model="value.working_env">
           <el-option v-for="item in working_envList"
@@ -94,7 +111,7 @@
       </el-form-item>
       <el-form-item label="项目状态"
         prop="status">
-        <el-select placeholder="请选择状态"
+        <el-select placeholder="请选择项目状态"
           style="width:300px"
           v-model="value.status">
           <el-option v-for="item in statusList"
@@ -134,6 +151,11 @@
           style="width:300px"
           v-model="value.entrance_time"></el-date-picker>
       </el-form-item>
+      <el-form-item label="用车情况"
+        prop="user_car">
+        <el-input style="width:300px"
+          v-model="value.user_car"></el-input>
+      </el-form-item>
       <el-form-item label="项目负责人"
         prop="builders">
         <el-select placeholder="请选择负责人"
@@ -141,7 +163,7 @@
           v-model="value.manager">
           <el-option v-for="item in usersList"
             :key="item.id"
-            :label="item.name"
+            :label="`${item.name} | ${item.position}`"
             :value="item.name"></el-option>
         </el-select>
       </el-form-item>
@@ -153,15 +175,16 @@
           v-model="value.builders">
           <el-option v-for="item in usersList"
             :key="item.id"
-            :label="item.name"
+            :label="`${item.name} | ${item.position}`"
             :value="item.id"
             :disabled="item.project>0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="备注">
+      <el-form-item label="项目须知">
         <el-input type="textarea"
           style="width:300px"
           :rows="5"
+          placeholder="项目的困难点等"
           v-model="value.memo"></el-input>
       </el-form-item>
       <el-form-item style="text-align: center">
@@ -189,7 +212,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitType()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitType()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -213,7 +236,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitArea()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitArea()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -237,7 +260,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitWorkingEnv()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitWorkingEnv()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -261,7 +284,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitStatus()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitStatus()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -285,7 +308,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitManufacturer()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitManufacturer()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -309,7 +332,7 @@
         <el-form label-width="120px" :model="editParam">
           <el-form-item label="项目类型名称">
             <el-input v-model="editParam.title" style="width: 85%"></el-input>
-            <el-button size="small"  style="margin-left:10px" @click="submitMonitorType()">{{isEditType ? '修改':'新增'}}</el-button>
+            <el-button size="small"  style="margin-left:10px" @click="submitMonitorType()">{{isEditTag ? '修改':'新增'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -347,20 +370,36 @@ export default {
     projectTag
   },
   data() {
+    const validateSn = (rule, value, callback) => {
+        if (value && value.length > 4) {
+          callback(new Error('内部编号最多4位'))
+        } else {
+          callback()
+        }
+      }
     return {
       dialogVisible: false,
       monitorDialogVisible: false,
-
+      provinceList: [
+        "浙江", "江苏", "上海", "安徽", "湖北", "江西 ", "福建", "广东","青海", "新疆", 
+        "西藏", "内蒙古", "黑龙江", "辽宁", "河北", "北京", "天津", "宁夏", "重庆", "广西",
+        "河南", "吉林", "湖南", "山西", "山东", "四川", "海南", "甘肃", "贵州","云南", "陕西"
+      ],
       rules: {
-        name: [{ required: true, message: "必填项" }],
-        sn: [{ validator: isNum, trigger: "blur" }],
+        name: [{ required: true, message: "必填项",trigger: "blur"  }],
+        // pj_sn: [{ required: true, message: "必填项" }],
+        sn: [{ validator: validateSn, trigger: "blur" }],
+        type: [{ required: true, message: "必填项" }],
+        area: [{ required: true, message: "必填项" }],
+        working_env: [{ required: true, message: "必填项" }],
         address: [{ required: true, message: "必填项" }],
+        status: [{ required: true, message: "必填项" }],
         manufacturers:[{ required: true, message: "必填项" }],
         monitor_type: [{ required: true, message: "必填项" }],
       },
       usersList: [],
 
-      isEditType:false,
+      isEditTag:false,
       editParam:Object.assign({}),
 
       typeList:[],
@@ -435,7 +474,7 @@ export default {
           this.$emit("nextStep");
         } else {
           this.$message({
-            message: "验证失败",
+            message: "带*号的为必填项",
             type: "error",
             durattion: 1000
           });
@@ -446,24 +485,25 @@ export default {
     
     addEdit(row=null) {
       if(row) {
-        this.isEdit = true
+        this.isEditTag = true
         console.log('修改')
         this.editParam = Object.assign({}, row)
         
       } else {
-        this.isEditType = false
+        this.isEditTag = false
         console.log('新增')
         this.editParam = Object.assign({})
       }
     },
     // 项目类型
     submitType() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateType(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -479,7 +519,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -487,6 +528,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getTypeList()
             }
           })
@@ -494,12 +536,13 @@ export default {
     },
     // 项目区域
     submitArea() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateArea(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -515,7 +558,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -523,6 +567,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getAreaList()
             }
           })
@@ -530,12 +575,13 @@ export default {
     },
     // 项目工作环境
     submitWorkingEnv() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateWorkingenv(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -551,7 +597,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -559,6 +606,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getWorkingenvList()
             }
           })
@@ -566,12 +614,13 @@ export default {
     },
     // 项目状态
     submitStatus() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateStatus(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -587,7 +636,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -595,6 +645,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getStatusList()
             }
           })
@@ -602,12 +653,13 @@ export default {
     },
     
     submitManufacturer() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateManufacturer(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -623,7 +675,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -631,6 +684,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getManufacturerList()
             }
           })
@@ -638,12 +692,13 @@ export default {
     },
   
     submitMonitorType() {
-      if (this.isEditType) {
+      if (this.isEditTag) {
           updateMonitorType(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -659,7 +714,8 @@ export default {
             if (response.err) {
               this.$message({
                 type: "warning",
-                message: response.err
+                message: response.err,
+                duration: 3000
               });
             } else {
               this.$message({
@@ -667,6 +723,7 @@ export default {
                 message: "提交成功",
                 duration: 1000
               });
+              this.editParam = Object.assign({})
               this.getMonitorTypeList()
             }
           })

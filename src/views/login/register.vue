@@ -85,7 +85,7 @@
                 this.loading = false;
                 this.$message({
                   type: 'warning',
-                  message: '帐号或密码不正确'
+                  message: data.err.msg
               })
               } else {
                 this.loading = false;

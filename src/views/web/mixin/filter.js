@@ -2,12 +2,16 @@ import {formatDate} from 'utils/date'
 
 export default {
   filters: {
-    formatDateTime(time) {
+    formatDateTime(time, fmt=null) {
       if (time == null || time === '') {
         return 'N/A'
       }
       let date = new Date(time);
-      return formatDate(date, 'yyyy-MM-dd')
+      if (fmt) {
+        return formatDate(date, `yyyy-MM-dd ${fmt}`)
+      } else {
+        return formatDate(date, `yyyy-MM-dd`)
+      }
     }
   },
 }

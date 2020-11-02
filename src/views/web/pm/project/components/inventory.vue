@@ -30,7 +30,9 @@
         <el-table-column label="操作" width="120" align="center">
           <template slot-scope="scope">
             <el-button size="mini"
-              @click="handleUpdate(scope.$index, scope.row)">我要发货</el-button>
+              @click="handleUpdate(scope.$index, scope.row)">编辑发货</el-button>
+            <el-button size="mini"
+              @click="handleInvoice(scope.$index, scope.row)">我要发货</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -202,7 +204,7 @@
   }
   const defaultInitCargo = {
     count: 0,
-    finsh: 2,
+    finish: 2,
   };
   const defaultInvoice = {
     type: 1,
@@ -225,7 +227,7 @@
         initDialogVisible:false,
         receiptDialogVisible:false,
         isEdit: false,
-        imgUrl: 'http://tianle.iok.la/engineering/invoice/upload/',
+        imgUrl: 'http://test.windit.com.cn/api/engineering/invoice/upload/',
         list: [],
         invoiceList: [],
         invoiceTotal: null,
@@ -271,7 +273,7 @@
         getCargo(this.listQuery).then(response => {
           this.list = response.results
           this.listLoading = false
-          // console.log(this.list)
+          console.log(this.list)
         })
       },
       getInvoiceList() {
@@ -287,6 +289,12 @@
         });
       },
       handleUpdate(index, row) {
+        this.initDialogVisible = true
+        this.isEdit = true
+        this.initCargoParam = Object.assign({}, row)
+
+      },
+      handleInvoice(index, row) {
         this.invoice = Object.assign({},defaultInvoice, {cargo: row})
         this.invoice.project = this.listQuery.project
         this.invoice.uname = this.$store.getters.name
@@ -294,13 +302,29 @@
         this.dialogVisible = true
       },
       handleInitDialogConfirm() {
-        console.log(this.initCargoParam)
+        let cargo = Object.assign({}, this.initCargoParam)
         if (this.isEdit) {
-
+          cargo.undelivered = cargo.totality - cargo.delivered
+          cargo.finish = (cargo.undelivered === 0 ? 2:1)
+          updateCargo(cargo).then(response => {
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getList()
+              this.initDialogVisible = false
+            }
+          })
         } else {
           this.initCargoParam.project = this.listQuery.project;
           this.initCargoParam.undelivered = this.initCargoParam.totality
-          console.log(this.initCargoParam)
           createCargo(this.initCargoParam).then(response => {
             if (response.err) {
               this.$message({
@@ -325,7 +349,7 @@
         if (this.invoice.type === 1) {
           cargo.delivered += this.invoice.count
           cargo.undelivered -= this.invoice.count
-          cargo.finish = (cargo.undelivered ? 2:1)
+          cargo.finish = (cargo.undelivered === 0 ? 2:1)
         }
         updateCargo(cargo.id, cargo).then(response => {
           console.log(response)
@@ -380,7 +404,7 @@
         })
       },
       handleUpLoadImg(index, row) {
-        this.imgList = []
+        this.fileList = []
         this.receiptDialogVisible = true
         this.imgData.invoice = row.id
       },

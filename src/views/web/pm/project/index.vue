@@ -67,13 +67,16 @@
             <span>{{ addComma(value.buildersList)}}</span>
           </el-col>
           <el-col :span="4" class="table-cell">
-            <span v-for="item in monitorNumberList">{{item.title}}: {{item.number}}</span>
+            <span v-for="item in monitorNumberList" :key="item.title">{{item.title}}: {{item.number}}</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col class="table-cell-title">备注</el-col>
+          <el-col class="table-cell-title">项目须知</el-col>
           <el-col class="table-cell">这人懒什么也没留下...</el-col>
         </el-row>
+      </div>
+      <div style="margin-top:20px">
+        <trace/>
       </div>
     </el-card>
 
@@ -182,13 +185,15 @@
   import IdcRoom from "./components/IdcRoom"
   import product from "./components/product"
   import inventory from "./components/inventory"
+  import Trace from "./components/Trace"
 
   export default {
     name: "index",
     components: {
       IdcRoom,
       product,
-      inventory
+      inventory,
+      Trace
     },
     mixins: [filter],
     data() {
@@ -197,12 +202,13 @@
         loading: null,
         listQuery: Object.assign({}),
 
-        // 测试数据
         addShow:false,
         isEditTag: null,
         monitorNumberList:[],
         editParam: Object.assign({}),
         monitorNumberDialog: false,
+
+        // 测试数据
       };
     },
     created() {
@@ -240,7 +246,6 @@
         });
       },
       getMonitorNumberList() {
-        this.editParam.project = Number(this.$route.query.id)
         getMonitorNumber({search:this.$route.query.id}).then(response => {
           this.monitorNumberList = response
           if (!this.addShow && this.monitorNumberDialog) {
@@ -266,10 +271,10 @@
         } else {
           this.isEditTag = false
           // console.log('新增')
+          this.editParam = Object.assign({})
         }
       },
       submitMonitorNubmer() {
-        console.log(this.editParam)
         if (this.isEditTag) {
           updateMonitorNumber(this.editParam.id, this.editParam).then(response => {
             if (response.err) {
@@ -287,6 +292,8 @@
             }
           })
         } else if(!this.addShow) {
+          this.editParam.project = Number(this.$route.query.id)
+          // console.log(this.editParam)
           createMonitorNumber(this.editParam).then(response => {
             if (response.err) {
               this.$message({
@@ -302,6 +309,11 @@
               this.getMonitorNumberList()
             }
           })
+        } else {
+          this.$message({
+                type: "warning",
+                message: '不能再新建了'
+              });
         }
       },
     },

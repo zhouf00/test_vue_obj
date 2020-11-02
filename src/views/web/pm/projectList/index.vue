@@ -8,6 +8,12 @@
           <i class="el-icon-search" style="margin-right: 10px"></i>
           <span>筛选搜索</span>
         </div>
+        <div>
+          <el-button type="primary" size="small" style="margin: 0 15px 0 40px"
+            @click="handleQuery()">查询结果</el-button>
+          <el-button size="small" type="primary" plain
+            @click="handleReset()">重置</el-button>
+        </div>
       </div>
       <div class="operate-container-body-two" >
         <el-form
@@ -36,11 +42,17 @@
               <el-option :value="'待开发'"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="项目状态：">
+            <el-select
+              placeholder="请选择区域"
+              clearable
+              style="width: 203px"
+              v-model="listQuery.area">
+              <el-option :value="'待开发'"></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
-        <div>
-          <el-button type="primary" size="small" style="margin: 0 15px 0 40px">查询结果</el-button>
-          <el-button size="small" type="primary" plain>重置</el-button>
-        </div>
+        
       </div>
     </el-card>
     <!-- 数据列表 添加 -->
@@ -150,7 +162,7 @@
                 </div>
                 <div v-else>
                   <span>{{scope.row.facility_count}}</span><br>
-                  <span v-for="item in scope.row.monitorNumberList">{{item.title}}: {{item.number}} </span>
+                  <span v-for="item in scope.row.monitorNumberList" :key="item.id">{{item.title}}: {{item.number}} </span>
                 </div>
               </template>
             </el-table-column>
@@ -281,6 +293,13 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
+    handleQuery() {
+      this.getList()
+    },
+    handleReset() {
+      this.listQuery=Object.assign({}, defaultListQuery)
+      this.getList()
+    }
   },
   computed:{
     getVar (){
@@ -297,7 +316,7 @@ export default {
 </script>
 
 <style scoped>
-/* .operate-container-header {
+.operate-container-header {
   padding: 15px 20px;
   font-size: 18px;
   font-weight: bold;
@@ -308,5 +327,5 @@ export default {
 }
 .operate-container-body {
   padding: 20px;
-} */
+}
 </style>

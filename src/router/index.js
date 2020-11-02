@@ -196,7 +196,7 @@ export const asyncWebRouterMap = [
     component: WebLayout,
     redirect: '/product',
     meta: {
-      title: '产品管理',
+      title: '产品目录',
       icon: 'el-icon-s-claim'
     },
     children: [
@@ -204,7 +204,7 @@ export const asyncWebRouterMap = [
         path: 'publishProduct',
         name: 'publishProduct',
         meta: {
-          title: '发布产品',
+          title: '产品库',
           icon: 'el-icon-box'
         },
         component: () => import('views/web/pms/productAttr'),
@@ -213,7 +213,7 @@ export const asyncWebRouterMap = [
         path: '',
         name: 'product',
         meta: {
-          title: '产品管理',
+          title: '生产记录',
           icon: 'el-icon-collection-tag'
         }
       },
