@@ -72,7 +72,7 @@
         </el-row>
         <el-row>
           <el-col class="table-cell-title">项目须知</el-col>
-          <el-col class="table-cell">这人懒什么也没留下...</el-col>
+          <el-col class="table-cell">{{value.memo}}</el-col>
         </el-row>
       </div>
       <div style="margin-top:20px">

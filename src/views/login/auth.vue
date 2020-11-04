@@ -45,7 +45,7 @@
         this.resCode = this.$route.query.code
         this.loading = true
         if (this.resCode) {
-          this.$store.dispatch('Auth2', this.resCode).then(() => {
+          this.$store.dispatch('Auth2', this.resCode).then(response => {
             this.loading = false
             this.$router.push({path:'/'})
           }).catch(error => {
@@ -63,7 +63,7 @@
         this.resCode = this.$route.query.code
         this.loading = true
         if (this.resCode) {
-          this.$store.dispatch('Auth2', this.resCode).then(() => {
+          this.$store.dispatch('Auth2', this.resCode).then(response => {
             this.loading = false
             this.$router.push({path:'/'})
           }).catch(error => {

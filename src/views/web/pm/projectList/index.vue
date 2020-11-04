@@ -39,16 +39,22 @@
               clearable
               style="width: 203px"
               v-model="listQuery.area">
-              <el-option :value="'待开发'"></el-option>
+              <el-option v-for="item in areaList"
+                :value="item.id"
+                :label="item.title"
+                :key="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="项目状态：">
             <el-select
-              placeholder="请选择区域"
+              placeholder="请选择项目状态"
               clearable
               style="width: 203px"
-              v-model="listQuery.area">
-              <el-option :value="'待开发'"></el-option>
+              v-model="listQuery.status">
+              <el-option v-for="item in statusList"
+                :value="item.id"
+                :label="item.title"
+                :key="item.id"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -228,7 +234,7 @@
 <script>
 import priorityTag from "components/content/tag/priorityTag";
 
-import { getProjects, fetchMonitorType } from "network/api/pm";
+import { getProjects, getArea, getStatus } from "network/api/pm";
 import filter from "views/web/mixin/filter";
 import { globalVar } from 'utils/global'
 
@@ -238,6 +244,7 @@ const defaultListQuery = {
   name: "",
   sn: "",
   area: "",
+  status: null
 };
 export default {
   name: "index",
@@ -260,20 +267,35 @@ export default {
         { label: "设为紧急", value: "urgency" },
         { label: "试运行", value: "pilot run" },
       ],
+
+      areaList: [],
+      statusList: []
     };
   },
   created() {
+    this.getAreaList()
+    this.getStatusList()
     this.getList();
   },
   methods: {
     getList() {
       this.listLoading = true;
       getProjects(this.listQuery).then(response => {
-        this.listLoading = false;
         this.list = response.results;
         this.total = response.count;
-        console.log(this.list)
+        this.listLoading = false;
+        // console.log(this.list)
       });
+    },
+    getAreaList() {
+      getArea().then(response => {
+        this.areaList = response
+      })
+    },
+    getStatusList() {
+      getStatus().then(response => {
+        this.statusList = response
+      })
     },
     handleAddProject() {
       this.$router.push({ name: "addProject" });
