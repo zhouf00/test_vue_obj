@@ -47,7 +47,14 @@
         if (this.resCode) {
           this.$store.dispatch('Auth2', this.resCode).then(response => {
             this.loading = false
-            this.$router.push({path:'/'})
+            if (response.err) {
+              this.$message({
+                type: 'warning',
+                message: response.err
+              })
+            } else {
+              this.$router.push({path:'/'})
+            }
           }).catch(error => {
             this.loading = false
             this.$message({
@@ -65,7 +72,14 @@
         if (this.resCode) {
           this.$store.dispatch('Auth2', this.resCode).then(response => {
             this.loading = false
-            this.$router.push({path:'/'})
+            if (response.err) {
+              this.$message({
+                type: 'warning',
+                message: response.err
+              })
+            } else {
+              this.$router.push({path:'/'})
+            }
           }).catch(error => {
             this.loading = false
             this.$message({

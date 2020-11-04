@@ -86,7 +86,7 @@
                 this.$message({
                   type: 'warning',
                   message: data.err.msg
-              })
+                })
               } else {
                 this.loading = false;
                 setCookie("username", this.loginForm.username, 15);
