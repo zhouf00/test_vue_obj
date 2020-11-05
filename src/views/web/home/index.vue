@@ -1,17 +1,27 @@
 <!-- 网页首页  -->
 <template>
   <div class="app-container">
-    <p>网页首页</p>
+    <h3>网页首页</h3>
+    <div style="margin-top:20px">
+      <span v-if="name">你好！{{name}},欢迎使用本系统</span>
+      <span v-else>你好！欢迎使用本系统</span>
+    </div>  
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
   export default {
     name: 'index',
+    computed: {
+      ...mapGetters([
+        'name',
+      ])
+    },
   }
 </script>
 <style scoped>
-    .app-container {
+  .app-container {
     margin-top: 40px;
     margin-left: 120px;
     margin-right: 120px;

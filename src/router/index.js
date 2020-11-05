@@ -223,14 +223,28 @@ export const asyncWebRouterMap = [
     path: '/sales',
     component: WebLayout,
     redirect: '/sales',
-    children: [{
-      path: '',
-      name: 'SALES',
-      meta: {
-        title: '销售管理',
-        icon: 'el-icon-collection-tag'
+    name: 'SALES',
+    meta: {
+      title: '销售管理',
+      icon: 'el-icon-s-claim'
+    },
+    children: [
+      {
+        path: '',
+        meta: {
+          title: '信息展示',
+          icon: 'el-icon-collection-tag'
+        },
+        component: () => import('views/web/sales/'),
+      },
+      {
+        path: 'aa',
+        meta: {
+          title: 'aa',
+          icon: 'el-icon-collection-tag'
+        },
       }
-    }]
+    ]
   },
   {
     path: '/ams',
