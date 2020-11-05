@@ -7,8 +7,8 @@ export function request(config) {
   const instance = axios.create({
     // baseURL: 'http://aa.windit.com.cn',
     // baseURL: 'http://tianle.iok.la',  // API的base_url
-    // baseURL: 'http://localhost:8000',
-    baseURL: 'http://test.windit.com.cn/api',
+    baseURL: 'http://localhost:8000/api',
+    // baseURL: 'http://test.windit.com.cn/api',
     timeout: 15000  // 请求超时时间  
   })
   // request 请求拦截

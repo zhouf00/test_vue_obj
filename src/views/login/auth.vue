@@ -50,7 +50,7 @@
             if (response.err) {
               this.$message({
                 type: 'warning',
-                message: response.err
+                message: response.err.msg ? response.err.msg : '连接有误'
               })
             } else {
               this.$router.push({path:'/'})
@@ -75,7 +75,7 @@
             if (response.err) {
               this.$message({
                 type: 'warning',
-                message: response.err
+                message: response.err.msg ? response.err.msg : '连接有误'
               })
             } else {
               this.$router.push({path:'/'})

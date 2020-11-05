@@ -124,7 +124,8 @@
             name="image"
             :file-list="fileList"
             :auto-upload="false">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary" 
+              :disabled="invoice.cargo.undelivered === 0">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -350,6 +351,7 @@
           cargo.delivered += this.invoice.count
           cargo.undelivered -= this.invoice.count
           cargo.finish = (cargo.undelivered === 0 ? 2:1)
+          // 1 未完成，2 完成
         }
         updateCargo(cargo.id, cargo).then(response => {
           console.log(response)
@@ -374,11 +376,10 @@
                     duration: 1000
                   });
                   this.imgData.invoice = response.id
-                  // console.log(this.imgData)
                   this.$refs['upload'].submit()
+                  this.getInvoiceList()
                 }
               })
-              this.getInvoiceList()
               this.getList()
               this.dialogVisible = false
             }

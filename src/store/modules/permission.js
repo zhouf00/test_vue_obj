@@ -4,6 +4,7 @@ import {asyncRouterMap, asyncWebRouterMap, constantRouterMap} from '@/router/ind
 function hasPermission (menus, route) {
   if (route.name) {
     let currMenu = getMenu(route.name, menus)
+    console.log(route.name, currMenu)
     if (currMenu != null) {
       // 设置菜单的标题、图标和可见性
       if (currMenu.title != null && currMenu.title !== '') {
@@ -21,7 +22,7 @@ function hasPermission (menus, route) {
       return true
     } else {
       route.sort = 0
-      if (route.hidden !== undefined && route.hidden === true) {
+      if (route.hidden !== undefined && route.hidden === true && currMenu) {
         return true;
       } else {
         return false;
@@ -77,14 +78,14 @@ const permission = {
     GenerateRouters({commit}, data) {
       return new Promise(resolve => {
         const { menus, is_mobile } = data
-        let access = ''
+        let access = false
         let newRouterMap = ''
-        for (let index in data.roles) {
-          if ('管理员' === data.roles[index].title) {
-            access = true
-          }
-          // 所有人可以查看，发布后需修改
-          access = true
+        if (data.id == 1 || data.roles.indexOf(1) !== -1) {
+          access =true
+          console.log('管理员', data.id, data.roles, data.roles.indexOf(1))
+        } else {
+          console.log('普通用户', data.roles)
+          
         }
         if(is_mobile) {
           newRouterMap = asyncRouterMap
@@ -102,6 +103,7 @@ const permission = {
                 }
                 return false;
               })
+              console.log(v)
               return v
             } else {
               return v
@@ -109,6 +111,7 @@ const permission = {
           }
           return false
         })
+        console.log(accessedRouters)
         sortRouters(accessedRouters);
         commit('SET_ROUTERS', accessedRouters);
         resolve();

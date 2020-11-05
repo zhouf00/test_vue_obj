@@ -90,45 +90,28 @@
               width="40"
               align="center"/>
             <el-table-column
-              label="编号"
-              width="75"
-              align="center"
-              prop="id"
-              sortable>
-              <template slot-scope="scope">{{ scope.row.id }}</template>
-            </el-table-column>
-            <el-table-column
               label="内部编号"
-              width="120"
+              width="110"
               align="center"
               prop="sn"
               sortable>
-              <template slot-scope="scope" >
-                <span>{{scope.row.sn}}</span>
-              </template>
+            </el-table-column>
+            <el-table-column
+              label="合同编号"
+              width="110"
+              align="center"
+              prop="pj_sn"
+              sortable>
             </el-table-column>
             <el-table-column
               label="区域"
               width="80"
               align="center"
-              prop="area"
-              sortable>
+              prop="area">
               <template slot-scope="scope" >
                 <span>{{scope.row.areaInfo.title}}</span>
               </template>
             </el-table-column>
-            <!-- 优先级暂时不用了 -->
-            <!-- <el-table-column
-              label="优先级"
-              width="90"
-              align="center"
-              prop="priority"
-              sortable
-            >
-              <template slot-scope="scope">
-                <priority-tag :value="scope.row.priority"></priority-tag>
-              </template>
-            </el-table-column> -->
             <el-table-column label="项目名称" align="center">
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>

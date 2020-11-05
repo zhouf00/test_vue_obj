@@ -21,13 +21,15 @@ router.beforeEach((to, from, next) => {
         // console.log(store.state.user,'获取');    
         store.dispatch('UserInfo').then(res => {
           // 获取菜单和用户名
+          console.log('用户信息',res.results)
+          let id = res.results.id
           let menus = res.results.menus
-          let roles = res.results.roles
+          let roles = res.results.auth
           let is_mobile = store.state.apps.device === 'mobile' ? true : false
           // console.log(store.state.apps.device === 'mobile', store.getters.is_mobile);
           // console.log(is_mobile, '路由');
           // 发送请求生成路由表
-          store.dispatch('GenerateRouters', {menus, roles, is_mobile}).then(() => {
+          store.dispatch('GenerateRouters', { id, menus, roles, is_mobile}).then(() => {
             router.addRoutes(store.getters.addRouters);
             next({ ...to, replace:true })
           })

@@ -24,7 +24,6 @@
               clearable></el-input>
           </el-form-item>
         </el-form>
-
         <div>
           <el-button style="margin: 0 15px 0 40px"
             type="primary"
@@ -50,7 +49,8 @@
         </div>
         <el-button size="mini"
           class="btn-add"
-          style="margin-left:20px">添加</el-button>
+          style="margin-left:20px"
+          @click="handleAdd()">添加</el-button>
       </div>
       <!-- 表格展示 -->
       <div class="operate-container-body">
@@ -69,13 +69,15 @@
             align="center">
             <template slot-scope="scope">{{scope.row.title}}</template>
           </el-table-column>
-          <el-table-column label="url"
-            align="center">
-            <template slot-scope="scope">{{scope.row.url}}</template>
+          <el-table-column label="前端名称"
+            align="center" prop="name">
           </el-table-column>
           <el-table-column label="父菜单"
             align="center">
-            <template slot-scope="scope">{{menuQuery(scope.row.parent)}}</template>
+            <template slot-scope="scope">
+              <span v-if="scope.row.parent">{{scope.row.parentInfo.title}}</span>
+              <span v-else>顶级菜单</span>
+            </template>
           </el-table-column>
           <el-table-column label="图标"
             align="center">
@@ -92,8 +94,8 @@
             width="180"
             align="center">
             <template slot-scope="scope">
-              <el-button size="mini"
-                type="text">编辑</el-button>
+              <el-button size="mini" type="text"
+                @click="handleUpdate(scope.row)">编辑</el-button>
               <el-button size="mini"
                 type="text">删除</el-button>
             </template>
@@ -103,15 +105,40 @@
     </el-card>
 
 
-    <!-- 弹窗显示：分配角色 -->
-    <el-dialog>
-
+    <!-- 弹窗显示：添加菜单信息 -->
+    <el-dialog :title="isEdit ? '编辑菜单': '添加菜单'" width="40%"
+      :visible.sync="dialogVisible">
+      <el-form label-width="25%" size="small" :model="menuParam">
+        <el-form-item label="菜单名：" prop="title">
+          <el-input v-model="menuParam.title" style="width: 80%"></el-input>
+        </el-form-item>
+        <el-form-item label="前端名称：" prop="title">
+          <el-input v-model="menuParam.name" style="width: 80%"></el-input>
+        </el-form-item>
+        <el-form-item label="父菜单：" prop="parent">
+          <el-select 
+            v-model="menuParam.parent"
+            size="small"
+            style="width: 80%"
+            placeholder="请选择"
+            :disabled="isEdit && ! menuParam.parent">
+            <el-option v-for="item in list"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getMenu } from 'network/api/menu'
+import { getMenu, createMenu, updateMenu } from 'network/api/menu'
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
@@ -126,14 +153,16 @@ export default {
       isEdit: null,
       list: null,
       tmpList: [],
-      showMenu: null
+      isEdit:false,
+      dialogVisible:false,
+      menuParam: Object.assign({})
     };
   },
   created() {
-    this.getlist()
+    this.getList()
   },
   methods: {
-    getlist() {
+    getList() {
       this.listLoading = true
       getMenu().then(response => {
         this.listLoading = false
@@ -141,15 +170,52 @@ export default {
         this.list = this.tmpList.filter(t => t.parent == null)
       })
     },
-    handleSizeChange(val) {
-      this.listQuery.pageNum = 1;
-      this.listQuery.pageSize = val;
+    handleAdd() {
+      this.isEdit = false
+      this.dialogVisible = true
+      this.menuParam = Object.assign({})
     },
-    handleCurrentChange(val) {
-      this.listQuery.pageNum = val;
+    handleUpdate(row) {
+      this.isEdit = true
+      this.dialogVisible = true
+      this.menuParam = Object.assign({}, row)
     },
-    handleStatusChange (index, row) {
-
+    handleDialogConfirm() {
+      console.log(this.menuParam)
+      if (this.isEdit) {
+        updateMenu(this.menuParam.id, this.menuParam).then(response => {
+          console.log(response)
+          if (response.err) {
+            this.$message({
+              type: "warning",
+              message: response.err
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "提交成功",
+              duration: 1000
+            });
+            this.getList()
+          }
+        })
+      } else {
+        createMenu(this.menuParam).then(response => {
+          if (response.err) {
+            this.$message({
+              type: "warning",
+              message: response.err
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "提交成功",
+              duration: 1000
+            });
+            this.getList()
+          }
+        })
+      }
     },
     filterParent(row) {
       console.log(row.parent == null)
@@ -162,17 +228,17 @@ export default {
         this.list = this.tmpList.filter(t => t.parent == null)
       }
     },
-  },
-  computed: {
-    menuQuery() {
-      return parent => {
-        for (let i in this.list) {
-          if (parent === this.list[i].id){
-            return this.list[i].title
-          }
-        }
-      }
-    }
+    
+    handleSizeChange(val) {
+      this.listQuery.pageNum = 1;
+      this.listQuery.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageNum = val;
+    },
+    handleStatusChange (index, row) {
+
+    },
   }
 };
 </script>

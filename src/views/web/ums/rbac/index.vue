@@ -49,17 +49,17 @@
           <el-table-column label="编号" width="60" align="center">
             <template slot-scope="scope">{{ scope.row.id }}</template>
           </el-table-column>
-          <el-table-column label="用户名" align="center">
-            <template slot-scope="scope">{{ scope.row.user }}</template>
+          <el-table-column label="角色名称" align="center">
+            <template slot-scope="scope">{{ scope.row.title }}</template>
           </el-table-column>
           <el-table-column label="描述" align="center">
             <template slot-scope="scope">{{ scope.row.memo }}</template>
           </el-table-column>
-          <el-table-column label="管理角色" align="center">
+          <!-- <el-table-column label="管理角色" align="center">
             <template slot-scope="scope">
               <span>{{getVar(scope.row.role, roleList)}}</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <!-- <el-table-column label="是否启用" width="100" align="center">
             <template slot-scope="scope">
               <el-switch
@@ -72,10 +72,10 @@
           <el-table-column label="操作" width="180" align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="text"
-                @click=""
-                >分配菜单</el-button>
+                @click="handleUserChange(scope.row)">分配用户</el-button>
+              <el-button size="mini" type="text"
+                @click="handleMenuChange(scope.row)">分配菜单</el-button>
               <el-button size="mini" type="text" @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini" type="text">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -95,11 +95,11 @@
     </el-card>
 
     <!-- 弹窗显示：新增、编辑角色 -->
-    <el-dialog :title="isEdit ? '编辑用户' : '添加用户'" :visible.sync="dialogVisible" width="40%">
+    <el-dialog :title="isEdit ? '编辑角色' : '添加角色'" :visible.sync="dialogVisible" width="40%">
       <el-form ref="roleForm" label-width="25%" size="small" :model="role">
         <el-form-item label="用户名：" prop="rolename">
-          <el-input v-if="isEdit" v-model="role.user" style="width: 80%" disabled></el-input>
-          <el-select v-else
+          <el-input v-model="role.title" style="width: 80%"></el-input>
+          <!-- <el-select v-else
             v-model="role.user"
             size="small"
             style="width: 80%"
@@ -108,12 +108,12 @@
               :key="item.id"
               :label="item.name"
               :value="item.id" />
-          </el-select>
+          </el-select> -->
         </el-form-item>
         <el-form-item label="描述：">
           <el-input v-model="role.memo" type="textarea" style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="管理角色：" prop="mobile">
+        <!-- <el-form-item label="管理角色：" prop="mobile">
           <el-radio-group v-model="role.role" style="width: 80%">
             <el-radio v-for="item in roleList" :label="item.value">{{item.label}}</el-radio>
           </el-radio-group>
@@ -122,12 +122,6 @@
           <el-checkbox-group  v-model="role.menu" style="width: 80%">
             <el-checkbox v-for="item in menuList" :label="item.id">{{item.title}}</el-checkbox>
           </el-checkbox-group >
-        </el-form-item>
-        <!-- <el-form-item label="是否启用：">
-          <el-radio-group v-model="role.status" style="width: 80%">
-            <el-radio :label="true">是</el-radio>
-            <el-radio :label="false">否</el-radio>
-          </el-radio-group>
         </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -137,69 +131,103 @@
     </el-dialog>
 
     <!-- 弹窗显示：分配角色 -->
+    <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
+      <el-form label-width="25%" size="small" :model="userParam">
+        <el-form-item label="用户名：" prop="user">
+          <el-select 
+            v-model="userParam.user"
+            multiple
+            size="small"
+            style="width: 80%"
+            placeholder="请选择">
+            <el-option v-for="item in userList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleUserDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
 
+    <!-- 弹窗显示：分配菜单 -->
+    <el-dialog title="分配菜单" :visible.sync="menuDialogVisible" width="40%">
+      <div v-for="item in menuList" :key="item.id">
+        <el-checkbox-group v-model="checkList">
+          <el-row class="table-layout" style="background: #F2F6FC;">
+            <el-checkbox :label="item.id">{{item.title}}</el-checkbox>
+          </el-row>
+          <el-row class="table-layout" v-if="item.childrenList.length > 0">
+            <el-col :span="8" v-for="child in item.childrenList" :key="child.id" style="padding: 4px 0">
+              <el-checkbox :label="child.id">{{child.title}}</el-checkbox>
+            </el-col>
+          </el-row>
+        </el-checkbox-group>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleMenuDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getrole, updateRole, createRole } from "network/api/role";
+import { getrole, updateRole, createRole, updateRoleChange, } from "network/api/role";
 import { fetchUserList } from 'network/api/login'
 import { getMenu } from 'network/api/menu'
-import { globalVar } from 'utils/global'
 
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
-  user: ''
-};
-const defaultRole = {
-  role: 2,
-  menu: []
 };
 export default {
   name: "index",
   data() {
     return {
-      roleList: globalVar.roleList,
-      personList: null,
-      filterMethod(query, item) {
-        return item.pinyin.indexOf(query) > -1;
-      },
       listQuery: Object.assign({}, defaultListQuery),
       isEdit: null,
       listLoading: null,
       total: null,
       list: null,
-      menuList:null,
-      userList: null,
-      role: Object.assign({}, defaultRole),
+
+      role: Object.assign({}),
       dialogVisible: false,
-      namelist: ["周凡", "张三", "李四"]
-      // list:[
-      //   {id:1, title:'超级管理员', memo:'所有的权限', user:20, create_time:'2020-10-10', status:true},
-      //   {id:2, title:'项目管理员', memo:'项目模块的相关权限', user:20, create_time:'2020-10-10', status:true},
-      //   {id:3, title:'销售管理员', memo:'销售模块的相关权限', user:20, create_time:'2020-10-10', status:true},
-      //   {id:4, title:'普通用户', memo:'浏览及指定权限', user:20, create_time:'2020-10-10', status:true}
-      // ]
+
+      userList: [],
+      userParam: Object.assign({}),
+      userDialogVisible:false,
+
+
+      menuList:[],
+      checkList: [4],
+      menuDialogVisible:false,
+      defaultProps: {
+          children: 'childrenList',
+          label: 'title'
+        },
     };
   },
   created() {
     this.getList();
-    this.getMenulist()
   },
   mounted() {},
   methods: {
     getList() {
       this.listLoading = true;
-      getrole(this.listQuery).then(response => {
+      getrole().then(response => {
         this.listLoading = false;
-        this.list = response;
-        this.total = response.length;
+        this.list = response
+        // console.log(this.list)
       });
     },
     getMenulist() {
-      getMenu({parent: 0}).then(response => {
+      getMenu({parent:0}).then(response => {
         this.menuList = response
+        // console.log(this.menuList)
       }) 
     },
     handleSizeChange(val) {
@@ -216,9 +244,6 @@ export default {
       this.dialogVisible = true;
       this.isEdit = false;
       this.role = Object.assign({}, defaultRole);
-      fetchUserList().then( response => {
-        this.userList =  response
-      })
     },
     handleUpdate(index, row) {
       this.dialogVisible = true;
@@ -231,41 +256,79 @@ export default {
           this.dialogVisible = false;
           this.getList();
         });
-        console.log("aa");
       } else {
-        console.log("bb");
         createRole(this.role).then(response => {
-          console.log(response);
           this.dialogVisible = false;
           this.getList();
         });
       }
     },
-    closeAfter(index) {
-      if (index === 1) {
-        this.personValue = [];
-      } else {
-        this.userDialogVisible = false;
-        this.personValue = [];
-      }
+    handleUserChange(row) {
+      this.userDialogVisible = true
+      this.userParam = Object.assign({},row)
+      fetchUserList().then( response => {
+        this.userList =  response
+      })
     },
-    // 确认人员分配就把v-model中的value传上去
-    confirmTransferPersonnel() {
-      console.log("分配成功");
-    }
-  },
-  computed:{
-    getVar (){
-      return function (a, list) {
-        for(let i in list) {
-          if (list[i].value == a){
-            return list[i].label
-          }
+    handleUserDialogConfirm() {
+      updateRoleChange(this.userParam.id, this.userParam).then(response => {
+        if (response.err) {
+          this.$message({
+            type: "warning",
+            message: response.err
+          });
+        } else {
+          this.$message({
+            type: "success",
+            message: "提交成功",
+            duration: 1000
+          });
+          this.getList()
         }
-      }
-    }
+      })
+    },
+    handleMenuChange(row) {
+      this.menuDialogVisible = true
+      this.userParam = Object.assign({},row)
+      console.log(this.userParam)
+      this.checkList = this.userParam.menu
+      console.log(this.checkList)
+      getMenu({parent:0}).then(response => {
+        this.menuList = response
+      }) 
+    },
+    handleMenuDialogConfirm() {
+      this.userParam.menu = this.checkList
+      console.log(this.userParam)
+      updateRoleChange(this.userParam.id, this.userParam).then(response => {
+        if (response.err) {
+          this.$message({
+            type: "warning",
+            message: response.err
+          });
+        } else {
+          this.$message({
+            type: "success",
+            message: "提交成功",
+            duration: 1000
+          });
+          this.getList()
+          this.menuDialogVisible = false
+        }
+      })
+    },
   }
 };
 </script>
 <style scoped>
+  .table-layout {
+    padding: 20px;
+    border-left: 1px solid #DCDFE6;
+    border-right: 1px solid #DCDFE6;
+    border-bottom: 1px solid #DCDFE6;
+  }
+
+  .top-line {
+    border-top: 1px solid #DCDFE6;
+  }
 </style>

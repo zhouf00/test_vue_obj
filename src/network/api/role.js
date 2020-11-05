@@ -24,3 +24,12 @@ export function updateRole(id, data) {
     data: data
   })
 }
+
+// 更新菜单或用户
+export function updateRoleChange(id, data) {
+  return request({
+    url: `/rbac/role/change/${id}/`,
+    method: 'post',
+    data: data
+  })
+}

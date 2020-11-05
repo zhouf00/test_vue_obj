@@ -81,11 +81,19 @@
           if(valid){
             this.loading = true;
             this.$store.dispatch('Login', this.loginForm).then(data => {
+              // 判断
+              // if(! Array.isArray(data) && ! (Object.prototype.toString.call(data) === '[object Object]')){
+              //   this.loading = false;
+              //   this.$message({
+              //     type: 'warning',
+              //     message: '连接有误',
+              //   })
+              // }
               if (data.err) {
                 this.loading = false;
                 this.$message({
                   type: 'warning',
-                  message: data.err.msg
+                  message: data.err.msg ? data.err.msg : '连接有误'
                 })
               } else {
                 this.loading = false;

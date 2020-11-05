@@ -127,7 +127,7 @@ export const asyncWebRouterMap = [
       name: 'webHome',
       component: () => import('views/web/home'),
       meta: {
-        title: '网页管理',
+        title: '首页',
         icon: 'el-icon-s-home'
       }
     }]
@@ -144,7 +144,7 @@ export const asyncWebRouterMap = [
     children: [
       {
         path: 'overview',
-        name: 'overview',
+        name: 'OVERVIEW',
         component: () => import('views/web/pm/projectList/overview'),
         meta: {
           title: '总览',
@@ -153,7 +153,7 @@ export const asyncWebRouterMap = [
       },
       {
         path: '',
-        name: 'project',
+        name: 'PROJECT',
         component: () => import('views/web/pm/projectList'),
         meta: {
           title: '项目列表',
@@ -195,6 +195,7 @@ export const asyncWebRouterMap = [
     path: '/product',
     component: WebLayout,
     redirect: '/product',
+    name: 'PRODUCT',
     meta: {
       title: '产品目录',
       icon: 'el-icon-s-claim'
@@ -250,40 +251,37 @@ export const asyncWebRouterMap = [
     path: '/ams',
     component: WebLayout,
     redirect: '/ams',
-    children: [{
-      path: '',
-      name: 'AMS',
-      meta: {
-        title: '资产管理',
-        icon: 'el-icon-collection-tag'
-      }
-    }]
-  },
-  {
-    path: '/profile',
-    component: WebLayout,
-    children: [{
-      path: '',
-      name: 'profile',
-      // component: () => import('views/profile/Profile'),
-      meta: {
-        title: '个人中心'
-      },
-    }],
-    hidden: true
+    name: 'AMS',
+    meta: {
+      title: '资产管理',
+      icon: 'el-icon-s-claim'
+    },
+    // children: [{
+    //   path: '',
+    //   name: 'AMS',
+    //   meta: {
+    //     title: '资产',
+    //     icon: 'el-icon-collection-tag'
+    //   }
+    // }]
   },
   {
     path: '/task',
     component: WebLayout,
-    children: [{
-      path: '',
-      name: 'task',
-      // component: () => import('views/task/Task'),
-      meta: {
-        title: '任务管理',
-        icon: 'el-icon-collection-tag'
-      }
-    }]
+    name: 'Task',
+    meta: {
+      title: '任务管理',
+      icon: 'el-icon-s-claim'
+    },
+    // children: [{
+    //   path: '',
+    //   name: 'task',
+    //   // component: () => import('views/task/Task'),
+    //   meta: {
+    //     title: '任务管理',
+    //     icon: 'el-icon-collection-tag'
+    //   }
+    // }]
   },
   {
     path: '/ums',

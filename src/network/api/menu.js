@@ -7,3 +7,19 @@ export function getMenu(data) {
     params: data
   })
 }
+
+export function createMenu(data) {
+  return request({
+    url: '/rbac/menu/',
+    method: 'post',
+    data: data
+  })
+}
+
+export function updateMenu(id,data) {
+  return request({
+    url: `/rbac/updatemenu/${id}/`,
+    method: 'post',
+    data: data
+  })
+}
