@@ -43,18 +43,6 @@ const user = {
         })
       })
     },
-    Logout({commit, state}) {
-      return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
     Auth2({commit},code) {
       return new Promise((resolve, reject) => {
         auth2(code).then(response => {
@@ -62,7 +50,7 @@ const user = {
           const tokenStr = data.token
           setToken(tokenStr)
           commit('SET_TOKEN', tokenStr)
-          resolve()
+          resolve(data)
         }).catch(error => {
           reject(error)
         })
@@ -73,13 +61,11 @@ const user = {
         getUser().then(response => {
           const data = response.results
           // 验证返回的roles是否为空数组
-          data.roles = [1]
-          commit('SET_ROLES', data.roles)
-          // if (data.roles && data.roles.length > 0) {
-          //   commit('SET_ROLES', data.roles)
-          // } else {
-          //   reject('UserInfo: roles must be a non-null array!')
-          // }
+          if (data.auth && data.auth.length > 0) {
+            commit('SET_ROLES', data.auth)
+          } else {
+            reject('UserInfo: roles must be a non-null array!')
+          }
           commit('SET_ID',data.id)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)

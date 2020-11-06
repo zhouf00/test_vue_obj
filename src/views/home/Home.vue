@@ -6,7 +6,10 @@
       <el-col :span="8"><p @click="Logout" style="color:red">注销</p></el-col>
     </el-row>
     <el-button @click="openScanQrCode()">扫一扫</el-button>
-    {{test}}{{aa}}
+    <div>
+      <span>手机端还在开发中...</span>
+    </div>  
+
     <HomeFunc :funcs="showfuncs"/>
   </div>
 </template>

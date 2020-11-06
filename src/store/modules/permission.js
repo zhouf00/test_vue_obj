@@ -4,7 +4,6 @@ import {asyncRouterMap, asyncWebRouterMap, constantRouterMap} from '@/router/ind
 function hasPermission (menus, route) {
   if (route.name) {
     let currMenu = getMenu(route.name, menus)
-    console.log(route.name, currMenu)
     if (currMenu != null) {
       // 设置菜单的标题、图标和可见性
       if (currMenu.title != null && currMenu.title !== '') {
@@ -82,14 +81,13 @@ const permission = {
         let newRouterMap = ''
         if (data.id == 1 || data.roles.indexOf(1) !== -1) {
           access =true
-          console.log('管理员', data.id, data.roles, data.roles.indexOf(1))
+          // console.log('管理员', data.id, data.roles, data.roles.indexOf(1))
         } else {
-          console.log('普通用户', data.roles)
+          // console.log('普通用户', data.roles)
           
         }
         if(is_mobile) {
           newRouterMap = asyncRouterMap
-          // console.log('手机');
         } else {
           newRouterMap = asyncWebRouterMap
         }
@@ -103,7 +101,6 @@ const permission = {
                 }
                 return false;
               })
-              console.log(v)
               return v
             } else {
               return v
@@ -111,7 +108,6 @@ const permission = {
           }
           return false
         })
-        console.log(accessedRouters)
         sortRouters(accessedRouters);
         commit('SET_ROUTERS', accessedRouters);
         resolve();

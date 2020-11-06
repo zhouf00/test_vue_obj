@@ -181,10 +181,8 @@ export default {
       this.menuParam = Object.assign({}, row)
     },
     handleDialogConfirm() {
-      console.log(this.menuParam)
       if (this.isEdit) {
         updateMenu(this.menuParam.id, this.menuParam).then(response => {
-          console.log(response)
           if (response.err) {
             this.$message({
               type: "warning",

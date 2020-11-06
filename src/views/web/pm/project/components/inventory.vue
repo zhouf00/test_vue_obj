@@ -185,6 +185,7 @@
         :file-list="fileList"
         :auto-upload="true">
         <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传图片文件</div>
       </el-upload>
     </el-dialog>
   </div>
@@ -404,6 +405,7 @@
           }
         })
       },
+
       handleUpLoadImg(index, row) {
         this.fileList = []
         this.receiptDialogVisible = true

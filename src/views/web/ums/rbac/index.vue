@@ -243,7 +243,7 @@ export default {
     handleAdd() {
       this.dialogVisible = true;
       this.isEdit = false;
-      this.role = Object.assign({}, defaultRole);
+      this.role = Object.assign({});
     },
     handleUpdate(index, row) {
       this.dialogVisible = true;
@@ -290,16 +290,16 @@ export default {
     handleMenuChange(row) {
       this.menuDialogVisible = true
       this.userParam = Object.assign({},row)
-      console.log(this.userParam)
+      // console.log(this.userParam)
       this.checkList = this.userParam.menu
-      console.log(this.checkList)
+      // console.log(this.checkList)
       getMenu({parent:0}).then(response => {
         this.menuList = response
       }) 
     },
     handleMenuDialogConfirm() {
       this.userParam.menu = this.checkList
-      console.log(this.userParam)
+      // console.log(this.userParam)
       updateRoleChange(this.userParam.id, this.userParam).then(response => {
         if (response.err) {
           this.$message({

@@ -46,8 +46,10 @@
         this.loading = true
         if (this.resCode) {
           this.$store.dispatch('Auth2', this.resCode).then(response => {
+            console.log('所有',response.err)
             this.loading = false
             if (response.err) {
+              console.log('返回',response.err)
               this.$message({
                 type: 'warning',
                 message: response.err.msg ? response.err.msg : '连接有误'
@@ -56,6 +58,7 @@
               this.$router.push({path:'/'})
             }
           }).catch(error => {
+            console.log(error)
             this.loading = false
             this.$message({
               type: 'warning',

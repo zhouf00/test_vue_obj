@@ -28,7 +28,7 @@ export const asyncRouterMap = [
     redirect: '/home',
     children: [{
       path: 'home',
-      name: 'home',
+      name: 'Home',
       component: () => import('views/home/Home'),
       meta: {
         title: '首页',
@@ -124,7 +124,7 @@ export const asyncWebRouterMap = [
     redirect: '/home',
     children: [{
       path: 'home',
-      name: 'webHome',
+      name: 'Home',
       component: () => import('views/web/home'),
       meta: {
         title: '首页',

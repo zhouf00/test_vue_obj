@@ -5,6 +5,7 @@
     <div style="margin-top:20px">
       <span v-if="name">你好！{{name}},欢迎使用本系统</span>
       <span v-else>你好！欢迎使用本系统</span>
+      <span>系统还在内部测试中，给大家使用带来不便，请见谅！</span>
     </div>  
   </div>
 </template>
