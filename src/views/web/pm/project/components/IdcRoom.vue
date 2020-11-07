@@ -120,7 +120,6 @@
         getIdcRoom(this.listQuery).then( response => {
           this.list = response.results
           this.listLoading = false
-          console.log(this.list)
         })
       },
       handleUpdate(index, row) {
@@ -135,8 +134,6 @@
       },
       handleDialogConfirm() {
         if (this.isEdit) {
-          console.log("修改")
-          console.log(this.idcroomParem)
           updateIdcRoom(this.idcroomParem.id, this.idcroomParem).then(response => {
             if (response.err) {
               this.$message({
@@ -154,9 +151,9 @@
             }
           })
         } else {
-          console.log("新增")
+          // console.log("新增")
           this.idcroomParem.project = this.listQuery.project;
-          console.log(this.idcroomParem)
+          // console.log(this.idcroomParem)
           createIdcRoom(this.idcroomParem).then( response => {
             if (response.err) {
               this.$message({

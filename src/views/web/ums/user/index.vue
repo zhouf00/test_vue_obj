@@ -9,7 +9,6 @@
         <div> <i class="el-icon-search"
             style="margin-right:10px" />
           <span>筛选搜索</span></div>
-
       </div>
       <div class="operate-container-body-two">
         <el-form :inline="true"
@@ -34,13 +33,9 @@
           <el-button type="primary"
             style="margin: 0 15px 0 40px"
             size="small"
-            @click="handleSearrchList()">
-            查询搜索
-          </el-button>
+            @click="handleSearrchList()">查询搜索</el-button>
           <el-button size="small"
-            @click="handleResetSearch()">
-            重置
-          </el-button>
+            @click="handleResetSearch()">重置</el-button>
         </div>
 
       </div>
@@ -91,7 +86,7 @@
           <el-table-column label="最后登录"
             width="160"
             align="center">
-            <template slot-scope="scope">{{scope.row.last_login | formatDateTime }}</template>
+            <template slot-scope="scope">{{scope.row.last_login  | formatDateTime('hh:mm:ss') }}</template>
           </el-table-column>
           <el-table-column label="是否启用"
             width="100"
@@ -109,7 +104,7 @@
             <template slot-scope="scope">
               <el-button size="mini"
                 type="text"
-                @click="handleSelectRole(scope.$index, scope.row)">设置部门</el-button>
+                @click="handleDepartment(scope.$index, scope.row)">设置部门</el-button>
               <el-button size="mini"
                 type="text"
                 @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
@@ -128,13 +123,10 @@
             :current-page.sync="listQuery.pageNum"
             :page-size="listQuery.pageSize"
             :page-sizes="[10,15,20]"
-            :total="total">
-          </el-pagination>
+            :total="total"></el-pagination>
         </div>
       </div>
-
     </el-card>
-    <!-- 表格展示 -->
 
     <!-- 弹窗显示:添加、编辑 -->
     <el-dialog :title="isEdit? '编辑用户': '添加用户'"
@@ -218,11 +210,11 @@ import {
   updateStatus,
   fetchAllRoleList
 } from "network/api/login";
-import { formatDate } from "utils/date";
+import filter from "views/web/mixin/filter";
 
 const defaultListQuery = {
   pageNum: 1,
-  pageSize: 9,
+  pageSize: 10,
   search: null
 };
 const defaultUser = {
@@ -237,6 +229,7 @@ const defaultUser = {
 };
 export default {
   name: "user",
+  mixins: [filter],
   data() {
     return {
       listQuery: Object.assign({}, defaultListQuery),
@@ -257,18 +250,8 @@ export default {
       }
     };
   },
-  created() {
+  mounted() {
     this.getList();
-    this.getAllRoleList();
-  },
-  filters: {
-    formatDateTime(time) {
-      if (time == null || time === "") {
-        return "N/A";
-      }
-      let date = new Date(time);
-      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
-    }
   },
   methods: {
     handleResetSearch() {
@@ -282,16 +265,14 @@ export default {
       this.$confirm("是否要修改该状态？", "提示", {
         confirmButtonText: "确定",
         concelButtonText: "取消"
-      })
-        .then(() => {
+      }).then(() => {
           updateStatus(row.id, {is_active:row.is_active} ).then(response => {
             this.$message({
               type: "success",
               message: "修改成功"
             });
           });
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$message({
             type: "info",
             message: "取消"
@@ -317,10 +298,10 @@ export default {
       this.isEdit = true;
       this.user = Object.assign({}, row);
     },
-    handleSelectRole(index, row) {
+    handleDepartment(index, row) {
       this.allocUserId = row.id;
       this.allocDialogVisible = true;
-      this.getRoleListByUser(row);
+
     },
     handleDelete(index, row) {
       // 删除用户 未写完
@@ -387,7 +368,7 @@ export default {
           this.allocRoleIds.push(allocRoleList[i].id);
         }
       }
-    }
+    },
   }
 };
 </script>

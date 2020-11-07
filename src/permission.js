@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         // console.log(store.state.user,'获取');    
         store.dispatch('UserInfo').then(res => {
           // 获取菜单和用户名
-          console.log('用户信息',res.results)
+          // console.log('用户信息',res.results)
           let id = res.results.id
           let menus = res.results.menus
           let roles = res.results.auth

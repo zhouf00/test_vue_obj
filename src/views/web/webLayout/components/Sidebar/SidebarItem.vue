@@ -48,9 +48,9 @@
         const showingChildren = children.filter(item => {
           return !item.hidden
         })
-        console.log(showingChildren)
+        // console.log(showingChildren)
         if (children[0].path == 'home' && showingChildren.length === 1) {
-          console.log('child', children)
+          // console.log('child', children)
           return true
         }
         return false

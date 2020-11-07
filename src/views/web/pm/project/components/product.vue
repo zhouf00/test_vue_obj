@@ -151,13 +151,11 @@
         getProduction(this.listQuery).then(response => {
           this.list = response.results
           this.listLoading = false
-          console.log(this.list)
         })
       },
       getProductList() {
         getProduct().then(response => {
           this.productList = response.results
-          console.log(this.productList)
         })
       },
       handleUpdate(index, row) {
@@ -184,10 +182,9 @@
             }
           })
         } else {
-          console.log('新增')
+          // console.log('新增')
           this.productionParam.project = this.listQuery.project;
           createProduction(this.productionParam).then(response => {
-            console.log(response)
             if (response.err) {
               this.$message({
                 type: "warning",

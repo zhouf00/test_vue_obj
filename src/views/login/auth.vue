@@ -46,7 +46,7 @@
         this.loading = true
         if (this.resCode) {
           this.$store.dispatch('Auth2', this.resCode).then(response => {
-            console.log('所有',response.err)
+            console.log('所有',response)
             this.loading = false
             if (response.err) {
               console.log('返回',response.err)

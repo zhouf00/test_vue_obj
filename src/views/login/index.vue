@@ -11,7 +11,7 @@
       <!-- 帐号密码登陆 -->
       <register v-if="isActive"/>
       <!-- 扫码登陆 -->
-      <auth v-if="!isActive"/>
+      <!-- <auth v-if="!isActive"/> -->
     </el-card>
   </div>
 </template>

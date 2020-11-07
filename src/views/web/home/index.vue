@@ -1,11 +1,11 @@
 <!-- 网页首页  -->
 <template>
   <div class="app-container">
-    <h3>网页首页</h3>
+    <h3>网页首页</h3><span>工程信息平台内测V0.1.2020117</span>
     <div style="margin-top:20px">
       <span v-if="name">你好！{{name}},欢迎使用本系统</span>
-      <span v-else>你好！欢迎使用本系统</span>
-      <span>系统还在内部测试中，给大家使用带来不便，请见谅！</span>
+      <span v-else>你好！欢迎使用本系统</span><br>
+      <span>系统还在内部测试中，给大家使用带来不便，请见谅！</span><br>
     </div>  
   </div>
 </template>

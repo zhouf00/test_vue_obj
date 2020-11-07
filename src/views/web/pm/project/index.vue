@@ -226,7 +226,7 @@
         } else {
           return "无";
         }
-        console.log(list);
+        // console.log(list);
       },
       bomDialogVisible() {
         this.$refs['bomDialogVisible'].isShow(true)
@@ -242,7 +242,6 @@
         getProjects({ id: this.$route.query.id }).then(response => {
           this.loading = true;
           this.value = response.results[0];
-          console.log(this.value);
         });
       },
       getMonitorNumberList() {

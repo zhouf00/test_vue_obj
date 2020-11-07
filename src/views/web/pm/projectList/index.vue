@@ -219,7 +219,6 @@ import priorityTag from "components/content/tag/priorityTag";
 
 import { getProjects, getArea, getStatus } from "network/api/pm";
 import filter from "views/web/mixin/filter";
-import { globalVar } from 'utils/global'
 
 const defaultListQuery = {
   page: 1,
@@ -267,7 +266,6 @@ export default {
         this.list = response.results;
         this.total = response.count;
         this.listLoading = false;
-        // console.log(this.list)
       });
     },
     getAreaList() {

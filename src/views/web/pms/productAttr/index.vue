@@ -237,7 +237,7 @@
       getaisleList() {
         getAisle().then( response => {
           this.aisleList = response
-          console.log(this.aisleList)
+          // console.log(this.aisleList)
         })
       },
       handleAdd() {

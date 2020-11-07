@@ -29,9 +29,9 @@
         </el-table-column>
         <el-table-column label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <el-button size="mini"
-              @click="handleUpdate(scope.$index, scope.row)">编辑发货</el-button>
-            <el-button size="mini"
+            <el-button size="mini" style="margin:2px"
+              @click="handleUpdate(scope.$index, scope.row)">编辑发货</el-button><br>
+            <el-button size="mini" style="margin:2px"
               @click="handleInvoice(scope.$index, scope.row)">我要发货</el-button>
           </template>
         </el-table-column>
@@ -275,7 +275,6 @@
         getCargo(this.listQuery).then(response => {
           this.list = response.results
           this.listLoading = false
-          console.log(this.list)
         })
       },
       getInvoiceList() {
@@ -355,7 +354,6 @@
           // 1 未完成，2 完成
         }
         updateCargo(cargo.id, cargo).then(response => {
-          console.log(response)
           if (response.err) {
               this.$message({
                 type: "warning",
@@ -394,7 +392,6 @@
               this.imgList.push(response[i].image)
             }
           }
-          console.log(this.imgList)
           if (this.imgList.length > 0) {
             this.showViewer = true;
           } else {
