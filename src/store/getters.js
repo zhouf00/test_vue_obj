@@ -2,6 +2,7 @@ const getters = {
   /*
   * 类计算属性
   */
+  listQuery: state => state.show.listQuery,
   sidebar: state => state.apps.sidebar,
   navbarStatus: state => state.apps.NavbarStatus,
   is_mobile: state => state.apps.isMobile,

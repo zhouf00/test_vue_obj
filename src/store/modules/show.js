@@ -1,14 +1,28 @@
+const defaultListQuery = {
+  page: 1,
+  pageSize: 10,
+  name: "",
+  sn: "",
+  area: "",
+  status: null
+};
+
 const show = {
   state: {
-    areaList: ['一区','二区'],
-    projectStatus: [
-      { value: 1, label: "安装" },
-      { value: 2, label: "调试" },
-      { value: 3, label: "转诊" },
-      { value: 4, label: "验收" },
-      { value: 5, label: "售后" }
-    ]
-
+    listQuery:Object.assign({}, defaultListQuery)
+  },
+  mutations: {
+    SET_LISTQUERY: (state) => {
+      state.listQuery = Object.assign({}, defaultListQuery)
+    }
+  },
+  actions: {
+    QueryReset({commit}) {
+      return new Promise(resolve => {
+        commit('SET_LISTQUERY')
+        resolve()
+      })
+    }
   }
 }
 export default show;

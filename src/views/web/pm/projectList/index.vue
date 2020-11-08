@@ -220,14 +220,7 @@ import priorityTag from "components/content/tag/priorityTag";
 import { getProjects, getArea, getStatus } from "network/api/pm";
 import filter from "views/web/mixin/filter";
 
-const defaultListQuery = {
-  page: 1,
-  pageSize: 10,
-  name: "",
-  sn: "",
-  area: "",
-  status: null
-};
+
 export default {
   name: "index",
   components: {
@@ -239,7 +232,7 @@ export default {
       editInfo: {
         dialogVisible: false,
       },
-      listQuery: Object.assign({}, defaultListQuery),
+      listQuery: this.$store.getters.listQuery,
       listLoading: true,
       list: null,
       monitortypeList: null,
@@ -300,8 +293,10 @@ export default {
       this.getList()
     },
     handleReset() {
-      this.listQuery=Object.assign({}, defaultListQuery)
-      this.getList()
+      this.$store.dispatch('QueryReset').then(response => {
+        this.listQuery = this.$store.getters.listQuery
+        this.getList()
+      })      
     }
   },
   computed:{
