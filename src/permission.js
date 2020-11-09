@@ -13,6 +13,7 @@ router.beforeEach((to, from, next) => {
   }
   if(to.path === '/home') store.dispatch('ChangeNavbar', '');
   if(getToken()){
+    // console.log('有token')
     if (to.path === '/login'){
       next({path: '/'})  
       NProgress.done()
@@ -41,7 +42,14 @@ router.beforeEach((to, from, next) => {
           })
         })
       }else{
-        next()
+        // console.log(to)
+        if(to.matched.length === 0) {
+          // console.log('没有权限')
+          from.path ? next({path:'/noPerm'}): next('/')
+        } else {
+          // console.log('有权限')
+          next()
+        }
       }
     }
   }else{

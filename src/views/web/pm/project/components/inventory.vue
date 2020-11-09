@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 发货情况  -->
 <template>
   <div>
     <div class="table-container" style="padding: 20px">
@@ -201,7 +201,7 @@
 
   const defaultListQuery = {
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     project: null
   }
   const defaultInitCargo = {
@@ -269,12 +269,14 @@
         this.isEdit = false
         this.initDialogVisible = dialogVisible
         this.countChange = false;
+        this.initCargoParam = Object.assign({})
       },
       getList() {
         this.listLoading = true
         getCargo(this.listQuery).then(response => {
           this.list = response.results
           this.listLoading = false
+          console.log(this.list)
         })
       },
       getInvoiceList() {
@@ -307,7 +309,7 @@
         if (this.isEdit) {
           cargo.undelivered = cargo.totality - cargo.delivered
           cargo.finish = (cargo.undelivered === 0 ? 2:1)
-          updateCargo(cargo).then(response => {
+          updateCargo(cargo.id, cargo).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
@@ -324,9 +326,11 @@
             }
           })
         } else {
-          this.initCargoParam.project = this.listQuery.project;
-          this.initCargoParam.undelivered = this.initCargoParam.totality
-          createCargo(this.initCargoParam).then(response => {
+          cargo.project = this.listQuery.project;
+          cargo.undelivered = this.initCargoParam.totality
+          cargo.finish = (cargo.undelivered === 0 ? 2:1)
+          // console.log(cargo)
+          createCargo(cargo).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",

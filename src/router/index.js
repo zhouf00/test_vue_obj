@@ -18,6 +18,11 @@ export const constantRouterMap = [{
   component: () => import('views/404'),
   hidden: true
 },
+{
+  path: '/noPerm',
+  component: () => import('views/noPerm'),
+  hidden: true
+},
 
 ]
 

@@ -57,6 +57,18 @@
                 :key="item.id"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="发货状态：">
+            <el-select
+              placeholder="请选择发货状态"
+              clearable
+              style="width: 203px"
+              v-model="listQuery.stock_finish">
+              <el-option v-for="item in ['未完成','完成']"
+                :value="item"
+                :label="item"
+                :key="item"></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         
       </div>
@@ -137,7 +149,7 @@
               prop="update_time"
               sortable>
               <template slot-scope="scope">
-                {{scope.row.update_time | formatDateTime}}</template>
+                {{scope.row.update_time | formatDateTime('hh:mm')}}</template>
             </el-table-column>
             <el-table-column
               label="设备数量"
@@ -272,13 +284,13 @@ export default {
       })
     },
     handleAddProject() {
-      this.$router.push({ name: "addProject" });
+      this.$router.push({ name: "addProject" }).catch(()=>{});
     },
     handleUpdateProject(index, row) {
-      this.$router.push({ name: "updateProject", query: { id: row.id } });
+      this.$router.push({ name: "updateProject", query: { id: row.id } }).catch(()=>{});
     },
     handleShowProject(index, row) {
-      this.$router.push({ name: "showProject", query: { id: row.id } });
+      this.$router.push({ name: "showProject", query: { id: row.id } }).catch(()=>{});
     },
     handleSizeChange(val) {
       this.listQuery.page = 1

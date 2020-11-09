@@ -254,7 +254,7 @@
         })
       },
       updateProject(id) {
-        this.$router.push({ name: "updateProject", query: { id: id } });
+        this.$router.push({ path: "/updateProject", query: { id: id } }).catch(()=>{});
       },
       showDialog() {
         this.monitorNumberDialog=true
