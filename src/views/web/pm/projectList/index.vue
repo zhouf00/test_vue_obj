@@ -78,7 +78,7 @@
       <div class="operate-container-header">
         <div>
           <i class="el-icon-tickets" style="margin-right: 10px"></i>
-          <span>数据列表</span>
+          <span>项目列表</span>
         </div>
         <el-button
           class="btn-add"
@@ -149,7 +149,7 @@
               prop="update_time"
               sortable>
               <template slot-scope="scope">
-                {{scope.row.update_time | formatDateTime('hh:mm')}}</template>
+                {{scope.row.update_time | formatDateTime}}</template>
             </el-table-column>
             <el-table-column
               label="设备数量"
