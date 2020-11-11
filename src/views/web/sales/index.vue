@@ -60,20 +60,22 @@
               prop="client" sortable>
             </el-table-column>
             <el-table-column label="商机" 
-              align="center" prop="name">
+              align="center">
+              <template slot-scope="scope">
+                <a @click="handleShowProject">{{scope.row.name}}</a>
+              </template>
             </el-table-column>
-            <el-table-column  label="合同额"
+            <el-table-column  label="预额"
               width="105" align="center"
               prop="contract" sortable>
             </el-table-column>
-            <el-table-column  label="设备数量"
+            <el-table-column label="命中率" 
+              width="120" align="center" 
+              prop="evolve">
+            </el-table-column>
+            <el-table-column  label="漏额"
               width="105" align="center"
               prop="count" sortable>
-            </el-table-column>
-            <el-table-column label="状态" width="105" align="center">
-              <template slot-scope="scope">{{scope.row.status}}
-                <!-- <span>{{scope.row.statusInfo.title}}</span> -->
-              </template>
             </el-table-column>
             <el-table-column label="地区" 
               width="105" align="center" 
@@ -90,16 +92,11 @@
               width="120" align="center"
               prop="days">
             </el-table-column>
-            <el-table-column label="进展" 
-              width="120" align="center" 
-              prop="evolve">
-            </el-table-column>
-            <el-table-column label="销售员" width="150" align="center">
+            <el-table-column label="负责人" width="150" align="center">
               <template slot-scope="scope">{{scope.row.user}}
-                <!-- {{scope.row.manager}} <el-tag v-if="scope.row.manager" size="mini" type="info" effect="plain">负责</el-tag> -->
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="150" align="center">
+            <!-- <el-table-column label="操作" width="150" align="center">
               <template slot-scope="scope">
                 <p>
                   <el-button
@@ -110,7 +107,7 @@
                     @click="handleUpdateProject(scope.$index, scope.row)">编辑</el-button>
                 </p>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           </el-table>
         </div>
         <!-- 表格 批量操作 -->
@@ -176,7 +173,7 @@ export default {
       // })      
     },
     handleShowProject() {
-
+      console.log('aaa')
     },
     handleUpdateProject() {
 
