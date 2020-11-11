@@ -351,8 +351,8 @@ export default {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {
         this.listLoading = false;
-        this.list = response;
-        this.total = response.length;
+        this.list = response.results;
+        this.total = response.count;
       });
     },
     getAllRoleList() {
