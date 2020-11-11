@@ -244,11 +244,14 @@ export const asyncWebRouterMap = [
         component: () => import('views/web/sales/'),
       },
       {
-        path: 'aa',
+        path: 'aaa',
+        name:'aaa',
         meta: {
-          title: 'aa',
+          title: 'aaa',
           icon: 'el-icon-collection-tag'
         },
+        hidden: true,
+        component: () => import('views/web/sales/aaa'),
       }
     ]
   },
