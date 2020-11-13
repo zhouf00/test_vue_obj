@@ -34,7 +34,6 @@
           <i class="el-icon-tickets" style="margin-right: 10px"></i>
           <span>数据列表</span>
         </div>
-
         <el-button size="mini" class="btn-add" style="margin-left: 20px" @click="handleAdd()">添加</el-button>
       </div>
       <!-- 表格展示 -->

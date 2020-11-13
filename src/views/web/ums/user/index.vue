@@ -6,7 +6,8 @@
       shadow="hover"
       body-style="padding:0">
       <div class="operate-container-header-start">
-        <div> <i class="el-icon-search"
+        <div> 
+          <i class="el-icon-search"
             style="margin-right:10px" />
           <span>筛选搜索</span></div>
       </div>
@@ -28,7 +29,6 @@
               clearable></el-input>
           </el-form-item>
         </el-form>
-
         <div>
           <el-button type="primary"
             style="margin: 0 15px 0 40px"
@@ -120,9 +120,9 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             layout="total, sizes, prev, pager, next, jumper"
-            :current-page.sync="listQuery.pageNum"
+            :current-page.sync="listQuery.page"
             :page-size="listQuery.pageSize"
-            :page-sizes="[10,15,20]"
+            :page-sizes="[5,10,15]"
             :total="total"></el-pagination>
         </div>
       </div>
@@ -142,7 +142,8 @@
           <el-input v-model="user.username"
             style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="姓名：">
+        <el-form-item label="姓名："
+          prop="name">
           <el-input v-model="user.name"
             style="width: 80%"></el-input>
         </el-form-item>
@@ -213,8 +214,8 @@ import {
 import filter from "views/web/mixin/filter";
 
 const defaultListQuery = {
-  pageNum: 1,
-  pageSize: 10,
+  page: 1,
+  pageSize: 5,
   search: null
 };
 const defaultUser = {
@@ -231,12 +232,19 @@ export default {
   name: "user",
   mixins: [filter],
   data() {
+    const validateMobile = (rule, value, callback) => {
+        if (value && value.length !== 11) {
+          callback(new Error('请输入正确的11位手机号码'))
+        } else {
+          callback()
+        }
+      }
     return {
       listQuery: Object.assign({}, defaultListQuery),
       list: null,
       listLoading: null,
       total: null,
-      user: Object.assign({}, defaultUser),
+      user: Object.assign({}),
       dialogVisible: null,
       isEdit: null,
       allocDialogVisible: false,
@@ -245,8 +253,9 @@ export default {
       allocUserId: null,
       rules: {
         username: [{ required: true, message: "必填项" }],
+        name: [{ required: true, message: "必填项" }],
         password: [{ required: true, message: "必填项" }],
-        mobile: [{ required: true, message: "必填项" }]
+        mobile: [{ required: true, trigger: 'blur', validator: validateMobile}]
       }
     };
   },
@@ -256,10 +265,6 @@ export default {
   methods: {
     handleResetSearch() {
       this.listQuery = Object.assign({}, defaultListQuery);
-    },
-    handleSearrchList() {
-      this.listQuery.pageNum = 1;
-      this.getList();
     },
     handleStatusChange(index, row) {
       this.$confirm("是否要修改该状态？", "提示", {
@@ -281,17 +286,18 @@ export default {
         });
     },
     handleSizeChange(val) {
-      this.listQuery.pageNum = 1;
+      this.listQuery.page = 1;
       this.listQuery.pageSize = val;
     },
     handleCurrentChange(val) {
-      this.listQuery.pageNum = val;
+      this.listQuery.page = val;
+      console.log(this.listQuery)
       this.getList();
     },
     handleAdd() {
       this.dialogVisible = true;
       this.isEdit = false;
-      this.user = Object.assign({}, defaultUser);
+      this.user = Object.assign({});
     },
     handleUpdate(index, row) {
       this.dialogVisible = true;
@@ -317,22 +323,39 @@ export default {
           // console.log(this.user);
           // 修改用户
           updateUser(this.user.id, this.user).then(response => {
-            this.$message({
-              type: "success",
-              message: "修改成功"
-            });
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getList()
+            }
             this.dialogVisible = false;
-            this.getList();
           });
         } else {
           // 添加用户
           createUser(this.user).then(response => {
-            this.$message({
-              type: "success",
-              message: "添加成功"
-            });
+            console.log(response.err)
+            if (response.err) {
+              this.$message({
+                type: "warning",
+                message: response.err
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "提交成功",
+                duration: 1000
+              });
+              this.getList()
+            }
             this.dialogVisible = false;
-            this.getList();
           });
         }
       });
@@ -353,6 +376,7 @@ export default {
         this.listLoading = false;
         this.list = response.results;
         this.total = response.count;
+        console.log(this.list)
       });
     },
     getAllRoleList() {

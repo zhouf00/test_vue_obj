@@ -142,8 +142,7 @@
                 <span>{{scope.row.statusInfo.title}}</span>
               </template>
             </el-table-column>
-            <el-table-column
-              label="更新日期"
+            <el-table-column label="更新日期"
               width="105"
               align="center"
               prop="update_time"
@@ -151,8 +150,7 @@
               <template slot-scope="scope">
                 {{scope.row.update_time | formatDateTime}}</template>
             </el-table-column>
-            <el-table-column
-              label="设备数量"
+            <el-table-column label="设备数量"
               width="105"
               align="center"
               prop="facility_count"
@@ -247,7 +245,6 @@ export default {
       listQuery: this.$store.getters.listQuery,
       listLoading: true,
       list: null,
-      monitortypeList: null,
       total: null,
       operateType: null,
       operates: [
