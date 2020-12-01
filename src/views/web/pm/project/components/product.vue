@@ -104,7 +104,7 @@
 
 <script>
  import { getProduction, createProduction, updateProduction,
-          getProduct,  } from 'network/api/product'
+          getProduct,  } from 'network/api/pms'
  const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,

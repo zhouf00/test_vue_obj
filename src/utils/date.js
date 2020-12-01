@@ -25,3 +25,21 @@ export function formatDate(date, fmt) {
 function padLeftZero(str) {
   return ('00'+ str).substr(str.length)
 }
+
+export function toDate (data, str) {
+  if (data[str]) {
+    data[str] = formatDate(
+      new Date(data[str]),
+      "yyyy-MM-dd hh:mm:ss"
+    );
+  } else {
+    delete data[str];
+  }
+  return data
+}
+
+export function daysToDate (days) {
+  let d = new Date()
+  d.setDate(d.getDate()-days)
+  return formatDate(d,`yyyy-MM-dd`)
+}

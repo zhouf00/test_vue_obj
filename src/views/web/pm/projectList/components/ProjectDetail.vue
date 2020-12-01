@@ -70,7 +70,6 @@ export default {
     if (this.isEdit) {
       getProjectInfo(this.$route.query.id).then(response => {
         this.projectParam = response;
-        // console.log(this.projectParam)
         if (response.entrance_time) {
           this.projectParam.entrance_time = new Date(response.entrance_time);
         }

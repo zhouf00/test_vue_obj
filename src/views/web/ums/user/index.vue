@@ -179,25 +179,28 @@
           type="primary">确 认</el-button>
       </span>
     </el-dialog>
-    <!-- 弹窗显示：分配角色 -->
-    <el-dialog title="分配角色"
+
+    <!-- 弹窗显示：设置部门 -->
+    <el-dialog title="设置部门"
       width="30%"
-      :visible.sync="allocDialogVisible">
-      <el-select v-model="allocRoleIds"
-        multiple
-        size="small"
-        style="width:80%"
-        placeholder="请选择">
-        <el-option v-for="item in allRoleList"
-          :key="item.id"
-          :label="item.title"
-          :value="item.id" />
-      </el-select>
+      :visible.sync="deptDialogVisible">
+      <div v-for="item in deptList" :key="item.id">
+        <el-checkbox-group v-model="user.departments">
+          <el-row class="table-layout" style="background: #F2F6FC;">
+            <el-checkbox :label="item.id">{{item.name}}</el-checkbox>
+          </el-row>
+          <el-row class="table-layout" v-if="item.childrenList && item.childrenList.length > 0">
+            <el-col :span="8" v-for="child in item.childrenList" :key="child.id" style="padding: 4px 0'width:10px">
+              <el-checkbox :label="child.id">{{child.name}}</el-checkbox>
+            </el-col>
+          </el-row>
+        </el-checkbox-group>
+      </div>
       <span slot="footer"
         class="dialog-footer">
-        <el-button @click="allocDialogVisible=false"
+        <el-button @click="deptDialogVisible=false"
           size="small">取消</el-button>
-        <el-button @click="handleAllocDialogConfirm()"
+        <el-button @click="handleDeptDialogConfirm()"
           type="primary"
           size="small">确定</el-button>
       </span>
@@ -208,9 +211,9 @@
 <script>
 import {
   fetchList, createUser, updateUser,
-  updateStatus,
-  fetchAllRoleList
+  updateUserStatus, updateUserDept
 } from "network/api/login";
+import { getDeptList } from 'network/api/department'
 import filter from "views/web/mixin/filter";
 
 const defaultListQuery = {
@@ -247,16 +250,16 @@ export default {
       user: Object.assign({}),
       dialogVisible: null,
       isEdit: null,
-      allocDialogVisible: false,
-      allocRoleIds: [],
-      allRoleList: [],
-      allocUserId: null,
+
       rules: {
         username: [{ required: true, message: "必填项" }],
         name: [{ required: true, message: "必填项" }],
         password: [{ required: true, message: "必填项" }],
         mobile: [{ required: true, trigger: 'blur', validator: validateMobile}]
-      }
+      },
+      checkList:[],
+      deptDialogVisible: false,
+      deptList: [],
     };
   },
   mounted() {
@@ -266,12 +269,13 @@ export default {
     handleResetSearch() {
       this.listQuery = Object.assign({}, defaultListQuery);
     },
+    // 修改用户状态
     handleStatusChange(index, row) {
       this.$confirm("是否要修改该状态？", "提示", {
         confirmButtonText: "确定",
         concelButtonText: "取消"
       }).then(() => {
-          updateStatus(row.id, {is_active:row.is_active} ).then(response => {
+          updateUserStatus(row.id, {is_active:row.is_active} ).then(response => {
             this.$message({
               type: "success",
               message: "修改成功"
@@ -288,10 +292,10 @@ export default {
     handleSizeChange(val) {
       this.listQuery.page = 1;
       this.listQuery.pageSize = val;
+      this.getList();
     },
     handleCurrentChange(val) {
       this.listQuery.page = val;
-      console.log(this.listQuery)
       this.getList();
     },
     handleAdd() {
@@ -305,9 +309,10 @@ export default {
       this.user = Object.assign({}, row);
     },
     handleDepartment(index, row) {
-      this.allocUserId = row.id;
-      this.allocDialogVisible = true;
-
+      this.deptDialogVisible = true;
+      this.getDepartmentList()
+      this.user = Object.assign({}, row);
+      console.log(this.user)
     },
     handleDelete(index, row) {
       // 删除用户 未写完
@@ -341,7 +346,7 @@ export default {
         } else {
           // 添加用户
           createUser(this.user).then(response => {
-            console.log(response.err)
+            // console.log(response.err)
             if (response.err) {
               this.$message({
                 type: "warning",
@@ -360,15 +365,13 @@ export default {
         }
       });
     },
-    handleAllocDialogConfirm() {
-      // 角色分配 未写完
-      this.$confirm("是否要确认？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        
-      });
+    handleDeptDialogConfirm() {
+      // console.log(this.user.departments)
+      updateUserDept(this.user.id, this.user).then(response => {
+        // console.log(response)
+        this.getList()
+        this.deptDialogVisible = false
+      })
     },
     getList() {
       this.listLoading = true;
@@ -376,22 +379,14 @@ export default {
         this.listLoading = false;
         this.list = response.results;
         this.total = response.count;
-        console.log(this.list)
+        // console.log(this.list)
       });
     },
-    getAllRoleList() {
-      fetchAllRoleList().then(response => {
-        this.allRoleList = response;
+    getDepartmentList() {
+      getDeptList({search:1}).then(response => {
+        this.deptList = response;
+        // console.log(this.deptList)
       });
-    },
-    getRoleListByUser(User) {
-      let allocRoleList = User.roles;
-      this.allocRoleIds = [];
-      if (allocRoleList != null && allocRoleList.length > 0) {
-        for (let i in allocRoleList) {
-          this.allocRoleIds.push(allocRoleList[i].id);
-        }
-      }
     },
   }
 };

@@ -1,21 +1,30 @@
 <!-- 跟踪表 -->
 <template>
   <div>
-    <div>
+    <div v-if="dialogVisible">
       <el-input type="textarea" :rows="3" placeholder="请输入项目跟踪情况" v-model="traceParam.content" />
-      <div style="text-align: right">
+      <div style="text-align: right;margin-top: 5px">
         <el-button size="mini" type="primary" @click="handleTrace()">发布</el-button>
-        <el-button size="mini">取消</el-button>
+        <el-button size="mini" @click="dialogVisible=false">取消</el-button>
       </div>
     </div>
-    <h3>项目跟踪情况</h3>
-    <div style="margin-top: 10px;height: 160px;
-    overflow: auto;">
-      <div v-for="item in list" :key="item.id">
+    <el-row style="margin-top: 10px">
+      <el-col :span="12">
+        <h3>项目跟踪情况</h3>
+      </el-col>
+      <el-col :span="12">
+        <div style="text-align: right" v-if="!dialogVisible">
+          <el-button size="mini" @click="dialogVisible = ! dialogVisible">填写跟踪</el-button>
+        </div>
+      </el-col>
+    </el-row>
+    <div style="margin-top: 10px;height: 160px;overflow: auto;">
+      <div v-for="(item, index) in list" :key="item.id">  
         <el-avatar :src="item.userInfo.avatar" :size="20" />
         <span v-if="item.userInfo.name">{{item.userInfo.name}}</span>
         <span v-else>{{item.userInfo.username}}</span>
-        <span style="font-size:12px">{{item.create_time | formatDateTime('hh:mm:ss') }}</span>
+        <span style="font-size:12px;margin-left: 5px">{{item.create_time | formatDateTime('hh:mm:ss') }}</span>    
+        <span style="margin-left: 50px">第{{list.length - index}}条</span>
         <div style="margin-left: 50px">{{item.content}}</div>
         <el-divider />
       </div>
@@ -34,7 +43,7 @@ export default {
     return {
       traceParam: Object.assign({}),
       list: [],
-      showTwoOrAll: []
+      dialogVisible: false
     };
   },
   created() {
@@ -42,9 +51,9 @@ export default {
   },
   methods: {
     getList() {
-      getTrace({ search: this.$route.query.id }).then(response => {
+      getTrace({ project: this.$route.query.id}).then(response => {
         this.list = response;
-        this.showTwoOrAll = response.slice(0, 2);
+        // console.log(this.list)
       });
     },
     handleTrace() {
@@ -66,7 +75,7 @@ export default {
           this.getList(), (this.traceParam = Object.assign({}));
         }
       });
-    }
+    },
   }
 };
 </script>

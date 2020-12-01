@@ -35,36 +35,36 @@
     <el-dialog :title="isEdit? '编辑机房设备': '添加机房设备'" 
       :visible.sync="dialogVisible" width="650px">
       <el-form ref="ruleForm"
-        :model="idcroomParem"
+        :model="idcroomParam"
         :rules="rules"
         label-width="120px">
         <el-form-item label="设备名称" prop="title">
-          <el-input v-model="idcroomParem.title" style="width: 85%"/>
+          <el-input v-model="idcroomParam.title" style="width: 85%"/>
         </el-form-item>
         <el-form-item label="SN号" prop="sn">
-          <el-input v-model="idcroomParem.sn" style="width: 85%" placeholder="sn(快速服务代码)"/>
+          <el-input v-model="idcroomParam.sn" style="width: 85%" placeholder="sn(快速服务代码)"/>
         </el-form-item>
         <el-form-item label="设备描述" prop="describe">
           <el-input
             type="textarea"
             :rows="4"
-            v-model="idcroomParem.describe"
+            v-model="idcroomParam.describe"
             style="width: 85%"/>
         </el-form-item>
         <el-form-item label="软件版本" prop="software">
-          <el-input v-model="idcroomParem.software" style="width: 85%"
+          <el-input v-model="idcroomParam.software" style="width: 85%"
             placeholder="请输入软件版本"/>
         </el-form-item>
         <el-form-item label="IP地址" prop="ip" >
           <el-input type="textarea"  style="width: 85%"
             :rows="3"
-            v-model="idcroomParem.ip"/>
+            v-model="idcroomParam.ip"/>
         </el-form-item>
         <el-form-item label="备注" prop="memo">
           <el-input
             type="textarea"
             :rows="4"
-            v-model="idcroomParem.memo"
+            v-model="idcroomParam.memo"
             style="width: 85%"/>
         </el-form-item>
         <el-form-item>
@@ -100,7 +100,7 @@
         dialogVisible:false,
         isEdit: false,
         list:　[],
-        idcroomParem: Object.assign({}, defaultAsset),
+        idcroomParam: Object.assign({}, defaultAsset),
         rules: {
           title: [{ required: true, message: "请输入设备名称", trigger: "blur" }],
           software: [{ required: true, message: "请输入版本号", trigger: "blur" }],
@@ -125,16 +125,16 @@
       handleUpdate(index, row) {
         this.isEdit = true
         this.dialogVisible = true
-        this.idcroomParem = Object.assign({}, row);
+        this.idcroomParam = Object.assign({}, row);
       },
       isShow(dialogVisible) {
         this.isEdit = false
         this.dialogVisible = dialogVisible
-        this.idcroomParem = Object.assign({}, defaultAsset);
+        this.idcroomParam = Object.assign({}, defaultAsset);
       },
       handleDialogConfirm() {
         if (this.isEdit) {
-          updateIdcRoom(this.idcroomParem.id, this.idcroomParem).then(response => {
+          updateIdcRoom(this.idcroomParam.id, this.idcroomParam).then(response => {
             if (response.err) {
               this.$message({
                 type: "warning",
@@ -152,9 +152,9 @@
           })
         } else {
           // console.log("新增")
-          this.idcroomParem.project = this.listQuery.project;
-          // console.log(this.idcroomParem)
-          createIdcRoom(this.idcroomParem).then( response => {
+          this.idcroomParam.project = this.listQuery.project;
+          // console.log(this.idcroomParam)
+          createIdcRoom(this.idcroomParam).then( response => {
             if (response.err) {
               this.$message({
                 type: "warning",

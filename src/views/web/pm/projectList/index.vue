@@ -69,8 +69,19 @@
                 :key="item"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="主机厂：">
+            <el-select
+              placeholder="请选择主机厂"
+              clearable
+              style="width: 203px"
+              v-model="listQuery.manufacturers">
+              <el-option v-for="item in manufacturerList"
+                :value="item.id"
+                :label="item.title"
+                :key="item.id"></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
-        
       </div>
     </el-card>
     <!-- 数据列表 添加 -->
@@ -165,12 +176,13 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="维护施工人员" width="150" align="center">
+            <el-table-column label="项目负责人" width="150" align="center">
               <template slot-scope="scope">
-                {{scope.row.manager}} <el-tag v-if="scope.row.manager" size="mini" type="info" effect="plain">负责</el-tag>
-                <p v-for="item in scope.row.buildersList" :key="item.name">
+                {{scope.row.manager}} 
+                <!-- <el-tag v-if="scope.row.manager" size="mini" type="info" effect="plain">负责</el-tag> -->
+                <!-- <p v-for="item in scope.row.buildersList" :key="item.name">
                   {{ item.name}}
-                </p>
+                </p> -->
               </template>
             </el-table-column>
             <el-table-column label="操作" width="150" align="center">
@@ -211,7 +223,7 @@
             @current-change="handleCurrentChange"
             layout="total, sizes,prev, pager, next,jumper"
             :page-size="listQuery.pageSize"
-            :page-sizes="[5,10,15]"
+            :page-sizes="[10, 20, 50]"
             :current-page.sync="listQuery.page"
             :total="total">
           </el-pagination>
@@ -227,7 +239,7 @@
 <script>
 import priorityTag from "components/content/tag/priorityTag";
 
-import { getProjects, getArea, getStatus } from "network/api/pm";
+import { getProjects, getArea, getStatus, getManufacturer } from "network/api/pm";
 import filter from "views/web/mixin/filter";
 
 
@@ -253,12 +265,14 @@ export default {
       ],
 
       areaList: [],
-      statusList: []
+      statusList: [],
+      manufacturerList:[]
     };
   },
   created() {
     this.getAreaList()
     this.getStatusList()
+    this.getmanufacturerList()
     this.getList();
   },
   methods: {
@@ -278,6 +292,11 @@ export default {
     getStatusList() {
       getStatus().then(response => {
         this.statusList = response
+      })
+    },
+    getmanufacturerList() {
+      getManufacturer().then(response => {
+        this.manufacturerList = response
       })
     },
     handleAddProject() {

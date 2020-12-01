@@ -30,6 +30,7 @@ export function updateProject(id, data) {
   })
 }
 
+// 机房信息
 export function getIdcRoom(data) {
   return request({
     url: '/engineering/idcroom/',
@@ -54,6 +55,7 @@ export function updateIdcRoom(id, data) {
   })
 }
 
+// 库存
 export function getCargo(data) {
   return request({
     url: '/engineering/cargo/',
@@ -78,6 +80,7 @@ export function updateCargo(id, data) {
   })
 }
 
+// 发货
 export function getInvoice(data) {
   return request({
     url: '/engineering/invoice/',
@@ -102,6 +105,7 @@ export function updateInvoice(id, data) {
   })
 }
 
+// 发货图片
 export function getInvoiceImage(data) {
   return request({
     url: '/engineering/invoice/img/',
@@ -110,6 +114,7 @@ export function getInvoiceImage(data) {
   })
 }
 
+// 项目跟进
 export function getTrace(data) {
   return request({
     url: '/engineering/trace/',
@@ -126,7 +131,55 @@ export function createTrace(data) {
   })
 }
 
+// 项目承包信息
+export function getContract(data) {
+  return request({
+    url: '/engineering/contract/',
+    method: 'get',
+    params:data
+  })
+}
 
+export function createContract(data) {
+  return request({
+    url: '/engineering/contract/',
+    method: 'post',
+    data:data
+  })
+}
+
+export function updateContract(id, data) {
+  return request({
+    url: `/engineering/contract/${id}/`,
+    method: 'post',
+    data:data
+  })
+}
+
+// 承包商信息
+export function getOutsourcer(data) {
+  return request({
+    url: '/engineering/outsourcer/',
+    method: 'get',
+    params:data
+  })
+}
+
+export function createOutsourcer(data) {
+  return request({
+    url: '/engineering/outsourcer/',
+    method: 'post',
+    data:data
+  })
+}
+
+export function updateOutsourcer(id, data) {
+  return request({
+    url: `/engineering/outsourcer/${id}/`,
+    method: 'post',
+    data:data
+  })
+}
 
 // ##########
 // 标签路由

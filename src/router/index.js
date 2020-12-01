@@ -175,6 +175,15 @@ export const asyncWebRouterMap = [
         }
       },
       {
+        path: 'outsourcer',
+        name: 'outsourcer',
+        component: () => import('views/web/pm/outsource'),
+        meta: {
+          title: '外包商管理',
+          icon: 'el-icon-folder-add'
+        }
+      },
+      {
         path: 'updateProject',
         name: 'updateProject',
         component: () => import('views/web/pm/projectList/update'),
@@ -226,10 +235,10 @@ export const asyncWebRouterMap = [
     ]
   },
   {
-    path: '/sales',
+    path: '/crm',
     component: WebLayout,
-    redirect: '/sales',
-    name: 'SALES',
+    redirect: '/crm',
+    name: 'CRM',
     meta: {
       title: '销售管理',
       icon: 'el-icon-s-claim'
@@ -241,17 +250,18 @@ export const asyncWebRouterMap = [
           title: '信息展示',
           icon: 'el-icon-collection-tag'
         },
-        component: () => import('views/web/sales/'),
+        component: () => import('views/web/crm/crmList/'),
       },
       {
-        path: 'aaa',
-        name:'aaa',
+        path: 'crmDetails',
+        name:'crmDetails',
+        component: () => import('views/web/crm/crmDetails/'),
         meta: {
-          title: 'aaa',
+          title: '商机详情',
           icon: 'el-icon-collection-tag'
         },
         hidden: true,
-        component: () => import('views/web/sales/aaa'),
+        
       }
     ]
   },

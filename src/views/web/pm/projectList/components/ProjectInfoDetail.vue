@@ -159,6 +159,7 @@
       <el-form-item label="项目负责人"
         prop="builders">
         <el-select placeholder="请选择负责人"
+          filterable
           style="width:300px"
           v-model="value.manager">
           <el-option v-for="item in usersList"
@@ -170,7 +171,8 @@
       <el-form-item label="维护施工人员"
         prop="builders">
         <el-select placeholder="请选择施工人员"
-          multiple
+          multiple 
+          filterable
           style="width:300px"
           v-model="value.builders">
           <el-option v-for="item in usersList"
@@ -380,11 +382,7 @@ export default {
     return {
       dialogVisible: false,
       monitorDialogVisible: false,
-      provinceList: [
-        "浙江", "江苏", "上海", "安徽", "湖北", "江西 ", "福建", "广东","青海", "新疆", 
-        "西藏", "内蒙古", "黑龙江", "辽宁", "河北", "北京", "天津", "宁夏", "重庆", "广西",
-        "河南", "吉林", "湖南", "山西", "山东", "四川", "海南", "甘肃", "贵州","云南", "陕西"
-      ],
+      provinceList: globalVar.provinceList,
       rules: {
         name: [{ required: true, message: "必填项",trigger: "blur"  }],
         // pj_sn: [{ required: true, message: "必填项" }],

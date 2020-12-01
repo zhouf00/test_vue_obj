@@ -16,7 +16,7 @@
       <div class="operate-container-header">
         <div>
           <i class="el-icon-tickets" style="margin-right: 10px"></i>
-          <span>数据列表</span>                  
+          <span>产品列表</span>                  
         </div>
         <el-button
           class="btn-add"
@@ -46,7 +46,9 @@
             <template slot-scope="scope">{{scope.row.hard_version}}</template>
           </el-table-column>
           <el-table-column label="通道类型" width="100" align="center">
-            <template slot-scope="scope">{{scope.row.aisleInfo.title}}</template>
+            <template slot-scope="scope">
+              <span v-if="scope.row.aisleInfo">{{scope.row.aisleInfo.title}}</span>
+            </template>
           </el-table-column>
           <el-table-column label="状态" width="100" align="center">
             <template slot-scope="scope">
@@ -78,19 +80,19 @@
     </el-card>
 
     <!-- 产品新建修改 -->
-    <el-dialog :title="isEdit? '编辑机房设备': '添加机房设备'"
+    <el-dialog :title="isEdit? '编辑产品信息': '添加产品信息'"
       :visible.sync="dialogVisible" width="650px">
       <el-form ref="prodcutAttrForm"
         :model="productParam"
-        label-width="120px"
-        class="demo-ruleForm">
+        :rules="rules"
+        label-width="120px"s>
         <el-form-item label="设备名称" prop="title">
           <el-input v-model="productParam.title" style="width: 85%"/>
         </el-form-item>
         <el-form-item label="型号" prop="model">
           <el-input v-model="productParam.model" style="width: 85%"/>
         </el-form-item>
-        <el-form-item label="硬件版本" prop="hardVersion">
+        <el-form-item label="硬件版本" prop="hard_version">
           <el-input v-model="productParam.hard_version" style="width: 85%"
             placeholder="请输入硬件版本"/>
         </el-form-item>
@@ -126,7 +128,7 @@
             style="width: 85%"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="hendleDialogConfirm()">确认</el-button>
+          <el-button size="small" type="primary" @click="hendleDialogConfirm('prodcutAttrForm')">确认</el-button>
           <el-button size="small" @click="dialogVisible = false">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -186,7 +188,7 @@
  import { getProduct, createProduct, updateProduct,
           getAisle, createAisle, updateAisle,
           getStatus, createStatus, updateStatus,
-          getLifecycle, createLifecycle, updateLifecycle} from 'network/api/product'
+          getLifecycle, createLifecycle, updateLifecycle} from 'network/api/pms'
   const defaultListQuery = {
     page: 1,
     pageSize: 5,
@@ -202,6 +204,13 @@
         list: [],
         isEdit: null,
         productParam: Object.assign({}),
+        rules: {
+          title: [{ required: true, message: "必填项" }],
+          hard_version: [{ required: true, message: "必填项" }],
+          model:[{ required: true, message: "必填项" }],
+          // aisleType: [{ required: true, message: "必填项" }],
+          status: [{ required: true, message: "必填项" }],
+        },
         dialogVisible: false,
         
         editParam: Object.assign({}),
@@ -227,6 +236,7 @@
           this.list = response.results
           this.total = response.count;
           this.listLoading = false
+          console.log(this.list)
         })
       },
       getStatusList() {
@@ -250,46 +260,56 @@
         this.dialogVisible = true
         this.productParam = Object.assign({},row)
       },
-      hendleDialogConfirm() {
-        if (this.isEdit){
-          console.log('修改')
-          console.log(this.productParam)
-          updateProduct(this.productParam.id, this.productParam).then(response => {
-            if (response.err) {
-              this.$message({
-                type: "warning",
-                message: response.err
-              });
+      hendleDialogConfirm(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            if (this.isEdit){
+              // console.log('修改')
+              updateProduct(this.productParam.id, this.productParam).then(response => {
+                if (response.err) {
+                  this.$message({
+                    type: "warning",
+                    message: response.err
+                  });
+                } else {
+                  this.$message({
+                    type: "success",
+                    message: "提交成功",
+                    duration: 1000
+                  });
+                }
+                this.getList()
+                this.dialogVisible = false
+              })
             } else {
-              this.$message({
-                type: "success",
-                message: "提交成功",
-                duration: 1000
-              });
+              // console.log('新建')
+              createProduct(this.productParam).then(response => {
+                console.log(response)
+                if (response.err) {
+                  this.$message({
+                    type: "warning",
+                    message: response.err
+                  });
+                } else {
+                  this.$message({
+                    type: "success",
+                    message: "提交成功",
+                    duration: 1000
+                  });
+                }
+                this.getList()
+                this.dialogVisible = false
+              })
             }
-            this.getList()
-            this.dialogVisible = false
-          })
-        } else {
-          console.log('新建')
-          createProduct(this.productParam).then(response => {
-            console.log(response)
-            if (response.err) {
-              this.$message({
-                type: "warning",
-                message: response.err
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "提交成功",
-                duration: 1000
-              });
-            }
-            this.getList()
-            this.dialogVisible = false
-          })
-        }
+          } else {
+            this.$message({
+              message: "带*号的为必填项",
+              type: "error",
+              durattion: 1000
+            });
+            return false;
+          }
+        })
       },
 
       addEdit(row=null) {

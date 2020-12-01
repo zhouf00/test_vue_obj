@@ -80,6 +80,18 @@
       </div>
     </el-card>
 
+    <!-- 外包情况 -->
+    <el-card class="filter-container" shadow="hover" body-style="padding:0">
+      <div class="operate-container-header">
+        <div>
+          <i class="el-icon-tickets" style="margin-right: 10px"></i>
+          <span style="font-weight: bold">外包信息</span>
+        </div>
+        <el-button size="mini" @click="outDialogVisible()">添加外包信息</el-button>
+      </div>
+      <outsource ref="outDialogVisible"/>
+    </el-card>
+
     <!-- 机房信息展示 -->
     <el-card class="filter-container" shadow="hover" body-style="padding:0">
       <div class="operate-container-header">
@@ -186,6 +198,7 @@
   import product from "./components/product"
   import inventory from "./components/inventory"
   import Trace from "./components/Trace"
+  import Outsource from "./components/Outsource"
 
   export default {
     name: "index",
@@ -193,7 +206,8 @@
       IdcRoom,
       product,
       inventory,
-      Trace
+      Trace,
+      Outsource
     },
     mixins: [filter],
     data() {
@@ -228,6 +242,9 @@
         }
         // console.log(list);
       },
+      outDialogVisible () {
+        this.$refs['outDialogVisible'].isShow(true)
+      },
       bomDialogVisible() {
         this.$refs['bomDialogVisible'].isShow(true)
       },
@@ -245,7 +262,7 @@
         });
       },
       getMonitorNumberList() {
-        getMonitorNumber({search:this.$route.query.id}).then(response => {
+        getMonitorNumber({project:this.$route.query.id}).then(response => {
           this.monitorNumberList = response
           if (!this.addShow && this.monitorNumberDialog) {
             this.addShow = (this.monitorNumberList.length >= this.value.monitortypeList.length ? true : false)

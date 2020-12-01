@@ -228,11 +228,11 @@ export default {
     },
     
     handleSizeChange(val) {
-      this.listQuery.pageNum = 1;
-      this.listQuery.pageSize = val;
+      // this.listQuery.pageNum = 1;
+      // this.listQuery.pageSize = val;
     },
     handleCurrentChange(val) {
-      this.listQuery.pageNum = val;
+      // this.listQuery.pageNum = val;
     },
     handleStatusChange (index, row) {
 

@@ -98,16 +98,6 @@
       <el-form ref="roleForm" label-width="25%" size="small" :model="role">
         <el-form-item label="用户名：" prop="rolename">
           <el-input v-model="role.title" style="width: 80%"></el-input>
-          <!-- <el-select v-else
-            v-model="role.user"
-            size="small"
-            style="width: 80%"
-            placeholder="请选择">
-            <el-option v-for="item in userList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id" />
-          </el-select> -->
         </el-form-item>
         <el-form-item label="描述：">
           <el-input v-model="role.memo" type="textarea" style="width: 80%"></el-input>
@@ -130,7 +120,7 @@
     </el-dialog>
 
     <!-- 弹窗显示：分配角色 -->
-    <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
+    <!-- <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
       <el-form label-width="25%" size="small" :model="userParam">
         <el-form-item label="用户名：" prop="user">
           <el-select 
@@ -146,6 +136,17 @@
           </el-select>
         </el-form-item>
       </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleUserDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog> -->
+
+    <!-- 弹窗显示：分配角色 树状 -->
+    <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
+      <el-tree :data="userList">
+
+      </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
         <el-button @click="handleUserDialogConfirm()" size="small" type="primary">确 认</el-button>
@@ -265,6 +266,7 @@ export default {
     handleUserChange(row) {
       this.userDialogVisible = true
       this.userParam = Object.assign({},row)
+      console.log(this.userList)
       fetchUserList().then( response => {
         this.userList =  response
       })
@@ -274,7 +276,8 @@ export default {
         if (response.err) {
           this.$message({
             type: "warning",
-            message: response.err
+            message: response.err,
+            duration: 3000
           });
         } else {
           this.$message({
@@ -289,21 +292,19 @@ export default {
     handleMenuChange(row) {
       this.menuDialogVisible = true
       this.userParam = Object.assign({},row)
-      // console.log(this.userParam)
       this.checkList = this.userParam.menu
-      // console.log(this.checkList)
       getMenu({parent:0}).then(response => {
         this.menuList = response
       }) 
     },
     handleMenuDialogConfirm() {
       this.userParam.menu = this.checkList
-      // console.log(this.userParam)
       updateRoleChange(this.userParam.id, this.userParam).then(response => {
         if (response.err) {
           this.$message({
             type: "warning",
-            message: response.err
+            message: response.err,
+            duration: 3000
           });
         } else {
           this.$message({
