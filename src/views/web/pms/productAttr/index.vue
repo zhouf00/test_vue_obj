@@ -208,7 +208,6 @@
           title: [{ required: true, message: "必填项" }],
           hard_version: [{ required: true, message: "必填项" }],
           model:[{ required: true, message: "必填项" }],
-          // aisleType: [{ required: true, message: "必填项" }],
           status: [{ required: true, message: "必填项" }],
         },
         dialogVisible: false,

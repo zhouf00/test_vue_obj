@@ -9,12 +9,12 @@ export function isInteger(rule, value, callback) {
   // }
   setTimeout(() => {
     if (!Number(value)) {
-      callback(new Error('请输入数字2'))
+      callback(new Error('请输入数字'))
     } else {
       const re = /^[0-9]*[1-9]*[0-9]*$/;
       const rsCheck = re.test(value);
       if (!rsCheck) {
-        callback(new Error('请输入数字1'))
+        callback(new Error('请输入数字'))
       } else {
         callback()
       }

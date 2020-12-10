@@ -74,21 +74,28 @@
             align="center">
             <template slot-scope="scope">{{scope.row.name}}</template>
           </el-table-column>
+          <el-table-column label="部门主管"
+            align="center">
+            <template slot-scope="scope">
+              <span v-for="item in scope.row.leaders">{{item.name}} </span>
+            </template>
+          </el-table-column>
           <el-table-column label="上级部门"
             align="center">
             <template slot-scope="scope">{{deptQuery(scope.row.parentid)}}</template>
           </el-table-column>
           <el-table-column label="操作"
-            width="200"
-            align="center">
+            width="150"
+            align="left">
             <template slot-scope="scope">
               <el-button size="mini"
                 type="text"
                 @click="handleAddChild(scope.row)">添加子部门</el-button>
-              <el-button size="mini"
-                type="text">菜单管理</el-button>
-                <el-button size="mini"
-                type="text"
+              <el-button size="mini" type="text"
+                @click="handleAddUser(scope.row)">添加成员</el-button>
+              <el-button size="mini" type="text"
+                @click="handleAddLeader(scope.row)">设置领导</el-button>
+              <el-button size="mini" type="text"
                 @click="handleUpdate(scope.row)">编辑</el-button>
             </template>
           </el-table-column>
@@ -109,9 +116,17 @@
     </el-card>
 
     <!-- 弹窗显示：添加组织框架 -->
-    <el-dialog title="添加组织框架" width="40%" :visible.sync="dialogVisible" >
-      <el-form label-width="25%"
-        size="small">
+    <el-dialog title="添加组织框架" width="30%" :visible.sync="dialogVisible" >
+      <el-form label-width="150px" size="small">        
+        <el-form-item label="上级部门ID：" v-if="departmentParam.parentid">
+          <el-select v-model="departmentParam.parentid" 
+            :disabled="!isEdit">
+            <el-option v-for="item in list"
+              :value="item.deptid"
+              :label="item.name"
+              :key="item.deptid"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="部门名称："
           prop="name">
           <el-input v-model="departmentParam.name"
@@ -121,14 +136,6 @@
           prop="deptid">
           <el-input v-model="departmentParam.deptid"
             style="width: 80%"></el-input>
-        </el-form-item>
-        <el-form-item label="上级部门ID：" v-if="isEdit">
-          <el-select v-model="departmentParam.parentid">
-            <el-option v-for="item in list"
-              :value="item.deptid"
-              :label="item.name"
-              :key="item.deptid"></el-option>
-          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -142,15 +149,58 @@
     </el-dialog>
 
     <!-- 弹窗显示：用户管理 -->
-    <!-- <el-dialog title="添加组织框架" width="630px" :visible.sync="dialogVisible" >
-      
-    </el-dialog> -->
+    <el-dialog title="添加成员" width="630px" :visible.sync="userDialogVisible" >
+      <el-form label-width="150px" size="small">
+        <el-form-item label="成员：">
+          <el-select 
+            v-model="departmentParam.userList"
+            multiple
+            filterable
+            size="small"
+            style="width: 80%"
+            placeholder="请选择">
+            <el-option v-for="item in userList"
+              :key="item.username"
+              :label="item.name"
+              :value="item.username" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="userHandleDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 弹窗显示：设置领导 -->
+    <el-dialog title="设置领导" width="630px" :visible.sync="leaderDialogVisible" >
+      <el-form label-width="150px" size="small">
+        <el-form-item label="用户名：">
+          <el-select 
+            v-model="departmentParam.leaderList"
+            multiple 
+            filterable
+            size="small"
+            style="width: 80%"
+            placeholder="请选择">
+            <el-option v-for="item in departmentParam.usersInfoList"
+              :key="item.username"
+              :label="item.name"
+              :value="item.username" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="leaderDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="leaderHandleDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDept, createDept,updateDept } from 'network/api/department'
-import { fetchList} from 'network/api/login'
+import { getDept, createDept,updateDept, updateDeptUser, updateDeptLeader } from 'network/api/department'
+import { fetchUserList} from 'network/api/login'
 
 const defaultListQuery = {
   pageNum: 1,
@@ -165,16 +215,20 @@ export default {
       isEdit: false,
       listLoading: null,
       total: null,
-      list: null,
-      users: null,
+      list: [],
+
+      dialogVisible: false,
       departmentParam:Object.assign({}),
 
-      dialogVisible: false
+      userDialogVisible: false,
+      leaderDialogVisible: false,
+      userList: [],
       
     };
   },
   created() {
-    this.getlist()
+    this.getlist();
+    this.getUserList()
   },
   methods: {
     getlist() {
@@ -182,12 +236,14 @@ export default {
       getDept(this.listQuery).then(response => {
         this.list = response
         this.listLoading = false
+        // console.log(this.list)
         this.deptQuery()
       })
     },
-    getUsers() {
-      fetchList().then(response => {
-        this.users = response
+    getUserList() {
+      fetchUserList().then(response => {
+        this.userList = response
+        // console.log(this.userList)
       })
     },
     handleAdd() {
@@ -202,25 +258,79 @@ export default {
     },
     handleAddChild(row) {
       this.dialogVisible = true
-      // this.isEdit = true
+      this.isEdit = false
       this.departmentParam = Object.assign({},{parentid:row.deptid})
     },
     handleDialogConfirm() {
-      console.log(this.departmentParam)
+      // console.log(this.departmentParam)
       if (this.isEdit) {
         console.log('编辑')
         updateDept(this.departmentParam.id, this.departmentParam).then(response => {
-          console.log(response)
+          // console.log(response)
           this.getlist()
           this.dialogVisible = false
         })
       } else {
         createDept(this.departmentParam).then(response => {
-          console.log(response)
+          // console.log(response)
           this.getlist()
           this.dialogVisible = false
         })
       }
+    },
+    handleAddUser(row) {
+      this.userDialogVisible = true
+      this.departmentParam = Object.assign({},{department:row.deptid, userList:row.userList})
+    },
+    userHandleDialogConfirm() {
+      updateDeptUser(this.departmentParam).then(response => {
+        // console.log(response)
+        if (response.err) {
+          this.$message({
+            type: "warning",
+            message: response.err,
+            duration: 3000
+          });
+        } else {
+          this.$message({
+            type: "success",
+            message: "提交成功",
+            duration: 1000
+          });
+          this.getlist()
+          this.userDialogVisible = false
+        }
+      })
+    },
+    handleAddLeader(row) {
+      this.leaderDialogVisible = true
+      this.departmentParam = Object.assign({},{
+        department:row.deptid,
+        leaderList:row.leaderList,
+        usersInfoList:row.usersInfoList
+      })
+      // console.log(this.departmentParam)
+    },
+    leaderHandleDialogConfirm() {
+      // console.log(this.departmentParam)
+      updateDeptLeader(this.departmentParam).then(response => {
+        // console.log(response)
+        if (response.err) {
+          this.$message({
+            type: "warning",
+            message: response.err,
+            duration: 3000
+          });
+        } else {
+          this.$message({
+            type: "success",
+            message: "提交成功",
+            duration: 1000
+          });
+          this.getlist()
+          this.leaderDialogVisible = false
+        }
+      })
     },
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;

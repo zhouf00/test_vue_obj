@@ -17,7 +17,7 @@
             @click="handleConfigForm('saleForm')">确认</el-button>
           <el-button 
             size="small"
-            @click="isEdit=false">取消</el-button>
+            @click="($route.query.id?isEdit=false:$router.back())">取消</el-button>
         </div>
       </div>
       <el-form ref="saleForm"
@@ -72,8 +72,11 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="编号">
-              <el-input v-model="saleParam.sn" style="width:90%" :disabled="! isEdit"></el-input>
+            <el-form-item label="编号" prop="sn">
+              <el-tooltip class="item" effect="dark" content="91/90/6/8+年+月+日+区号后三位" placement="right">
+                <el-input v-model="saleParam.sn" style="width:90%" :disabled="! isEdit"
+                placeholder="如：9120200501571"></el-input>
+              </el-tooltip>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -97,10 +100,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="类别">
+            <el-form-item label="类别" prop="type">
               <el-select placeholder="请选择类别"
                 style="width:90%"
                 multiple
+                filterable
                 v-model="saleParam.type"
                 :disabled="! isEdit">
                 <el-option v-for="item in productList"
@@ -116,7 +120,8 @@
         </el-row>
         <div>
           <el-form-item label="负责人">
-              <el-select v-model="saleParam.user" multiple style="width:26%" disabled>
+              <el-select v-model="saleParam.user" multiple style="width:26%" filterable
+                :disabled="! isEdit || ! saleParam.id || ! saleParam.isleader">
                 <el-option v-for="item in usersList"
                   :key="item.id"
                   :label="item.name"
@@ -127,21 +132,22 @@
             <el-input type="textarea" style="width:97%" v-model="saleParam.memo" :disabled="! isEdit"></el-input>
           </el-form-item>
         </div>
-      </el-form>  
+      </el-form>
     </el-card>
 
     <!-- 项目进展信息 -->
     <el-card class="filter-container"
       shadow="hover"
       body-style="padding:20"
-      style="margin-top:20px">
+      style="margin-top:20px"
+      v-if="$route.query.id">
       <div class="outsideTheContainer" style="justify-content: space-between;">
         <div style="width:50%;display: flex;justify-content: center;">
           <div class="leftTable">
             <div>
               <p>预额</p>
               <el-divider></el-divider>
-              <p class="number" v-if="saleParam.estimated_amount">{{saleParam.estimated_amount }}万</p>
+              <p class="number" v-if="saleParam.estimated_amount">{{saleParam.estimated_amount}}万</p>
               <p class="number" v-else>0万</p>
             </div>
             <div>
@@ -156,7 +162,6 @@
             </div>
           </div>
         </div>
-        {{saleParam.rateInfo}}
         <div class="rightTable">
           <el-table :data="saleParam.raterecordList" border>
             <el-table-column label="命中率" align="center" prop="hit_rate">
@@ -176,7 +181,8 @@
     </el-card>
 
     <!-- 通讯录 -->
-    <el-card class="filter-container" shadow="hover" body-style="padding:0" style="margin-top:20px">
+    <el-card class="filter-container" shadow="hover" body-style="padding:0" style="margin-top:20px"
+      v-if="$route.query.id">
       <div class="operate-container-header">
         <div>
           <i class="el-icon-tickets" style="margin-right: 10px"></i>
@@ -191,7 +197,8 @@
     </el-card>
 
     <!-- 跟踪表 -->
-    <el-card  class="filter-container" shadow="hover" body-style="padding:0" style="margin-top:20px">
+    <el-card  class="filter-container" shadow="hover" body-style="padding:0" style="margin-top:20px"
+      v-if="$route.query.id">
       <div class="operate-container-header">
         <div>
           <i class="el-icon-tickets" style="margin-right: 10px"></i>
@@ -209,18 +216,17 @@
 </template>
 
 <script>
-import {getMarketInfo, createMarket, updateMarket } from "network/api/crm"
+import {getMarketInfo, createMarket, updateMarket, } from "network/api/crm"
 // import {a} from "network/api/pms"
 import { fetchUserList } from "network/api/login";
-import { getProduct } from "network/api/pms";
+import { getProductlist } from "network/api/pms";
 
+import { isInteger, isNum} from "utils/validate";
 import {toDate} from "utils/date"
 import {calcDays, global} from "views/web/mixin";
 
 import saleTrace from './components/saleTrace'
 import saleLinkman from './components/saleLinkman'  
-
-
 
 export default {
   name: "crmDetails",
@@ -237,8 +243,9 @@ export default {
       saleParam: Object.assign({}),
       rules: {
         title: [{ required: true, message: "必填项" }],
-        estimated_time: [{ required: true, message: "必填项" }],
+        type: [{ required: true, message: "必填项" }],
         estimated_amount:[{ required: true, message: "必填项" }],
+        sn:[{ validator: isNum, trigger: "blur"}],
       },
       
       usersList: [],
@@ -261,7 +268,8 @@ export default {
       this.saleParam = Object.assign({}, {
         user: [this.$store.getters.id],
         estimated_amount: 0,
-        hit_rate: 0
+        hit_rate: 0,
+        estimated_time:new Date()
       })
       // console.log(this.saleParam)
     },
@@ -270,9 +278,9 @@ export default {
     },
     getMarketParam () {
       getMarketInfo(this.$route.query.id).then(response => {
-        this.saleParam = response
-        this.saleParam.estimated_time = new Date(response.estimated_time);
-        // console.log(this.saleParam)
+        this.saleParam = response.results
+        this.saleParam.estimated_time = new Date(this.saleParam.estimated_time);
+        console.log('aa',this.saleParam)
       })
     },
     getUsersList() {
@@ -282,17 +290,19 @@ export default {
       });
     },
     getProductList() {
-      getProduct().then(response => {
-        this.productList = response.results
-        console.log(response)
+      getProductlist().then(response => {
+        this.productList = response
+        // console.log(this.productList)
       })
     },
     handleConfigForm (formName) {
-      this.saleParam = toDate(this.saleParam, "estimated_time")
-      // console.log(this.saleParam)
+      // this.saleParam = toDate(this.saleParam, "estimated_time")
+      console.log(this.saleParam)
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saleParam = toDate(this.saleParam, "estimated_time")
+          if (this.saleParam.estimated_time) {
+            this.saleParam = toDate(this.saleParam, "estimated_time")
+          }
           if (this.$route.query.id) {
             // console.log('修改')
             updateMarket(this.$route.query.id, this.saleParam).then(response => {
@@ -322,6 +332,7 @@ export default {
                   type: "warning",
                   message: response.err
                 });
+                this.saleParam.estimated_time = new Date(this.saleParam.estimated_time);
               } else {
                 this.$message({
                   type: "success",
@@ -341,6 +352,7 @@ export default {
             type: "error",
             durattion: 1000
           });
+          this.saleParam.estimated_time = new Date(this.saleParam.estimated_time);
           return false;
         }
       })
@@ -354,10 +366,10 @@ export default {
     traceRefresh () {
       this.getMarketParam()
     } 
-  },
-  
+  }
 };
 </script>
+
 <style lang="scss" scoped>
 .buttonSet {
   display: flex;

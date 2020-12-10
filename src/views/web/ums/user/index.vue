@@ -156,12 +156,12 @@
           <el-input v-model="user.email"
             style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="密码："
+        <!-- <el-form-item label="密码："
           prop="password">
           <el-input v-model="user.password"
             type="password"
             style="width: 80%"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="是否启用：">
           <el-radio-group v-model="user.is_active"
             style="width: 80%">
@@ -312,7 +312,7 @@ export default {
       this.deptDialogVisible = true;
       this.getDepartmentList()
       this.user = Object.assign({}, row);
-      console.log(this.user)
+      // console.log(this.user)
     },
     handleDelete(index, row) {
       // 删除用户 未写完

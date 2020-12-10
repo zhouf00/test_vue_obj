@@ -21,6 +21,7 @@ import {mapGetters} from 'vuex'
     },
   }
 </script>
+
 <style scoped>
   .app-container {
     margin-top: 40px;

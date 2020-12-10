@@ -165,6 +165,14 @@ export function getOutsourcer(data) {
   })
 }
 
+export function getOutsourcerList(data) {
+  return request({
+    url: '/engineering/outsourcer/list/',
+    method: 'get',
+    params:data
+  })
+}
+
 export function createOutsourcer(data) {
   return request({
     url: '/engineering/outsourcer/',

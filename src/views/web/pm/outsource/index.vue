@@ -2,13 +2,28 @@
 <template>
   <div class="app-container">
     <el-card class="filter-container" shadow="hover" body-style="padding:0">
-      <div class="operate-container-header-start">
+      <div class="operate-container-header">
         <div>
           <i class="el-icon-search" style="margin-right: 10px" />
           <span>筛选搜索</span>
         </div>
+        <div>
+          <el-button
+            type="primary"
+            size="small"
+            style="margin: 0 15px 0 40px"
+            @click="handleQuery()"
+          >查询结果</el-button>
+          <el-button size="small" type="primary" plain @click="handleReset()">重置</el-button>
+        </div>
       </div>
-      <div class="operate-container-body-two"></div>
+      <div class="operate-container-body-two">
+        <el-form size="small" label-width="100px" :inline="true" :model="listQuery">
+          <el-form-item>
+            <el-input style="width: 150px" placeholder="外包商名字" v-model="listQuery.title"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
     </el-card>
     <el-card class="operate-container" shadow="hover" body-style="padding:0">
       <div class="operate-container-header">
@@ -58,6 +73,17 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="pagination-container"
+          style="padding-bottom:20px">
+          <el-pagination background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="total, sizes, prev, pager, next, jumper"
+            :current-page.sync="listQuery.page"
+            :page-size="listQuery.pageSize"
+            :page-sizes="[5,10,15]"
+            :total="total"></el-pagination>
+        </div>
       </div>
     </el-card>
 
@@ -123,25 +149,18 @@
     join_time: new Date()
   }
 
-  const defaultListQuery = {
-    page: 1,
-    pageSize: 5,
-  }
   export default {
     name: 'index',
     mixins: [filter],
     data () {
       return {
-        listQuery: Object.assign({}, defaultListQuery),
+        listQuery: this.$store.getters.outsourcerListQuery,
         listLoading: null,
         total: 0,
         dialogVisible: false,
         isEdit: false,
 
-        list: [
-          // {type: '公司',title:'保定精瑞工程技术有限公司', scale: '29人', linkman: '刘静辉', phone: '17732213118', memo: '共15人有保险信息,共15人有登高/电工证件信息'},
-          // {type: '个人',title:'刘茹君', scale: '',linkman: '刘茹君', phone: '15584784900', memo: '身份证：220319196510073010'},
-        ],
+        list: [],
 
         outsourcerParam: Object.assign({})
       }
@@ -152,7 +171,8 @@
     methods: {
       getList () {
         getOutsourcer(this.listQuery).then( response => {
-          this.list = response
+          this.list = response.results
+          this.total = response.count;
         })
       },
       handleAdd () {
@@ -209,6 +229,33 @@
             this.dialogVisible = false
           })
         }
+      },
+      handleSizeChange(val) {
+        this.listQuery.page = 1;
+        this.listQuery.pageSize = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val;
+        this.getList();
+      },
+      handleQuery() {
+        // 天数转换成日期
+        // this.listQuery.start_time = daysToDate(this.listQuery.days)
+        if(this.listQuery.page > 1){
+          this.listQuery.page =1
+        }
+        if (this.listQuery.end_time) {
+          this.listQuery.end_time = daysToDate(this.listQuery.days)
+        }
+        this.getList()
+      },
+      handleReset() {
+        this.$store.dispatch('QueryReset', 'outsourcerListQuery').then(response => {
+          this.listQuery = this.$store.getters.outsourcerListQuery
+          console.log(this.listQuery)
+          this.getList()
+        })
       },
       toDate(date) {
         if (this.outsourcerParam[date]) {

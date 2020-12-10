@@ -178,11 +178,10 @@
             </el-table-column>
             <el-table-column label="项目负责人" width="150" align="center">
               <template slot-scope="scope">
-                {{scope.row.manager}} 
-                <!-- <el-tag v-if="scope.row.manager" size="mini" type="info" effect="plain">负责</el-tag> -->
-                <!-- <p v-for="item in scope.row.buildersList" :key="item.name">
+                {{scope.row.manager}} <el-tag v-if="scope.row.manager" size="mini" type="info">责</el-tag>
+                <p v-for="item in scope.row.buildersList" :key="item.name">
                   {{ item.name}}
-                </p> -->
+                </p>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="150" align="center">
@@ -318,6 +317,9 @@ export default {
       this.getList()
     },
     handleQuery() {
+      if(this.listQuery.page > 1){
+        this.listQuery.page =1
+      }
       this.getList()
     },
     handleReset() {

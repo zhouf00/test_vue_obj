@@ -89,7 +89,11 @@
             :header-cell-style="{ background: '#F3F6FC' }"
           >
             <el-table-column type="selection" width="40" align="center" />
-            <el-table-column label="类别" width="110" align="center" prop="type"></el-table-column>
+            <el-table-column label="类别" width="110" align="center" prop="type">
+              <template slot-scope="scope">
+                <span v-for="item in scope.row.typeList">{{item.title}} </span>
+              </template>
+            </el-table-column>
             <el-table-column label="客户" width="110" align="center" prop="customer" sortable></el-table-column>
             <el-table-column label="商机" align="center">
               <template slot-scope="scope">
@@ -123,8 +127,8 @@
             <!-- 50%以上，进行颜色提醒: 15<days<30 黄色；30<days 红色  -->
             <el-table-column label="天数" width="120" align="center">
               <template slot-scope="scope">
-                <span v-if="scope.row.traceTime" :style="calcDays(scope.row.evolve, scope.row.traceTime).color">{{calcDays(scope.row.evolve, scope.row.traceTime).days}}</span>
-                <span v-else :style="calcDays(scope.row.evolve, scope.row.create_time).color">{{calcDays(scope.row.evolve, scope.row.create_time).days}}</span>
+                <span v-if="scope.row.traceTime" :style="calcDays(scope.row, scope.row.traceTime).color">{{calcDays(scope.row, scope.row.traceTime).days}}</span>
+                <span v-else :style="calcDays(scope.row, scope.row.create_time).color">{{calcDays(scope.row, scope.row.create_time).days}}</span>
               </template>
             </el-table-column>
             <el-table-column label="负责人" width="150" align="center">
@@ -201,12 +205,15 @@ export default {
       getMarket(this.listQuery).then(response => {
         this.list = response.results
         this.total = response.count
-        console.log(this.list)
+        // console.log(this.list)
       })
     },
     handleQuery() {
       // 天数转换成日期
       // this.listQuery.start_time = daysToDate(this.listQuery.days)
+      if(this.listQuery.page > 1){
+        this.listQuery.page =1
+      }
       if (this.listQuery.end_time) {
         this.listQuery.end_time = daysToDate(this.listQuery.days)
       }

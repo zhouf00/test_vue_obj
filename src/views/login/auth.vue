@@ -23,11 +23,11 @@
       if (this.isWenxin) {
         this.getCodeWx()
         // this.test = 'wxwork is true'
-        console.log('wxwork is true');
+        // console.log('wxwork is true');
       } else {
         this.getCode()
         // this.test = 'wxwork is false'
-        console.log('wxwork is false');
+        // console.log('wxwork is false');
       }
     },
     data() {

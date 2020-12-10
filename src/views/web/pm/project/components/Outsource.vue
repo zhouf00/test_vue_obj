@@ -95,7 +95,7 @@
 
 <script>
   import {getContract, createContract, updateContract,
-          getOutsourcer} from 'network/api/pm';
+          getOutsourcerList} from 'network/api/pm';
 
   import {toDate} from "utils/date"
   import filter from "views/web/mixin/filter";
@@ -149,7 +149,7 @@
         })
       },
       getOutsourcerList () {
-        getOutsourcer().then( response => {
+        getOutsourcerList().then( response => {
           this.outsourcerList = response
         })
       },

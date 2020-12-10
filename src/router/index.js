@@ -240,14 +240,15 @@ export const asyncWebRouterMap = [
     redirect: '/crm',
     name: 'CRM',
     meta: {
-      title: '销售管理',
+      title: '销售漏斗',
       icon: 'el-icon-s-claim'
     },
     children: [
       {
         path: '',
+        name: 'crmList',
         meta: {
-          title: '信息展示',
+          title: '商机汇总',
           icon: 'el-icon-collection-tag'
         },
         component: () => import('views/web/crm/crmList/'),
@@ -262,6 +263,27 @@ export const asyncWebRouterMap = [
         },
         hidden: true,
         
+      }
+    ]
+  },
+  {
+    path: '/tools',
+    component: WebLayout,
+    redirect: '/tools',
+    name: 'TOOLS',
+    meta: {
+      title: '常用工具',
+      icon: 'el-icon-s-claim'
+    },
+    children: [
+      {
+        path: '',
+        name: 'projectTools',
+        meta: {
+          title: '项目工具',
+          icon: 'el-icon-collection-tag'
+        },
+        // component: () => import('views/web/crm/crmList/'),
       }
     ]
   },

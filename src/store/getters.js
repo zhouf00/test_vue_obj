@@ -4,6 +4,7 @@ const getters = {
   */
   listQuery: state => state.show.listQuery,
   marketListQuery: state => state.show.marketListQuery,
+  outsourcerListQuery: state => state.show.outsourcerListQuery,
   sidebar: state => state.apps.sidebar,
   navbarStatus: state => state.apps.NavbarStatus,
   is_mobile: state => state.apps.isMobile,

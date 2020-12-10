@@ -4,13 +4,15 @@ const defaultListQuery = {
   name: "",
   sn: "",
   area: "",
-  status: null
+  status: null,
+  title:null
 };
 
 const show = {
   state: {
-    listQuery:Object.assign({}, defaultListQuery),
-    marketListQuery:Object.assign({}, defaultListQuery)
+    listQuery: Object.assign({}, defaultListQuery),
+    marketListQuery: Object.assign({}, defaultListQuery),
+    outsourcerListQuery: Object.assign({}, defaultListQuery),
   },
   mutations: {
     SET_LISTQUERY: (state) => {
@@ -18,6 +20,9 @@ const show = {
     },
     SET_MARKETLISTQUERY: (state) => {
       state.marketListQuery = Object.assign({}, defaultListQuery)
+    },
+    SET_OUTSOURCERLISTQUERY: (state) => {
+      state.outsourcerListQuery = Object.assign({}, defaultListQuery)
     }
   },
   actions: {
@@ -25,6 +30,8 @@ const show = {
       return new Promise(resolve => {
         if (str === 'marketListQuery') {
           commit('SET_MARKETLISTQUERY')
+        } else if (str === 'outsourcerListQuery') {
+          commit('SET_OUTSOURCERLISTQUERY')
         } else {
           commit('SET_LISTQUERY')
         }

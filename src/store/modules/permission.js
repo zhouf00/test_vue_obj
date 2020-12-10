@@ -83,8 +83,7 @@ const permission = {
           access =true
           // console.log('管理员', data.id, data.roles, data.roles.indexOf(1))
         } else {
-          // console.log('普通用户', data.roles)
-          
+          // console.log('普通用户', data.roles)        
         }
         if(is_mobile) {
           newRouterMap = asyncRouterMap

@@ -8,6 +8,14 @@ export function getProduct(data) {
   })
 }
 
+export function getProductlist(data) {
+  return request({
+    url: '/product/list/',
+    method: 'get',
+    params: data
+  })
+}
+
 export function createProduct(data) {
   return request({
     url: '/product/create/',

@@ -95,15 +95,38 @@
             align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="text"
+                @click="roleHandleUpdate(scope.row)">授权</el-button>
+              <el-button size="mini" type="text"
                 @click="handleUpdate(scope.row)">编辑</el-button>
-              <el-button size="mini"
-                type="text">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
     </el-card>
 
+    <!-- 弹窗显示：添加授权 -->
+    <el-dialog title="添加授权" width="40%" 
+      :visible.sync="roleDialogVisible">
+      <el-form label-width="25%" size="small" :model="roleParam">
+        <el-form-item label="部门：">
+          <el-select 
+            v-model="roleParam.department"
+            multiple
+            size="small"
+            style="width: 80%"
+            placeholder="请选择">
+            <el-option v-for="item in deptList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleDialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="roleHandleDialogConfirm()" size="small" type="primary">确 认</el-button>
+      </span>
+    </el-dialog>
 
     <!-- 弹窗显示：添加菜单信息 -->
     <el-dialog :title="isEdit ? '编辑菜单': '添加菜单'" width="40%"
@@ -138,7 +161,8 @@
 </template>
 
 <script>
-import { getMenu, createMenu, updateMenu } from 'network/api/menu'
+import { getMenu, createMenu, updateMenu, updateMenuAuth } from 'network/api/menu'
+import {getDept} from 'network/api/department'
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
@@ -150,12 +174,16 @@ export default {
     return {
       listQuery: Object.assign({}, defaultListQuery),
       listLoading:null,
-      isEdit: null,
-      list: null,
+      isEdit: false,
+      list: [],
       tmpList: [],
-      isEdit:false,
+
       dialogVisible:false,
-      menuParam: Object.assign({})
+      menuParam: Object.assign({}),
+
+      deptList: [],
+      roleDialogVisible:false,
+      roleParam: Object.assign({})
     };
   },
   created() {
@@ -168,6 +196,11 @@ export default {
         this.listLoading = false
         this.tmpList = response
         this.list = this.tmpList.filter(t => t.parent == null)
+      })
+    },
+    getdeptList() {
+      getDept().then(response => {
+        this.deptList = response
       })
     },
     handleAdd() {
@@ -226,7 +259,30 @@ export default {
         this.list = this.tmpList.filter(t => t.parent == null)
       }
     },
-    
+    roleHandleUpdate(row) {
+      this.getdeptList()
+      this.roleDialogVisible = true
+      this.roleParam = Object.assign({}, {id:row.id,department:row.department})
+      console.log(this.roleParam)
+    },
+    roleHandleDialogConfirm() {
+      updateMenuAuth(this.roleParam.id, this.roleParam).then(response => {
+        if (response.err) {
+          this.$message({
+            type: "warning",
+            message: response.err,
+            duration: 3000
+          });
+        } else {
+          this.$message({
+            type: "success",
+            message: "提交成功",
+            duration: 1000
+          });
+          this.getdeptList()
+        }
+      })
+    },
     handleSizeChange(val) {
       // this.listQuery.pageNum = 1;
       // this.listQuery.pageSize = val;
@@ -234,9 +290,7 @@ export default {
     handleCurrentChange(val) {
       // this.listQuery.pageNum = val;
     },
-    handleStatusChange (index, row) {
-
-    },
+ 
   }
 };
 </script>

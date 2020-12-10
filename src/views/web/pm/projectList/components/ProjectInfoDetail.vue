@@ -157,7 +157,7 @@
           v-model="value.user_car"></el-input>
       </el-form-item>
       <el-form-item label="项目负责人"
-        prop="builders">
+        prop="manager">
         <el-select placeholder="请选择负责人"
           filterable
           style="width:300px"
@@ -394,6 +394,7 @@ export default {
         status: [{ required: true, message: "必填项" }],
         manufacturers:[{ required: true, message: "必填项" }],
         monitor_type: [{ required: true, message: "必填项" }],
+        manager:[{ required: true, message: "必填项" }],
       },
       usersList: [],
 

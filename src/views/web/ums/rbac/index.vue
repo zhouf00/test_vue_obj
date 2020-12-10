@@ -120,7 +120,7 @@
     </el-dialog>
 
     <!-- 弹窗显示：分配角色 -->
-    <!-- <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
+    <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
       <el-form label-width="25%" size="small" :model="userParam">
         <el-form-item label="用户名：" prop="user">
           <el-select 
@@ -140,10 +140,10 @@
         <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
         <el-button @click="handleUserDialogConfirm()" size="small" type="primary">确 认</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
 
     <!-- 弹窗显示：分配角色 树状 -->
-    <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
+    <!-- <el-dialog title="分配用户" :visible.sync="userDialogVisible" width="40%">
       <el-tree :data="userList">
 
       </el-tree>
@@ -151,7 +151,7 @@
         <el-button @click="userDialogVisible = false" size="small">取 消</el-button>
         <el-button @click="handleUserDialogConfirm()" size="small" type="primary">确 认</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
 
     <!-- 弹窗显示：分配菜单 -->
     <el-dialog title="分配菜单" :visible.sync="menuDialogVisible" width="40%">
@@ -266,7 +266,6 @@ export default {
     handleUserChange(row) {
       this.userDialogVisible = true
       this.userParam = Object.assign({},row)
-      console.log(this.userList)
       fetchUserList().then( response => {
         this.userList =  response
       })
@@ -286,6 +285,7 @@ export default {
             duration: 1000
           });
           this.getList()
+          this.userDialogVisible = false
         }
       })
     },

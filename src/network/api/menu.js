@@ -23,3 +23,11 @@ export function updateMenu(id,data) {
     data: data
   })
 }
+
+export function updateMenuAuth(id, data) {
+  return request({
+    url: `/rbac/menu/auth/${id}/`,
+    method: 'put',
+    data: data
+  })
+}
